@@ -1,0 +1,18 @@
+{
+  "strategy_id": "sample-quality-momentum",
+  "slug": "sample-quality-momentum",
+  "name": "Sample Quality Momentum",
+  "version": "1.0.0",
+  "generated_at": "2026-07-19T09:00:00+05:30",
+  "ra_entity": "Partner Research Analyst",
+  "sebi_registration_number": "SEBI-RA-REG-NUMBER",
+  "universe": "NIFTY 500",
+  "benchmark": "NIFTY 500 TRI",
+  "base_currency": "INR",
+  "backtest_start_date": "2021-01-01",
+  "backtest_end_date": "2026-06-30",
+  "rebalance_frequency": "monthly",
+  "target_holdings": 20,
+  "min_capital_guidance": 100000,
+  "public_visibility": true
+}

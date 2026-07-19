@@ -1,0 +1,17 @@
+{
+  "cagr": 0.234,
+  "absolute_return": 1.86,
+  "volatility": 0.162,
+  "max_drawdown": -0.187,
+  "sharpe": 1.18,
+  "sortino": 1.51,
+  "calmar": 1.25,
+  "beta": 0.91,
+  "alpha": 0.07,
+  "turnover": 0.22,
+  "average_holding_period_days": 132,
+  "best_month": 0.087,
+  "worst_month": -0.064,
+  "best_year": 0.314,
+  "worst_year": 0.098
+}

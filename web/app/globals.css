@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f7f4ef;
+  color: #18211f;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid #ded8cd;
+  border-radius: 8px;
+  background: #ded8cd;
+}
+
+.metric-cell {
+  min-height: 92px;
+  background: #fffaf4;
+  padding: 16px;
+}

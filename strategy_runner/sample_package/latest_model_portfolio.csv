@@ -1,0 +1,2 @@
+strategy_id,as_of_date,symbol,company_name,exchange,isin,sector,marketcap_bucket,target_weight,reference_price,entry_date,notes
+sample-quality-momentum,2026-07-01,HDFCBANK,HDFC Bank,NSE,INE040A01034,Financials,Large,0.082,1810.50,2026-07-01,Quality anchor

@@ -1,0 +1,288 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StrategyStatus {
+  DRAFT
+  PUBLISHED
+  PAUSED
+  RETIRED
+}
+
+enum SubscriptionStatus {
+  INCOMPLETE
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+
+enum AccessGrantType {
+  PAID
+  INTERNAL
+  PARTNER
+  TRIAL
+  COMP
+}
+
+enum PortfolioStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum RebalanceAction {
+  ADDED
+  REMOVED
+  INCREASED
+  REDUCED
+  UNCHANGED
+}
+
+model UserProfile {
+  id          String   @id @default(cuid())
+  authUserId  String   @unique
+  email       String   @unique
+  name        String?
+  role        String   @default("subscriber")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subscriptions Subscription[]
+  accessGrants  AccessGrant[]
+  auditLogs     AuditLog[]
+}
+
+model ResearchAnalyst {
+  id                 String   @id @default(cuid())
+  displayName        String
+  sebiRegistrationNo String
+  entityName         String?
+  disclosureText     String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  strategies Strategy[]
+}
+
+model Strategy {
+  id                  String         @id @default(cuid())
+  slug                String         @unique
+  name                String
+  shortDescription    String
+  status              StrategyStatus @default(DRAFT)
+  labels              String[]
+  universe            String
+  benchmark           String
+  baseCurrency        String         @default("INR")
+  rebalanceFrequency  String
+  targetHoldings      Int
+  minCapitalGuidance  Decimal?       @db.Decimal(18, 2)
+  subscriptionPrice   Decimal?       @db.Decimal(18, 2)
+  methodologySummary  String
+  publicVisibility    Boolean        @default(false)
+  activeVersion       String?
+  researchAnalystId   String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  researchAnalyst ResearchAnalyst @relation(fields: [researchAnalystId], references: [id])
+  metrics         StrategyMetric[]
+  returns         StrategyReturn[]
+  portfolios      ModelPortfolio[]
+  rebalances      Rebalance[]
+  subscriptions   Subscription[]
+  accessGrants    AccessGrant[]
+  versions        StrategyVersion[]
+}
+
+model StrategyVersion {
+  id                String   @id @default(cuid())
+  strategyId        String
+  version           String
+  approvedBy        String
+  approvedAt        DateTime
+  effectiveFrom     DateTime
+  configJson        Json
+  methodologyMd     String
+  disclosuresMd     String
+  packageHash       String?
+  createdAt         DateTime @default(now())
+
+  strategy Strategy @relation(fields: [strategyId], references: [id])
+
+  @@unique([strategyId, version])
+}
+
+model StrategyMetric {
+  id         String   @id @default(cuid())
+  strategyId String
+  version    String
+  key        String
+  value      Decimal  @db.Decimal(18, 8)
+  asOfDate   DateTime
+  createdAt  DateTime @default(now())
+
+  strategy Strategy @relation(fields: [strategyId], references: [id])
+
+  @@unique([strategyId, version, key])
+}
+
+model StrategyReturn {
+  id         String   @id @default(cuid())
+  strategyId String
+  version    String
+  periodType String
+  period     String
+  strategyReturn  Decimal @db.Decimal(18, 8)
+  benchmarkReturn Decimal @db.Decimal(18, 8)
+  createdAt  DateTime @default(now())
+
+  strategy Strategy @relation(fields: [strategyId], references: [id])
+
+  @@unique([strategyId, version, periodType, period])
+}
+
+model ModelPortfolio {
+  id          String          @id @default(cuid())
+  strategyId  String
+  version     String
+  asOfDate    DateTime
+  status      PortfolioStatus @default(DRAFT)
+  rationale   String?
+  generatedBy String          @default("strategy_runner")
+  publishedAt DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  strategy  Strategy @relation(fields: [strategyId], references: [id])
+  holdings  PortfolioHolding[]
+  rebalances Rebalance[]
+
+  @@unique([strategyId, version, asOfDate])
+}
+
+model PortfolioHolding {
+  id              String   @id @default(cuid())
+  modelPortfolioId String
+  symbol          String
+  companyName     String
+  exchange        String
+  isin            String?
+  sector          String?
+  marketcapBucket String?
+  targetWeight    Decimal  @db.Decimal(12, 8)
+  referencePrice  Decimal? @db.Decimal(18, 4)
+  entryDate       DateTime?
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  modelPortfolio ModelPortfolio @relation(fields: [modelPortfolioId], references: [id])
+
+  @@unique([modelPortfolioId, symbol])
+}
+
+model Rebalance {
+  id              String   @id @default(cuid())
+  strategyId      String
+  modelPortfolioId String
+  version         String
+  rebalanceDate   DateTime
+  summary         String
+  createdAt       DateTime @default(now())
+
+  strategy       Strategy @relation(fields: [strategyId], references: [id])
+  modelPortfolio ModelPortfolio @relation(fields: [modelPortfolioId], references: [id])
+  changes        RebalanceChange[]
+}
+
+model RebalanceChange {
+  id          String          @id @default(cuid())
+  rebalanceId String
+  symbol      String
+  companyName String?
+  action      RebalanceAction
+  oldWeight   Decimal         @db.Decimal(12, 8)
+  newWeight   Decimal         @db.Decimal(12, 8)
+  rationale   String?
+
+  rebalance Rebalance @relation(fields: [rebalanceId], references: [id])
+}
+
+model Subscription {
+  id                     String             @id @default(cuid())
+  userId                 String
+  strategyId             String
+  status                 SubscriptionStatus @default(INCOMPLETE)
+  provider               String             @default("razorpay")
+  providerSubscriptionId String?
+  providerCustomerId     String?
+  startedAt              DateTime?
+  currentPeriodEnd       DateTime?
+  cancelledAt            DateTime?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  user     UserProfile @relation(fields: [userId], references: [id])
+  strategy Strategy    @relation(fields: [strategyId], references: [id])
+  payments Payment[]
+}
+
+model Payment {
+  id                String   @id @default(cuid())
+  subscriptionId    String
+  provider          String   @default("razorpay")
+  providerPaymentId String?
+  amount            Decimal  @db.Decimal(18, 2)
+  currency          String   @default("INR")
+  status            String
+  rawPayload         Json?
+  createdAt         DateTime @default(now())
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+model AccessGrant {
+  id          String          @id @default(cuid())
+  userId      String
+  strategyId  String
+  grantType   AccessGrantType
+  reason      String
+  startsAt    DateTime        @default(now())
+  endsAt      DateTime?
+  grantedBy   String
+  createdAt   DateTime        @default(now())
+
+  user     UserProfile @relation(fields: [userId], references: [id])
+  strategy Strategy    @relation(fields: [strategyId], references: [id])
+}
+
+model ImportRun {
+  id          String   @id @default(cuid())
+  strategySlug String
+  version     String
+  packageHash String?
+  status      String
+  summary     String?
+  rawManifest Json?
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  eventType String
+  entityType String
+  entityId  String
+  message   String
+  details   Json?
+  createdAt DateTime @default(now())
+
+  actor UserProfile? @relation(fields: [actorId], references: [id])
+}

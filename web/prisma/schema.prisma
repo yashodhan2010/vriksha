@@ -156,7 +156,7 @@ model ModelPortfolio {
   asOfDate    DateTime
   status      PortfolioStatus @default(DRAFT)
   rationale   String?
-  generatedBy String          @default("strategy_runner")
+  generatedBy String          @default("strategy_import")
   publishedAt DateTime?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt

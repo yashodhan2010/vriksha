@@ -1,0 +1,12 @@
+{
+  "package_schema_version": "1.0.0",
+  "update_type": "latest_model_portfolio",
+  "strategy_id": "sample-quality-momentum",
+  "slug": "sample-quality-momentum",
+  "name": "Sample Quality Momentum",
+  "version": "1.0.0",
+  "as_of_date": "2026-07-01",
+  "latest_run_id": 1,
+  "base_currency": "INR",
+  "output_scope": "subscriber_model_portfolio_update"
+}

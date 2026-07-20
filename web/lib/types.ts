@@ -1,4 +1,4 @@
-export type StrategyLabel = "Momentum" | "Quality" | "Value" | "Large Cap" | "Multi Cap";
+export type StrategyLabel = string;
 
 export type StrategyMetric = {
   label: string;
@@ -20,7 +20,7 @@ export type Rebalance = {
   summary: string;
   changes: Array<{
     symbol: string;
-    action: "Added" | "Removed" | "Increased" | "Reduced";
+    action: "Added" | "Removed" | "Increased" | "Reduced" | "Weight changed" | "Unchanged";
     oldWeight: number;
     newWeight: number;
   }>;
@@ -41,10 +41,15 @@ export type Strategy = {
   raName: string;
   sebiRegistration: string;
   methodology: string[];
+  methodologySections?: Array<{ title: string; body: string }>;
   metrics: StrategyMetric[];
   monthlyReturns: Array<{ month: string; strategy: number; benchmark: number }>;
   yearlyReturns: Array<{ year: string; strategy: number; benchmark: number }>;
   drawdowns: Array<{ period: string; drawdown: number }>;
   holdings: PortfolioHolding[];
   rebalances: Rebalance[];
+  exports?: {
+    latestModelPortfolioCsv?: string;
+    rebalanceHistoryCsv?: string;
+  };
 };

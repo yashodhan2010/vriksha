@@ -1,0 +1,20 @@
+
+> vriksha-web@0.1.0 dev
+> next dev -p 3000
+
+   ▲ Next.js 15.5.20
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.31.41:3000
+
+ ✓ Starting...
+ ✓ Ready in 3.5s
+ ○ Compiling /api/strategies/[slug]/exports/[kind] ...
+ ✓ Compiled /api/strategies/[slug]/exports/[kind] in 1710ms (300 modules)
+ GET /api/strategies/dual-momentum/exports/latest-model-portfolio 403 in 3132ms
+ ✓ Compiled in 354ms
+ ○ Compiling /strategies/[slug] ...
+ ✓ Compiled /strategies/[slug] in 2.1s (1652 modules)
+ GET /strategies/dual-momentum 200 in 3791ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 6.5s (1671 modules)
+ GET /trade/redirect?action=login&type=login&status=success&request_token=KLvVO0ezjfgrwn4I7bzPGTqF6T6E1rr4 404 in 7638ms

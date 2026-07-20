@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CalendarDays, IndianRupee, ListChecks } from "lucide-react";
+import { CalendarDays, Download, IndianRupee, ListChecks } from "lucide-react";
 import { MetricGrid } from "@/components/metric-grid";
 import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
 import { Paywall } from "@/components/paywall";
@@ -62,9 +62,20 @@ export default async function StrategyDetailPage({
       <section className="mt-10 grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
         <div className="rounded border border-line bg-[#fffaf4] p-6">
           <h2 className="flex items-center gap-2 text-xl font-semibold"><ListChecks size={18} /> Methodology</h2>
-          <ul className="mt-4 space-y-3 text-sm leading-6 text-ink/70">
-            {strategy.methodology.map((item) => <li key={item}>{item}</li>)}
-          </ul>
+          {strategy.methodologySections && strategy.methodologySections.length > 0 ? (
+            <div className="mt-4 space-y-4 text-sm leading-6 text-ink/70">
+              {strategy.methodologySections.map((section) => (
+                <section key={section.title}>
+                  <h3 className="font-semibold text-ink">{section.title}</h3>
+                  <p className="mt-1">{section.body}</p>
+                </section>
+              ))}
+            </div>
+          ) : (
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-ink/70">
+              {strategy.methodology.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          )}
         </div>
         <div className="rounded border border-line bg-[#fffaf4] p-6">
           <h2 className="text-xl font-semibold">Research Details</h2>
@@ -84,7 +95,18 @@ export default async function StrategyDetailPage({
         {canViewPortfolio ? (
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded border border-line bg-[#fffaf4] p-6">
-              <h2 className="text-xl font-semibold">Latest Model Portfolio</h2>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-xl font-semibold">Latest Model Portfolio</h2>
+                {strategy.exports?.latestModelPortfolioCsv && (
+                  <a
+                    className="inline-flex items-center gap-2 rounded bg-ink px-3 py-2 text-sm font-medium text-white"
+                    href={strategy.exports.latestModelPortfolioCsv}
+                  >
+                    <Download size={15} aria-hidden="true" />
+                    CSV
+                  </a>
+                )}
+              </div>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full min-w-[680px] text-left text-sm">
                   <thead className="text-ink/54">
@@ -105,7 +127,18 @@ export default async function StrategyDetailPage({
               </div>
             </div>
             <div className="rounded border border-line bg-[#fffaf4] p-6">
-              <h2 className="text-xl font-semibold">Recent Rebalances</h2>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-xl font-semibold">Recent Rebalances</h2>
+                {strategy.exports?.rebalanceHistoryCsv && (
+                  <a
+                    className="inline-flex items-center gap-2 rounded bg-ink px-3 py-2 text-sm font-medium text-white"
+                    href={strategy.exports.rebalanceHistoryCsv}
+                  >
+                    <Download size={15} aria-hidden="true" />
+                    CSV
+                  </a>
+                )}
+              </div>
               <div className="mt-4 space-y-4">
                 {strategy.rebalances.slice(0, 5).map((rebalance) => (
                   <article className="rounded bg-white p-4" key={rebalance.date}>

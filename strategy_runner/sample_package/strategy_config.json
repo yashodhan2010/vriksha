@@ -1,7 +1,0 @@
-{
-  "lookback_months": 12,
-  "rebalance_frequency": "monthly",
-  "target_holdings": 20,
-  "max_single_stock_weight": 0.08,
-  "max_sector_weight": 0.3
-}

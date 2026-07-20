@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileCheck2, LockKeyhole, RefreshCw } from "lucide-react";
+import { ArrowRight, FileCheck2, LockKeyhole, UploadCloud } from "lucide-react";
 import { strategies } from "@/lib/data";
 
 export default function HomePage() {
@@ -45,7 +45,7 @@ export default function HomePage() {
         {[
           { icon: FileCheck2, title: "Public research pages", text: "Backtest metrics, methodology, benchmark comparison, risk notes, and disclosures." },
           { icon: LockKeyhole, title: "Subscriber paywall", text: "Latest model portfolio and last five rebalances are gated by active strategy access." },
-          { icon: RefreshCw, title: "Live rebalance runner", text: "Finalized strategy logic can run inside Vriksha after approval and versioning." }
+          { icon: UploadCloud, title: "Strategy package import", text: "Approved strategy outputs are validated, parsed, and published without recalculating the strategy." }
         ].map((item) => (
           <div className="rounded border border-line bg-[#fffaf4] p-6" key={item.title}>
             <item.icon size={20} aria-hidden="true" />

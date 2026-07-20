@@ -1,6 +1,7 @@
 import type { Strategy } from "./types";
+import importedStrategies from "./imported-strategies.json";
 
-export const strategies: Strategy[] = [
+const fallbackStrategies: Strategy[] = [
   {
     slug: "nifty-quality-momentum",
     name: "Nifty Quality Momentum",
@@ -78,6 +79,11 @@ export const strategies: Strategy[] = [
     ]
   }
 ];
+
+export const strategies: Strategy[] =
+  Array.isArray(importedStrategies) && importedStrategies.length > 0
+    ? (importedStrategies as Strategy[])
+    : fallbackStrategies;
 
 export function getStrategy(slug: string) {
   return strategies.find((strategy) => strategy.slug === slug);

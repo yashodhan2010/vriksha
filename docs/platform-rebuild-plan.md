@@ -12,7 +12,7 @@ Vriksha is now a subscription research platform:
 - login and account module
 - Razorpay subscription flow
 - admin import, publish, manual access grant, and audit workflows
-- Python live strategy runner for approved strategy versions
+- Python strategy package importer for approved strategy outputs
 
 ## Removed From The Active Architecture
 
@@ -29,9 +29,9 @@ Vriksha is now a subscription research platform:
 - Supabase Auth and Postgres
 - Prisma for schema and typed database access
 - Razorpay Subscriptions for India-first payments
-- Python strategy runner for finalized live model portfolio generation
+- Python importer for validating finalized strategy packages
 - Vercel for web hosting
-- scheduled runner on a controlled worker, cron host, or GitHub Actions during MVP
+- scheduled import jobs only if the strategy project drops approved output packages automatically
 
 ## Access Rule
 
@@ -42,3 +42,23 @@ A user can see a strategy's paywalled model portfolio when at least one conditio
 - admin role
 
 All access decisions should be checked server-side.
+
+## Calculation Boundary
+
+The strategy project owns:
+
+- signals
+- ranks
+- lookback logic
+- backtests
+- latest model portfolio generation
+- rebalance history generation
+
+Vriksha owns:
+
+- package validation
+- CSV/JSON parsing
+- chart data shaping
+- display formatting
+- public/private access control
+- publishing workflow

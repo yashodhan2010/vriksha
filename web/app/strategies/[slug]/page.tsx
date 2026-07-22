@@ -6,6 +6,7 @@ import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/perform
 import { Paywall } from "@/components/paywall";
 import { getStrategy } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
+import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 
 export default async function StrategyDetailPage({
   params
@@ -57,6 +58,15 @@ export default async function StrategyDetailPage({
           <h2 className="text-xl font-semibold">Calendar Year Returns</h2>
           <div className="mt-4"><YearlyReturnChart data={strategy.yearlyReturns} /></div>
         </div>
+      </section>
+
+      <section className="mt-6 rounded border border-line bg-[#fffaf4] p-5 text-sm leading-6 text-ink/70">
+        <p className="font-semibold text-ink">{standardMarketRiskWarning}</p>
+        <p className="mt-2">{standardSebiDisclaimer}</p>
+        <p className="mt-2">
+          Backtested returns are illustrative and do not indicate guaranteed future performance.
+          Model portfolios are research products and are not trade execution services.
+        </p>
       </section>
 
       <section className="mt-10 grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">

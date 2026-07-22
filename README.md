@@ -61,6 +61,39 @@ DEMO_SUBSCRIBED_STRATEGIES=nifty-quality-momentum
 DEMO_ADMIN=true
 ```
 
+## Command Grid
+
+Run root-level commands from:
+
+```powershell
+cd "C:\Users\Yashodhan\OneDrive\Documents\Vriksha\vriksha"
+```
+
+| Purpose | Command |
+|---|---|
+| Install web dependencies | `cd web; npm install` |
+| Start local website | `cd web; npm run dev` |
+| Typecheck website | `cd web; npm run typecheck` |
+| Build website | `cd web; npm run build` |
+| Validate full strategy package | `python strategy_importer\package_contract.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\strategy-package"` |
+| Import full strategy package | `python strategy_importer\import_package.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\strategy-package"` |
+| Import all strategy packages | `python strategy_importer\import_all_packages.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages" --reset` |
+| Validate model portfolio update | `python strategy_importer\package_contract.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\model-portfolio-update" --kind update` |
+| Import model portfolio update | `python strategy_importer\import_package.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\model-portfolio-update" --kind update` |
+| Open Dual Momentum page | `Start-Process http://localhost:3000/strategies/dual-momentum` |
+| Open strategy catalog | `Start-Process http://localhost:3000/strategies` |
+
+For local subscriber-preview mode, start the dev server with:
+
+```powershell
+cd web
+$env:DEMO_SUBSCRIBED_STRATEGIES="dual-momentum"
+$env:DEMO_ADMIN="true"
+npm run dev
+```
+
+Without `DEMO_SUBSCRIBED_STRATEGIES`, the latest model portfolio and CSV export routes stay paywalled.
+
 ## Strategy Package Validation
 
 ```powershell

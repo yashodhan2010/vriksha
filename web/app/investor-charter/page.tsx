@@ -10,13 +10,13 @@ export default function InvestorCharterPage() {
         production version should be reviewed against the latest SEBI circular and the RA compliance
         records before launch.
       </p>
-      <section className="mt-8 rounded border border-line bg-[#fffaf4] p-6">
+      <section className="mt-8 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Investor Rights And Services</h2>
         <ul className="mt-4 space-y-3 text-sm leading-6 text-ink/70">
           {investorCharterItems.map((item) => <li key={item}>{item}</li>)}
         </ul>
       </section>
-      <section className="mt-6 rounded border border-line bg-[#fffaf4] p-6 text-sm leading-6 text-ink/70">
+      <section className="mt-6 card-accent-pine p-6 text-sm leading-6 text-ink/70">
         <h2 className="text-xl font-semibold text-ink">Grievance Route</h2>
         <p className="mt-3">
           Investors should first approach the Research Analyst grievance officer. If unresolved,

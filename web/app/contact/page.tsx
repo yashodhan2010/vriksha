@@ -7,7 +7,7 @@ export default function ContactPage() {
         Use this page for subscriber support, institutional inquiries, compliance requests, and
         strategy onboarding.
       </p>
-      <form className="mt-8 grid gap-4 rounded border border-line bg-[#fffaf4] p-6">
+      <form className="mt-8 grid gap-4 card p-6">
         <input className="rounded border border-line bg-white px-3 py-2" placeholder="Name" />
         <input className="rounded border border-line bg-white px-3 py-2" placeholder="Email" />
         <textarea className="min-h-32 rounded border border-line bg-white px-3 py-2" placeholder="Message" />

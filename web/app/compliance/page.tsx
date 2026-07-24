@@ -32,13 +32,13 @@ export default function CompliancePage() {
         access.
       </p>
 
-      <section className="mt-8 rounded border border-line bg-[#fffaf4] p-6">
+      <section className="mt-8 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Standard Warning</h2>
         <p className="mt-3 text-[13px] font-semibold leading-6 text-ink">{standardMarketRiskWarning}</p>
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
+        <div className="card-accent-pine p-6">
           <h2 className="text-xl font-semibold">Research Analyst Details</h2>
           <div className="mt-4">
             <DetailRow label="Brand / Logo" value={raProfile.brandName} />
@@ -50,7 +50,7 @@ export default function CompliancePage() {
           </div>
         </div>
 
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
+        <div className="card-accent-pine p-6">
           <h2 className="text-xl font-semibold">Officers</h2>
           <div className="mt-4">
             <DetailRow label="Compliance Officer" value={raProfile.complianceOfficer.name} />
@@ -63,7 +63,7 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      <section className="mt-6 rounded border border-line bg-[#fffaf4] p-6">
+      <section className="mt-6 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Grievance Redressal Process</h2>
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6 text-ink/70">
           {grievanceSteps.map((step) => (
@@ -72,7 +72,7 @@ export default function CompliancePage() {
         </ol>
       </section>
 
-      <section className="mt-6 rounded border border-line bg-[#fffaf4] p-6">
+      <section className="mt-6 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Escalation Matrix</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[760px] text-left text-sm">
@@ -94,14 +94,14 @@ export default function CompliancePage() {
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
+        <div className="card-accent-pine p-6">
           <h2 className="text-xl font-semibold">Disclaimers</h2>
           <p className="mt-3 text-sm font-semibold leading-6 text-ink">{standardSebiDisclaimer}</p>
           <ul className="mt-4 space-y-2 text-sm leading-6 text-ink/70">
             {generalDisclosures.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </div>
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
+        <div className="card-accent-pine p-6">
           <h2 className="text-xl font-semibold">SEBI Office Details</h2>
           <div className="mt-4 space-y-4 text-sm leading-6 text-ink/70">
             <div>
@@ -135,7 +135,7 @@ export default function CompliancePage() {
           { title: "Complaints Disclosure", href: "/complaints", text: `${latestComplaint.month}: ${latestComplaint.pending} pending complaint(s).` },
           { title: "Audit Report", href: "/audit-report", text: "Annual RA audit report access and publication status." }
         ].map((item) => (
-          <Link className="rounded border border-line bg-[#fffaf4] p-6" href={item.href} key={item.href}>
+          <Link className="card-interactive p-6" href={item.href} key={item.href}>
             <h2 className="text-lg font-semibold">{item.title}</h2>
             <p className="mt-2 text-sm leading-6 text-ink/68">{item.text}</p>
           </Link>

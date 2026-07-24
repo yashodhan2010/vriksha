@@ -25,13 +25,138 @@ a {
   text-decoration: none;
 }
 
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  h1 {
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+
+  p,
+  li {
+    line-height: 1.65;
+  }
+
+  a,
+  button {
+    transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.pine");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-14 sm:py-16 lg:py-20;
+  }
+
+  .section-tight {
+    @apply py-8 sm:py-10;
+  }
+
+  .link-underline {
+    @apply relative text-ink/70 transition-colors duration-180 hover:text-ink;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-5 py-3 text-sm font-semibold transition duration-180 ease-out disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-pine text-white hover:bg-ink active:bg-ink/90;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line bg-white text-ink hover:border-pine/40 hover:bg-paper;
+  }
+
+  .btn-ghost {
+    @apply btn border border-white/24 bg-transparent text-white hover:bg-white/10;
+  }
+
+  .card {
+    @apply rounded border border-line bg-[#fffaf4] shadow-xs transition duration-250 ease-out;
+  }
+
+  .card-interactive {
+    @apply card hover:-translate-y-0.5 hover:border-pine/30 hover:bg-white hover:shadow-sm;
+  }
+
+  /* Left-accent variants give related-but-distinct treatments to different
+     card contexts while sharing the same base radius/border/shadow system. */
+  .card-accent-pine {
+    @apply card border-l-[3px] border-l-pine/30;
+  }
+
+  .card-accent-gold {
+    @apply card border-l-[3px] border-l-gold/60;
+  }
+
+  .card-accent-ink {
+    @apply card border-l-[3px] border-l-ink/25;
+  }
+
+  .icon-chip {
+    @apply grid h-9 w-9 shrink-0 place-items-center rounded bg-pine/10 text-pine;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded bg-line/60;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 450ms ease-out, transform 450ms ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1px;
   overflow: hidden;
   border: 1px solid #ded8cd;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #ded8cd;
 }
 
@@ -40,3 +165,4 @@ a {
   background: #fffaf4;
   padding: 16px;
 }
+

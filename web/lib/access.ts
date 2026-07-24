@@ -1,7 +1,92 @@
-export function hasStrategyAccess(strategySlug: string) {
-  return process.env.DEMO_SUBSCRIBED_STRATEGIES?.split(",").includes(strategySlug) ?? false;
+import { createSupabaseServerClient } from "./supabase/server";
+
+function hasDemoStrategyAccess(strategySlug: string) {
+  return process.env.DEMO_SUBSCRIBED_STRATEGIES?.split(",").map((slug) => slug.trim()).includes(strategySlug) ?? false;
 }
 
-export function isAdmin() {
-  return process.env.DEMO_ADMIN === "true";
+export async function getCurrentUser() {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return null;
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  return user;
+}
+
+export async function hasStrategyAccess(strategySlug: string) {
+  if (hasDemoStrategyAccess(strategySlug)) {
+    return true;
+  }
+
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return false;
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  const now = Date.now();
+  const isCurrent = (endsAt: string | null) => !endsAt || new Date(endsAt).getTime() > now;
+
+  const { data: subscriptions } = await supabase
+    .from("subscriptions")
+    .select("id, ends_at")
+    .eq("user_id", user.id)
+    .eq("strategy_slug", strategySlug)
+    .in("status", ["trialing", "active"])
+    .limit(20);
+
+  if (subscriptions?.some((subscription) => isCurrent(subscription.ends_at))) {
+    return true;
+  }
+
+  const { data: grants } = await supabase
+    .from("strategy_access_grants")
+    .select("id, starts_at, ends_at")
+    .eq("user_id", user.id)
+    .eq("strategy_slug", strategySlug)
+    .is("revoked_at", null)
+    .limit(20);
+
+  return Boolean(
+    grants?.some((grant) => new Date(grant.starts_at).getTime() <= now && isCurrent(grant.ends_at))
+  );
+}
+
+export async function isAdmin() {
+  if (process.env.DEMO_ADMIN === "true") {
+    return true;
+  }
+
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return false;
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .in("role", ["admin", "research_analyst", "compliance"])
+    .maybeSingle();
+
+  return Boolean(data);
 }

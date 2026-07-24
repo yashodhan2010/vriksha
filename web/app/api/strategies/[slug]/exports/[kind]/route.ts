@@ -36,7 +36,7 @@ export async function GET(
     return NextResponse.json({ error: "Strategy not found" }, { status: 404 });
   }
 
-  if (!hasStrategyAccess(slug)) {
+  if (!(await hasStrategyAccess(slug))) {
     return NextResponse.json({ error: "Subscription required" }, { status: 403 });
   }
 

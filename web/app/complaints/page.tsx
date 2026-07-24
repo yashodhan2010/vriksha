@@ -9,7 +9,7 @@ export default function ComplaintsPage() {
         Research Analyst complaint information is to be made available by the 7th of the succeeding
         month. This table should be updated monthly before production publication.
       </p>
-      <section className="mt-8 rounded border border-line bg-[#fffaf4] p-6">
+      <section className="mt-8 card-accent-pine p-6">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[860px] text-left text-sm">
             <thead className="text-ink/54">

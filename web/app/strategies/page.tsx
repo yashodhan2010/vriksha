@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LockKeyhole } from "lucide-react";
+import { Reveal } from "@/components/reveal";
 import { strategies } from "@/lib/data";
 
 export default function StrategyCatalogPage() {
@@ -15,11 +16,12 @@ export default function StrategyCatalogPage() {
           pages reveal the current model portfolio and rebalance trail.
         </p>
       </div>
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
+      <div className="mt-8">
+        <Reveal className="grid gap-4 md:grid-cols-2">
         {strategies.map((strategy) => (
           <Link
             href={`/strategies/${strategy.slug}`}
-            className="rounded border border-line bg-[#fffaf4] p-6 shadow-soft transition hover:-translate-y-0.5"
+            className="card-interactive p-6"
             key={strategy.slug}
           >
             <div className="flex items-start justify-between gap-4">
@@ -36,22 +38,16 @@ export default function StrategyCatalogPage() {
                 </span>
               ))}
             </div>
-            <div className="mt-6 grid grid-cols-3 gap-3 text-sm">
+            <div className="mt-6 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-line bg-white p-4 text-sm">
               <div>
-                <p className="text-ink/52">CAGR</p>
-                <p className="font-semibold">{strategy.metrics[0].value}</p>
+                <p className="font-semibold">Performance details locked</p>
+                <p className="mt-1 text-ink/58">Open the strategy page to explicitly request historical returns.</p>
               </div>
-              <div>
-                <p className="text-ink/52">Drawdown</p>
-                <p className="font-semibold">{strategy.metrics[1].value}</p>
-              </div>
-              <div>
-                <p className="text-ink/52">Price</p>
-                <p className="font-semibold">{strategy.price}</p>
-              </div>
+              <LockKeyhole size={18} aria-hidden="true" />
             </div>
           </Link>
         ))}
+        </Reveal>
       </div>
     </main>
   );

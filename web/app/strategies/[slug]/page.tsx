@@ -1,12 +1,44 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CalendarDays, Download, IndianRupee, ListChecks } from "lucide-react";
+import {
+  ArrowLeftRight,
+  CalendarDays,
+  Download,
+  IndianRupee,
+  ListChecks,
+  Minus,
+  Plus,
+  TrendingDown,
+  TrendingUp
+} from "lucide-react";
 import { MetricGrid } from "@/components/metric-grid";
 import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
+import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
 import { Paywall } from "@/components/paywall";
+import { Reveal } from "@/components/reveal";
 import { getStrategy } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
+import type { Rebalance } from "@/lib/types";
+
+const actionStyles: Record<Rebalance["changes"][number]["action"], { icon: typeof Plus; className: string }> = {
+  Added: { icon: Plus, className: "text-moss" },
+  Removed: { icon: Minus, className: "text-clay" },
+  Increased: { icon: TrendingUp, className: "text-moss" },
+  Reduced: { icon: TrendingDown, className: "text-clay" },
+  "Weight changed": { icon: ArrowLeftRight, className: "text-ink/70" },
+  Unchanged: { icon: Minus, className: "text-ink/50" }
+};
+
+function RebalanceActionBadge({ action }: { action: Rebalance["changes"][number]["action"] }) {
+  const { icon: Icon, className } = actionStyles[action];
+  return (
+    <span className={`flex items-center gap-1.5 font-medium ${className}`}>
+      <Icon size={13} aria-hidden="true" />
+      {action}
+    </span>
+  );
+}
 
 export default async function StrategyDetailPage({
   params
@@ -16,7 +48,7 @@ export default async function StrategyDetailPage({
   const { slug } = await params;
   const strategy = getStrategy(slug);
   if (!strategy) notFound();
-  const canViewPortfolio = hasStrategyAccess(strategy.slug);
+  const canViewPortfolio = await hasStrategyAccess(strategy.slug);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -32,7 +64,7 @@ export default async function StrategyDetailPage({
           <h1 className="mt-4 text-4xl font-semibold">{strategy.name}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-ink/70">{strategy.subtitle}</p>
         </div>
-        <aside className="rounded border border-line bg-[#fffaf4] p-5">
+        <aside className="card p-5">
           <div className="space-y-4 text-sm">
             <p className="flex items-center justify-between gap-3"><span>Benchmark</span><strong>{strategy.benchmark}</strong></p>
             <p className="flex items-center justify-between gap-3"><span>Universe</span><strong>{strategy.universe}</strong></p>
@@ -45,22 +77,26 @@ export default async function StrategyDetailPage({
         </aside>
       </section>
 
-      <section className="mt-10">
-        <MetricGrid metrics={strategy.metrics} />
-      </section>
+      <PerformanceDisclosureGate
+        acknowledgementKey={`strategy:${strategy.slug}`}
+        className="mt-10"
+      >
+        <section className="mt-10">
+          <MetricGrid metrics={strategy.metrics} />
+        </section>
+        <section className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div>
+            <h2 className="text-xl font-semibold">Monthly Return Path</h2>
+            <div className="mt-4"><MonthlyPerformanceChart data={strategy.monthlyReturns} /></div>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Calendar Year Returns</h2>
+            <div className="mt-4"><YearlyReturnChart data={strategy.yearlyReturns} /></div>
+          </div>
+        </section>
+      </PerformanceDisclosureGate>
 
-      <section className="mt-10 grid gap-6 lg:grid-cols-2">
-        <div>
-          <h2 className="text-xl font-semibold">Monthly Return Path</h2>
-          <div className="mt-4"><MonthlyPerformanceChart data={strategy.monthlyReturns} /></div>
-        </div>
-        <div>
-          <h2 className="text-xl font-semibold">Calendar Year Returns</h2>
-          <div className="mt-4"><YearlyReturnChart data={strategy.yearlyReturns} /></div>
-        </div>
-      </section>
-
-      <section className="mt-6 rounded border border-line bg-[#fffaf4] p-5 text-sm leading-6 text-ink/70">
+      <section className="mt-6 card p-5 text-sm leading-6 text-ink/70">
         <p className="font-semibold text-ink">{standardMarketRiskWarning}</p>
         <p className="mt-2">{standardSebiDisclaimer}</p>
         <p className="mt-2">
@@ -69,11 +105,14 @@ export default async function StrategyDetailPage({
         </p>
       </section>
 
-      <section className="mt-10 grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
-          <h2 className="flex items-center gap-2 text-xl font-semibold"><ListChecks size={18} /> Methodology</h2>
+      <section className="mt-10">
+        <Reveal className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="card p-6">
+          <h2 className="flex items-center gap-2.5 text-xl font-semibold">
+            <span className="icon-chip"><ListChecks size={16} /></span> Methodology
+          </h2>
           {strategy.methodologySections && strategy.methodologySections.length > 0 ? (
-            <div className="mt-4 space-y-4 text-sm leading-6 text-ink/70">
+            <div className="mt-4 space-y-4 text-[15px] leading-7 text-ink/85">
               {strategy.methodologySections.map((section) => (
                 <section key={section.title}>
                   <h3 className="font-semibold text-ink">{section.title}</h3>
@@ -82,12 +121,12 @@ export default async function StrategyDetailPage({
               ))}
             </div>
           ) : (
-            <ul className="mt-4 space-y-3 text-sm leading-6 text-ink/70">
+            <ul className="mt-4 space-y-3 text-[15px] leading-7 text-ink/85">
               {strategy.methodology.map((item) => <li key={item}>{item}</li>)}
             </ul>
           )}
         </div>
-        <div className="rounded border border-line bg-[#fffaf4] p-6">
+        <div className="card p-6">
           <h2 className="text-xl font-semibold">Research Details</h2>
           <div className="mt-4 grid gap-4 text-sm sm:grid-cols-3">
             <p className="rounded bg-white p-4"><CalendarDays size={16} /> <span className="mt-2 block text-ink/52">Frequency</span><strong>{strategy.rebalanceFrequency}</strong></p>
@@ -99,12 +138,13 @@ export default async function StrategyDetailPage({
             assumptions documented in the strategy package.
           </p>
         </div>
+        </Reveal>
       </section>
 
       <section className="mt-10">
         {canViewPortfolio ? (
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded border border-line bg-[#fffaf4] p-6">
+            <div className="card-accent-gold p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-xl font-semibold">Latest Model Portfolio</h2>
                 {strategy.exports?.latestModelPortfolioCsv && (
@@ -119,24 +159,39 @@ export default async function StrategyDetailPage({
               </div>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full min-w-[680px] text-left text-sm">
-                  <thead className="text-ink/54">
-                    <tr><th className="py-2">Symbol</th><th>Company</th><th>Sector</th><th>Weight</th><th>Note</th></tr>
+                  <thead className="text-xs uppercase tracking-wide text-ink/52">
+                    <tr><th className="py-2 font-medium">Symbol</th><th className="font-medium">Company</th><th className="font-medium">Sector</th><th className="font-medium">Weight</th><th className="font-medium">Note</th></tr>
                   </thead>
                   <tbody>
-                    {strategy.holdings.map((holding) => (
-                      <tr className="border-t border-line" key={holding.symbol}>
-                        <td className="py-3 font-semibold">{holding.symbol}</td>
-                        <td>{holding.company}</td>
-                        <td>{holding.sector}</td>
-                        <td>{(holding.weight * 100).toFixed(1)}%</td>
-                        <td>{holding.note}</td>
-                      </tr>
-                    ))}
+                    {strategy.holdings.map((holding) => {
+                      const maxWeight = Math.max(...strategy.holdings.map((item) => item.weight));
+                      return (
+                        <tr className="border-t border-line transition-colors duration-180 hover:bg-paper" key={holding.symbol}>
+                          <td className="py-3 font-semibold">{holding.symbol}</td>
+                          <td>{holding.company}</td>
+                          <td>
+                            <span className="rounded-full bg-sky/60 px-2.5 py-0.5 text-xs font-medium text-ink/72">{holding.sector}</span>
+                          </td>
+                          <td>
+                            <div className="flex items-center gap-2">
+                              <span className="tabular-nums font-medium">{(holding.weight * 100).toFixed(1)}%</span>
+                              <span className="h-1.5 w-16 shrink-0 overflow-hidden rounded-full bg-line">
+                                <span
+                                  className="block h-full rounded-full bg-pine"
+                                  style={{ width: `${(holding.weight / maxWeight) * 100}%` }}
+                                />
+                              </span>
+                            </div>
+                          </td>
+                          <td className="text-ink/68">{holding.note}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className="rounded border border-line bg-[#fffaf4] p-6">
+            <div className="card-accent-gold p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-xl font-semibold">Recent Rebalances</h2>
                 {strategy.exports?.rebalanceHistoryCsv && (
@@ -151,9 +206,22 @@ export default async function StrategyDetailPage({
               </div>
               <div className="mt-4 space-y-4">
                 {strategy.rebalances.slice(0, 5).map((rebalance) => (
-                  <article className="rounded bg-white p-4" key={rebalance.date}>
+                  <article className="rounded border border-line bg-white p-4" key={rebalance.date}>
                     <p className="text-sm font-semibold">{rebalance.date}</p>
                     <p className="mt-1 text-sm text-ink/68">{rebalance.summary}</p>
+                    {rebalance.changes.length > 0 && (
+                      <ul className="mt-3 space-y-1.5 border-t border-line pt-3">
+                        {rebalance.changes.map((change) => (
+                          <li className="flex flex-wrap items-center justify-between gap-2 text-xs" key={change.symbol}>
+                            <RebalanceActionBadge action={change.action} />
+                            <span className="font-medium text-ink">{change.symbol}</span>
+                            <span className="tabular-nums text-ink/58">
+                              {(change.oldWeight * 100).toFixed(1)}% &rarr; {(change.newWeight * 100).toFixed(1)}%
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </article>
                 ))}
               </div>

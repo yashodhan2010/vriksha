@@ -3,7 +3,7 @@ import { LockKeyhole } from "lucide-react";
 
 export function Paywall({ slug }: { slug: string }) {
   return (
-    <section className="rounded border border-line bg-[#fffaf4] p-6 shadow-soft">
+    <section className="card-accent-ink p-6">
       <div className="flex items-start gap-4">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded bg-ink text-white">
           <LockKeyhole size={18} aria-hidden="true" />

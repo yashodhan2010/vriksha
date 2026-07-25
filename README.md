@@ -189,6 +189,27 @@ npm run db:apply
 This applies the SQL files in `supabase/migrations/` and records completed migrations in
 `public.schema_migrations`.
 
+## Contact Form Email
+
+The contact page posts to `/api/contact`.
+
+The server:
+
+```text
+1. Saves the enquiry in Supabase `contact_enquiries`
+2. Sends a notification email to enquiry@vriksha-capital.com if Resend is configured
+```
+
+Add these Vercel and local env variables before relying on live email notifications:
+
+```text
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=enquiry@vriksha-capital.com
+CONTACT_FROM_EMAIL=Vriksha Capital <enquiry@vriksha-capital.com>
+```
+
+`CONTACT_FROM_EMAIL` must use a domain verified in Resend.
+
 ## Strategy Package Validation
 
 ```powershell

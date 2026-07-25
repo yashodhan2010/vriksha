@@ -1,3 +1,5 @@
+import { ContactMailForm } from "@/components/contact-mail-form";
+
 export default function ContactPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
@@ -7,14 +9,7 @@ export default function ContactPage() {
         Use this page for subscriber support, institutional inquiries, compliance requests, and
         strategy onboarding.
       </p>
-      <form className="mt-8 grid gap-4 card p-6">
-        <input className="rounded border border-line bg-white px-3 py-2" placeholder="Name" />
-        <input className="rounded border border-line bg-white px-3 py-2" placeholder="Email" />
-        <textarea className="min-h-32 rounded border border-line bg-white px-3 py-2" placeholder="Message" />
-        <button className="w-fit rounded bg-pine px-5 py-3 text-sm font-semibold text-white" type="button">
-          Send message
-        </button>
-      </form>
+      <ContactMailForm />
     </main>
   );
 }

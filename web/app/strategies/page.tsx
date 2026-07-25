@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, LockKeyhole } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { strategies } from "@/lib/data";
+import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 
 export default function StrategyCatalogPage() {
   return (
@@ -19,11 +21,7 @@ export default function StrategyCatalogPage() {
       <div className="mt-8">
         <Reveal className="grid gap-4 md:grid-cols-2">
         {strategies.map((strategy) => (
-          <Link
-            href={`/strategies/${strategy.slug}`}
-            className="card-interactive p-6"
-            key={strategy.slug}
-          >
+          <article className="card-interactive p-6" key={strategy.slug}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-xl font-semibold">{strategy.name}</h2>
@@ -45,7 +43,21 @@ export default function StrategyCatalogPage() {
               </div>
               <LockKeyhole size={18} aria-hidden="true" />
             </div>
-          </Link>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm font-semibold">
+                {formatMoney(getStrategyPrice(strategy.slug, "monthly").amountPaise)} / month
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href={`/strategies/${strategy.slug}`}
+                  className="inline-flex items-center justify-center gap-2 rounded border border-line px-4 py-3 text-sm font-semibold"
+                >
+                  View details
+                </Link>
+                <StrategyBasketButton slug={strategy.slug} />
+              </div>
+            </div>
+          </article>
         ))}
         </Reveal>
       </div>

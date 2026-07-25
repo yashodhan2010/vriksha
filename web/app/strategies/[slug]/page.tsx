@@ -16,9 +16,11 @@ import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/perform
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
 import { Paywall } from "@/components/paywall";
 import { Reveal } from "@/components/reveal";
+import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
+import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import type { Rebalance } from "@/lib/types";
 
 const actionStyles: Record<Rebalance["changes"][number]["action"], { icon: typeof Plus; className: string }> = {
@@ -70,10 +72,14 @@ export default async function StrategyDetailPage({
             <p className="flex items-center justify-between gap-3"><span>Universe</span><strong>{strategy.universe}</strong></p>
             <p className="flex items-center justify-between gap-3"><span>Holdings</span><strong>{strategy.targetHoldings}</strong></p>
             <p className="flex items-center justify-between gap-3"><span>Rebalance</span><strong>{strategy.rebalanceFrequency}</strong></p>
+            <p className="flex items-center justify-between gap-3"><span>Monthly fee</span><strong>{formatMoney(getStrategyPrice(strategy.slug, "monthly").amountPaise)}</strong></p>
           </div>
-          <Link href={`/subscribe/${strategy.slug}`} className="mt-5 block rounded bg-pine px-4 py-3 text-center text-sm font-semibold text-white">
-            Subscribe
-          </Link>
+          <div className="mt-5 grid gap-2">
+            <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
+            <Link href={`/subscribe/${strategy.slug}`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
+              Subscription details
+            </Link>
+          </div>
         </aside>
       </section>
 

@@ -15,7 +15,7 @@ recent rebalance history behind a paywall.
 - Paywalled latest model portfolio
 - Paywalled last five rebalances
 - Login/account module
-- Razorpay subscription flow
+- Razorpay checkout flow
 - Admin publishing console
 - Manual/internal access grants
 - Versioned strategy methodology and configuration
@@ -219,12 +219,17 @@ python strategy_importer/package_contract.py path\to\model-portfolio-update --ki
 
 See [docs/strategy-package-contract.md](docs/strategy-package-contract.md) for the package format.
 
+## Pricing & Subscriptions
+
+See [docs/pricing-subscription-module.md](docs/pricing-subscription-module.md) for the basket,
+placeholder pricing, Razorpay order/webhook, and SEBI guardrail design.
+
 ## Production Stack
 
 - Next.js and TypeScript
 - Supabase Auth and Postgres
 - Prisma
-- Razorpay Subscriptions
+- Razorpay checkout and webhooks
 - Python strategy package importer
 - Vercel for the web app
 

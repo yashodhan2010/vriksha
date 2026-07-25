@@ -94,6 +94,101 @@ npm run dev
 
 Without `DEMO_SUBSCRIBED_STRATEGIES`, the latest model portfolio and CSV export routes stay paywalled.
 
+## Supabase Auth & Access
+
+Supabase is the system of record for visitor identity, performance-access logs, subscriptions,
+manual grants, payments, and admin roles.
+
+See [docs/database-auth-journey.md](docs/database-auth-journey.md) for the full visitor journey,
+database model, and operating notes.
+
+Create a Supabase project, then run the SQL in:
+
+```text
+supabase/migrations/0001_vriksha_access_model.sql
+```
+
+Set these values in `web/.env.local`:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+Recommended Supabase Auth settings:
+
+```text
+Site URL: http://localhost:3000
+Redirect URLs:
+http://localhost:3000/auth/callback
+https://your-production-domain.com/auth/callback
+```
+
+Access levels:
+
+| Level | Meaning |
+|---|---|
+| Public visitor | Can view catalog, methodology, compliance pages, and non-performance strategy details |
+| Verified prospect | Has verified email OTP and accepted the performance acknowledgement for a one-to-one request |
+| Subscriber | Has verified login plus active subscription or manual strategy access grant |
+| Admin/compliance | Has `profiles.role` set to `admin`, `research_analyst`, or `compliance` |
+
+Manual access grant example after a user has logged in once:
+
+```sql
+insert into public.strategy_access_grants (user_id, strategy_slug, reason)
+values ('USER_UUID_HERE', 'dual-momentum', 'Internal/manual access');
+```
+
+Admin role example:
+
+```sql
+update public.profiles
+set role = 'admin'
+where email = 'you@example.com';
+```
+
+### Supabase Activation Checklist
+
+You need a Supabase account and one Supabase project.
+
+From the Supabase dashboard, collect:
+
+| Value | Where it goes | Safe for browser? |
+|---|---|---|
+| Project URL | `NEXT_PUBLIC_SUPABASE_URL` | Yes |
+| Anon public key | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes |
+| Service role key | `SUPABASE_SERVICE_ROLE_KEY` | No |
+| Postgres connection string | `SUPABASE_DB_URL` | No |
+
+Put these in `web/.env.local`, not in git.
+
+```text
+SUPABASE_DB_URL=postgresql://postgres.your-project-ref:YOUR-PASSWORD@aws-0-region.pooler.supabase.com:6543/postgres
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+Never expose `SUPABASE_DB_URL` or `SUPABASE_SERVICE_ROLE_KEY` in frontend code, screenshots,
+public repos, or browser environment variables.
+
+If your database password contains special characters, URL-encode them in `SUPABASE_DB_URL`.
+Common replacements are `%` -> `%25`, `#` -> `%23`, `&` -> `%26`, `@` -> `%40`, `/` -> `%2F`,
+and `?` -> `%3F`. The simplest option is to reset the Supabase database password to letters and
+numbers only, then update `web/.env.local`.
+
+To create/update Supabase tables from this project after `SUPABASE_DB_URL` is set:
+
+```powershell
+cd web
+npm run db:apply
+```
+
+This applies the SQL files in `supabase/migrations/` and records completed migrations in
+`public.schema_migrations`.
+
 ## Strategy Package Validation
 
 ```powershell

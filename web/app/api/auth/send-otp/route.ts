@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { authOtpExpirySeconds } from "@/lib/auth-otp";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const otpRequestSchema = z.object({
@@ -14,7 +15,7 @@ function otpTextEmail(otp: string) {
     "",
     `Code: ${otp}`,
     "",
-    "Enter this code on the Vriksha Capital website to complete login.",
+    `Enter this code on the Vriksha Capital website within ${authOtpExpirySeconds / 60} minutes to complete login.`,
     "If you did not request this, you can ignore this email."
   ].join("\n");
 }
@@ -24,7 +25,7 @@ function otpHtmlEmail(otp: string) {
     <div style="font-family: Arial, sans-serif; color: #18211f; line-height: 1.6;">
       <p>Your Vriksha Capital login code is:</p>
       <p style="font-size: 28px; font-weight: 700; letter-spacing: 6px; margin: 18px 0;">${otp}</p>
-      <p>Enter this code on the Vriksha Capital website to complete login.</p>
+      <p>Enter this code on the Vriksha Capital website within ${authOtpExpirySeconds / 60} minutes to complete login.</p>
       <p style="color: #6f7672; font-size: 13px;">If you did not request this, you can ignore this email.</p>
     </div>
   `;

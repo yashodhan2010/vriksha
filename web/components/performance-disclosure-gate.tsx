@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LockKeyhole, MailCheck, UnlockKeyhole } from "lucide-react";
+import { authOtpExpirySeconds, formatOtpCountdown } from "@/lib/auth-otp";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -75,12 +76,18 @@ export function PerformanceDisclosureGate({
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [otpExpiresAt, setOtpExpiresAt] = useState<number | null>(null);
+  const [now, setNow] = useState(Date.now());
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "verifying" | "logging" | "error">("idle");
   const [message, setMessage] = useState("");
   const storageKey = `${storageKeyPrefix}:${acknowledgementKey}`;
   const strategySlug = acknowledgementKey.startsWith("strategy:")
     ? acknowledgementKey.replace("strategy:", "")
     : undefined;
+  const remainingSeconds = otpExpiresAt
+    ? Math.max(0, Math.ceil((otpExpiresAt - now) / 1000))
+    : 0;
+  const canResend = status === "sent" && otpExpiresAt !== null && remainingSeconds === 0;
 
   useEffect(() => {
     async function initialize() {
@@ -102,6 +109,13 @@ export function PerformanceDisclosureGate({
 
     initialize();
   }, [storageKey]);
+
+  useEffect(() => {
+    if (!otpExpiresAt || remainingSeconds === 0) return;
+
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [otpExpiresAt, remainingSeconds]);
 
   async function sendOtp() {
     setStatus("sending");
@@ -126,7 +140,9 @@ export function PerformanceDisclosureGate({
     }
 
     setStatus("sent");
-    setMessage("Check your email for the 6-digit login code from Vriksha Capital.");
+    setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
+    setNow(Date.now());
+    setMessage("Check your email for the login code from Vriksha Capital.");
   }
 
   async function verifyOtp() {
@@ -264,14 +280,21 @@ export function PerformanceDisclosureGate({
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     value={otp}
-                    onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                    placeholder="000000"
+                    onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 8))}
+                    placeholder="00000000"
                     aria-label="Login code"
                     required
                   />
                 )}
+                {(status === "sent" || status === "verifying" || otp) && (
+                  <p className={`text-xs ${remainingSeconds > 0 ? "text-ink/58" : "text-clay"}`}>
+                    {remainingSeconds > 0
+                      ? `Code expires in ${formatOtpCountdown(remainingSeconds)}`
+                      : "Code expired. Request a new code."}
+                  </p>
+                )}
               </form>
-              {status === "sent" && (
+              {canResend && (
                 <button
                   className="mt-3 text-sm font-medium text-pine hover:text-ink"
                   type="button"

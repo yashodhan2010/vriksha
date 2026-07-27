@@ -1,14 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MailCheck } from "lucide-react";
+import { authOtpExpirySeconds, formatOtpCountdown } from "@/lib/auth-otp";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [otpExpiresAt, setOtpExpiresAt] = useState<number | null>(null);
+  const [now, setNow] = useState(Date.now());
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "verifying" | "error">("idle");
   const [message, setMessage] = useState("");
+  const remainingSeconds = otpExpiresAt
+    ? Math.max(0, Math.ceil((otpExpiresAt - now) / 1000))
+    : 0;
+  const canResend = status === "sent" && otpExpiresAt !== null && remainingSeconds === 0;
+
+  useEffect(() => {
+    if (!otpExpiresAt || remainingSeconds === 0) return;
+
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [otpExpiresAt, remainingSeconds]);
 
   async function sendOtp() {
     const response = await fetch("/api/auth/send-otp", {
@@ -64,8 +78,10 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
     setStatus("sending");
     try {
       await sendOtp();
+      setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
+      setNow(Date.now());
       setStatus("sent");
-      setMessage("Check your email for the 6-digit login code from Vriksha Capital.");
+      setMessage("Check your email for the login code from Vriksha Capital.");
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Could not send the login code.");
@@ -96,10 +112,15 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
             inputMode="numeric"
             autoComplete="one-time-code"
             value={otp}
-            onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
-            placeholder="000000"
+            onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 8))}
+            placeholder="00000000"
             required
           />
+          <p className={`mt-2 text-xs ${remainingSeconds > 0 ? "text-ink/58" : "text-clay"}`}>
+            {remainingSeconds > 0
+              ? `Code expires in ${formatOtpCountdown(remainingSeconds)}`
+              : "Code expired. Request a new code."}
+          </p>
         </div>
       )}
       <button
@@ -114,7 +135,7 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
             ? status === "verifying" ? "Verifying" : "Verify code"
             : "Send login code"}
       </button>
-      {status === "sent" && (
+      {canResend && (
         <button
           className="mt-3 w-full text-sm font-medium text-pine hover:text-ink"
           type="button"
@@ -123,6 +144,8 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
             setMessage("");
             try {
               await sendOtp();
+              setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
+              setNow(Date.now());
               setStatus("sent");
               setMessage("We sent a fresh login code from Vriksha Capital.");
             } catch (error) {

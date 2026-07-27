@@ -21,39 +21,41 @@ export default function StrategyCatalogPage() {
       <div className="mt-8">
         <Reveal className="grid gap-4 md:grid-cols-2">
         {strategies.map((strategy) => (
-          <article className="card-interactive p-6" key={strategy.slug}>
-            <div className="flex items-start justify-between gap-4">
+          <article className="card-interactive relative p-6" key={strategy.slug}>
+            <Link
+              className="absolute inset-0 z-0 rounded"
+              href={`/strategies/${strategy.slug}`}
+              aria-label={`View details for ${strategy.name}`}
+            />
+            <div className="relative z-10 flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-xl font-semibold">{strategy.name}</h2>
                 <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
               </div>
               <ArrowRight size={18} aria-hidden="true" />
             </div>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="relative z-10 mt-5 flex flex-wrap gap-2">
               {strategy.labels.map((label) => (
                 <span className="rounded bg-sky px-3 py-1 text-xs font-medium text-ink" key={label}>
                   {label}
                 </span>
               ))}
             </div>
-            <div className="mt-6 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-line bg-white p-4 text-sm">
+            <div className="relative z-10 mt-6 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-line bg-white p-4 text-sm">
               <div>
                 <p className="font-semibold">Performance details locked</p>
                 <p className="mt-1 text-ink/58">Open the strategy page to explicitly request historical returns.</p>
               </div>
               <LockKeyhole size={18} aria-hidden="true" />
             </div>
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="relative z-10 mt-5 flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm font-semibold">
                 {formatMoney(getStrategyPrice(strategy.slug, "monthly").amountPaise)} / month
               </p>
               <div className="flex flex-wrap gap-2">
-                <Link
-                  href={`/strategies/${strategy.slug}`}
-                  className="inline-flex items-center justify-center gap-2 rounded border border-line px-4 py-3 text-sm font-semibold"
-                >
+                <span className="inline-flex items-center justify-center gap-2 rounded border border-line px-4 py-3 text-sm font-semibold">
                   View details
-                </Link>
+                </span>
                 <StrategyBasketButton slug={strategy.slug} />
               </div>
             </div>

@@ -58,10 +58,15 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="self-end rounded border border-white/16 bg-white/8 p-6">
-            <p className="text-sm text-white/64">Featured strategy</p>
-            <h2 className="mt-3 text-2xl font-semibold">{featured.name}</h2>
-            <div className="mt-6 rounded border border-white/16 bg-white/10 p-5 text-sm">
+          <div className="relative self-end rounded border border-white/16 bg-white/8 p-6 transition duration-180 hover:border-white/30 hover:bg-white/12">
+            <Link
+              className="absolute inset-0 z-0 rounded"
+              href={`/strategies/${featured.slug}`}
+              aria-label={`View details for ${featured.name}`}
+            />
+            <p className="relative z-10 text-sm text-white/64">Featured strategy</p>
+            <h2 className="relative z-10 mt-3 text-2xl font-semibold">{featured.name}</h2>
+            <div className="relative z-10 mt-6 rounded border border-white/16 bg-white/10 p-5 text-sm">
               <div className="flex items-start gap-3">
                 <LockKeyhole className="mt-0.5 shrink-0" size={18} aria-hidden="true" />
                 <div>
@@ -72,7 +77,7 @@ export default function HomePage() {
                   </p>
                   <Link
                     href={`/strategies/${featured.slug}`}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline-offset-4 transition duration-180 hover:underline"
+                    className="relative z-20 mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline-offset-4 transition duration-180 hover:underline"
                   >
                     View strategy <ArrowRight size={15} aria-hidden="true" />
                   </Link>

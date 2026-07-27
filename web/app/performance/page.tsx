@@ -1,6 +1,6 @@
 import { strategies } from "@/lib/data";
-import { YearlyReturnChart } from "@/components/performance-chart";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
+import { PeriodPerformanceView } from "@/components/period-performance-view";
 
 export default function PerformancePage() {
   return (
@@ -20,7 +20,7 @@ export default function PerformancePage() {
                   <p className="text-sm font-semibold">{strategy.price}</p>
                 </div>
                 <div className="mt-5">
-                <YearlyReturnChart data={strategy.yearlyReturns} />
+                  <PeriodPerformanceView strategy={strategy} compact />
                 </div>
               </section>
             ))}

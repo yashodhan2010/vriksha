@@ -60,6 +60,38 @@ function LockedPerformancePreview({ compact }: { compact: boolean }) {
   );
 }
 
+function LockedGateShell({
+  children,
+  className,
+  compact
+}: {
+  children: React.ReactNode;
+  className: string;
+  compact: boolean;
+}) {
+  return (
+    <section className={`${className} overflow-hidden rounded border border-line bg-paper/70 p-4 shadow-sm sm:p-5`}>
+      <div className="rounded border border-line bg-white/95 p-5 shadow-sm">
+        {children}
+      </div>
+      <div className="relative mt-5 overflow-hidden rounded border border-line bg-white/55 p-4">
+        <LockedPerformancePreview compact={compact} />
+        <div className="absolute inset-0 bg-white/52 backdrop-blur-[2px]" aria-hidden="true" />
+      </div>
+    </section>
+  );
+}
+
+function LockedValueSummary() {
+  return (
+    <div className="mt-4 grid gap-2 text-xs font-medium text-ink/64 sm:grid-cols-3">
+      <span className="rounded border border-line bg-paper px-3 py-2">1M, 6M, 1Y, 5Y and Max returns</span>
+      <span className="rounded border border-line bg-paper px-3 py-2">Strategy vs benchmark chart</span>
+      <span className="rounded border border-line bg-paper px-3 py-2">Risk and limitation context</span>
+    </div>
+  );
+}
+
 export function PerformanceDisclosureGate({
   children,
   compact = false,
@@ -233,126 +265,74 @@ export function PerformanceDisclosureGate({
 
   if (!loggedIn) {
     return (
-      <section className={`${className} relative overflow-hidden rounded border border-line bg-paper/70 p-4 shadow-sm sm:p-5`}>
-        <LockedPerformancePreview compact={compact} />
-        <div className="absolute inset-0 bg-white/72 backdrop-blur-[2px]" aria-hidden="true" />
-        <div className="relative mx-auto max-w-2xl rounded border border-line bg-white/92 p-5 shadow-sm transition duration-250 hover:border-gold/60">
-          <div className="flex items-start gap-4">
-            <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white">
-              <LockKeyhole size={18} aria-hidden="true" />
-            </span>
-            <div className="w-full">
-              <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-                Verify email to request performance
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-ink/70">
-                Unlock the performance section with return charts, benchmark comparisons, and risk
-                context after a verified one-to-one request.
-              </p>
-              <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <input
-                    className="min-h-11 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email address"
-                    autoComplete="email"
-                    required
-                  />
-                  <button
-                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60"
-                    type="submit"
-                    disabled={status === "sending" || status === "verifying"}
-                  >
-                    <MailCheck size={16} aria-hidden="true" />
-                    {status === "sending"
-                      ? "Sending"
-                      : status === "sent" || otp
-                        ? status === "verifying" ? "Verifying" : "Verify code"
-                        : "Send code"}
-                  </button>
-                </div>
-                {(status === "sent" || status === "verifying" || otp) && (
-                  <input
-                    className="min-h-11 rounded border border-line bg-white px-3 py-2 text-center text-lg font-semibold tracking-[0.24em]"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    value={otp}
-                    onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 8))}
-                    placeholder="00000000"
-                    aria-label="Login code"
-                    required
-                  />
-                )}
-                {(status === "sent" || status === "verifying" || otp) && (
-                  <p className={`text-xs ${remainingSeconds > 0 ? "text-ink/58" : "text-clay"}`}>
-                    {remainingSeconds > 0
-                      ? `Code expires in ${formatOtpCountdown(remainingSeconds)}`
-                      : "Code expired. Request a new code."}
-                  </p>
-                )}
-              </form>
-              {canResend && (
-                <button
-                  className="mt-3 text-sm font-medium text-pine hover:text-ink"
-                  type="button"
-                  onClick={sendOtp}
-                >
-                  Resend code
-                </button>
-              )}
-              {message && (
-                <p className={`mt-3 text-sm ${status === "error" ? "text-clay" : "text-pine"}`}>
-                  {message}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className={`${className} relative overflow-hidden rounded border border-line bg-paper/70 p-4 shadow-sm sm:p-5`}>
-      <LockedPerformancePreview compact={compact} />
-      <div className="absolute inset-0 bg-white/72 backdrop-blur-[2px]" aria-hidden="true" />
-      <div className="relative mx-auto max-w-2xl rounded border border-line bg-white/92 p-5 shadow-sm transition duration-250 hover:border-gold/60">
+      <LockedGateShell className={className} compact={compact}>
         <div className="flex items-start gap-4">
-          <span className="group relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white transition duration-250 hover:bg-pine">
-            <LockKeyhole
-              className="absolute transition duration-250 group-hover:scale-75 group-hover:opacity-0"
-              size={18}
-              aria-hidden="true"
-            />
-            <UnlockKeyhole
-              className="absolute scale-75 opacity-0 transition duration-250 group-hover:scale-100 group-hover:opacity-100"
-              size={18}
-              aria-hidden="true"
-            />
+          <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white">
+            <LockKeyhole size={18} aria-hidden="true" />
           </span>
-          <div>
+          <div className="w-full">
             <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-              Performance details are hidden
+              Verify email to request performance
             </h2>
             <p className="mt-2 text-sm leading-6 text-ink/70">
               Unlock the performance section with return charts, benchmark comparisons, and risk
-              context after acknowledging the related risks and limitations.
+              context after a verified one-to-one request.
             </p>
-            <label className="mt-4 flex cursor-pointer items-start gap-3 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72 transition duration-250 hover:border-gold/60 hover:bg-paper">
-              <input
-                className="mt-1 h-4 w-4 accent-pine"
-                type="checkbox"
-                onChange={accept}
-                disabled={status === "logging"}
-              />
-              <span>
-                I understand that {standardMarketRiskWarning.toLowerCase()} {standardSebiDisclaimer}
-                {" "}Past or backtested performance does not guarantee future returns.
-              </span>
-            </label>
+            <LockedValueSummary />
+            <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  className="min-h-11 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Email address"
+                  autoComplete="email"
+                  required
+                />
+                <button
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60"
+                  type="submit"
+                  disabled={status === "sending" || status === "verifying"}
+                >
+                  <MailCheck size={16} aria-hidden="true" />
+                  {status === "sending"
+                    ? "Sending"
+                    : status === "sent" || otp
+                      ? status === "verifying" ? "Verifying" : "Verify code"
+                      : "Send code"}
+                </button>
+              </div>
+              {(status === "sent" || status === "verifying" || otp) && (
+                <input
+                  className="min-h-11 rounded border border-line bg-white px-3 py-2 text-center text-lg font-semibold tracking-[0.24em]"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={otp}
+                  onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 8))}
+                  placeholder="00000000"
+                  aria-label="Login code"
+                  required
+                />
+              )}
+              {(status === "sent" || status === "verifying" || otp) && (
+                <p className={`text-xs ${remainingSeconds > 0 ? "text-ink/58" : "text-clay"}`}>
+                  {remainingSeconds > 0
+                    ? `Code expires in ${formatOtpCountdown(remainingSeconds)}`
+                    : "Code expired. Request a new code."}
+                </p>
+              )}
+            </form>
+            {canResend && (
+              <button
+                className="mt-3 text-sm font-medium text-pine hover:text-ink"
+                type="button"
+                onClick={sendOtp}
+              >
+                Resend code
+              </button>
+            )}
             {message && (
               <p className={`mt-3 text-sm ${status === "error" ? "text-clay" : "text-pine"}`}>
                 {message}
@@ -360,7 +340,53 @@ export function PerformanceDisclosureGate({
             )}
           </div>
         </div>
+      </LockedGateShell>
+    );
+  }
+
+  return (
+    <LockedGateShell className={className} compact={compact}>
+      <div className="flex items-start gap-4">
+        <span className="group relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white transition duration-250 hover:bg-pine">
+          <LockKeyhole
+            className="absolute transition duration-250 group-hover:scale-75 group-hover:opacity-0"
+            size={18}
+            aria-hidden="true"
+          />
+          <UnlockKeyhole
+            className="absolute scale-75 opacity-0 transition duration-250 group-hover:scale-100 group-hover:opacity-100"
+            size={18}
+            aria-hidden="true"
+          />
+        </span>
+        <div>
+          <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
+            Performance details are hidden
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-ink/70">
+            Unlock the performance section with return charts, benchmark comparisons, and risk
+            context after acknowledging the related risks and limitations.
+          </p>
+          <LockedValueSummary />
+          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72 transition duration-250 hover:border-gold/60 hover:bg-paper">
+            <input
+              className="mt-1 h-4 w-4 accent-pine"
+              type="checkbox"
+              onChange={accept}
+              disabled={status === "logging"}
+            />
+            <span>
+              I understand that {standardMarketRiskWarning.toLowerCase()} {standardSebiDisclaimer}
+              {" "}Past or backtested performance does not guarantee future returns.
+            </span>
+          </label>
+          {message && (
+            <p className={`mt-3 text-sm ${status === "error" ? "text-clay" : "text-pine"}`}>
+              {message}
+            </p>
+          )}
+        </div>
       </div>
-    </section>
+    </LockedGateShell>
   );
 }

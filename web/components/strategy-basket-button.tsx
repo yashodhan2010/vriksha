@@ -24,7 +24,9 @@ export function StrategyBasketButton({
 }) {
   const [added, setAdded] = useState(false);
 
-  function addToBasket() {
+  function addToBasket(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
     const basket = readBasket();
     const nextBasket = [...new Set([...basket, slug])];
     window.localStorage.setItem(storageKey, JSON.stringify(nextBasket));
@@ -36,6 +38,7 @@ export function StrategyBasketButton({
     return (
       <Link
         href="/checkout"
+        onClick={(event) => event.stopPropagation()}
         className="inline-flex items-center justify-center gap-2 rounded bg-ink px-4 py-3 text-sm font-semibold text-white"
       >
         <ShoppingBasket size={16} aria-hidden="true" />
@@ -55,4 +58,3 @@ export function StrategyBasketButton({
     </button>
   );
 }
-

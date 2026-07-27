@@ -11,9 +11,9 @@ import {
   TrendingDown,
   TrendingUp
 } from "lucide-react";
-import { MetricGrid } from "@/components/metric-grid";
 import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
+import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { Paywall } from "@/components/paywall";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
@@ -88,7 +88,7 @@ export default async function StrategyDetailPage({
         className="mt-10"
       >
         <section className="mt-10">
-          <MetricGrid metrics={strategy.metrics} />
+          <PeriodPerformanceView strategy={strategy} />
         </section>
         <section className="mt-10 grid gap-6 lg:grid-cols-2">
           <div>

@@ -71,9 +71,9 @@ Flow:
 ```text
 Visitor clicks locked performance
 App asks for email
-Supabase sends OTP or magic login link
-Visitor verifies email
-Visitor returns to Vriksha
+Supabase generates a one-time auth code
+Vriksha sends the code using the configured transactional email sender
+Visitor enters the code on Vriksha
 Visitor ticks acknowledgement
 App records performance_access_logs row
 Performance details unlock for that session/page
@@ -97,7 +97,8 @@ This is the audit trail for a one-to-one requested performance view.
 
 ### 3. Login
 
-The login page uses Supabase email OTP.
+The login page uses Supabase email OTP for identity, but Vriksha sends the email through the
+configured transactional email provider.
 
 After login:
 
@@ -211,6 +212,8 @@ SUPABASE_DB_URL=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+RESEND_API_KEY=
+AUTH_FROM_EMAIL="Vriksha Capital <enquiry@vriksha-capital.com>"
 ```
 
 For local demo access without Supabase:

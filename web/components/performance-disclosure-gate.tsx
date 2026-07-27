@@ -74,7 +74,8 @@ export function PerformanceDisclosureGate({
   const [loggedIn, setLoggedIn] = useState(false);
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "logging" | "error">("idle");
+  const [otp, setOtp] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "verifying" | "logging" | "error">("idle");
   const [message, setMessage] = useState("");
   const storageKey = `${storageKeyPrefix}:${acknowledgementKey}`;
   const strategySlug = acknowledgementKey.startsWith("strategy:")
@@ -102,9 +103,34 @@ export function PerformanceDisclosureGate({
     initialize();
   }, [storageKey]);
 
-  async function sendOtp(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function sendOtp() {
     setStatus("sending");
+    setMessage("");
+
+    const response = await fetch("/api/auth/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        redirectTo: window.location.pathname
+      })
+    });
+
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      setStatus("error");
+      setMessage(payload?.error ?? "Could not send the login code.");
+      return;
+    }
+
+    setStatus("sent");
+    setMessage("Check your email for the 6-digit login code from Vriksha Capital.");
+  }
+
+  async function verifyOtp() {
+    setStatus("verifying");
     setMessage("");
 
     const supabase = createSupabaseBrowserClient();
@@ -114,11 +140,10 @@ export function PerformanceDisclosureGate({
       return;
     }
 
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.verifyOtp({
       email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`
-      }
+      token: otp,
+      type: "magiclink"
     });
 
     if (error) {
@@ -127,8 +152,20 @@ export function PerformanceDisclosureGate({
       return;
     }
 
-    setStatus("sent");
-    setMessage("Check your email, then return here after login.");
+    setLoggedIn(true);
+    setStatus("idle");
+    setMessage("");
+  }
+
+  async function handleOtpSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (status === "sent" || otp) {
+      await verifyOtp();
+      return;
+    }
+
+    await sendOtp();
   }
 
   async function accept() {
@@ -196,25 +233,53 @@ export function PerformanceDisclosureGate({
                 Unlock the performance section with return charts, benchmark comparisons, and risk
                 context after a verified one-to-one request.
               </p>
-              <form className="mt-4 flex flex-col gap-3 sm:flex-row" onSubmit={sendOtp}>
-                <input
-                  className="min-h-11 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="Email address"
-                  autoComplete="email"
-                  required
-                />
-                <button
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60"
-                  type="submit"
-                  disabled={status === "sending"}
-                >
-                  <MailCheck size={16} aria-hidden="true" />
-                  {status === "sending" ? "Sending" : "Send OTP link"}
-                </button>
+              <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <input
+                    className="min-h-11 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="Email address"
+                    autoComplete="email"
+                    required
+                  />
+                  <button
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60"
+                    type="submit"
+                    disabled={status === "sending" || status === "verifying"}
+                  >
+                    <MailCheck size={16} aria-hidden="true" />
+                    {status === "sending"
+                      ? "Sending"
+                      : status === "sent" || otp
+                        ? status === "verifying" ? "Verifying" : "Verify code"
+                        : "Send code"}
+                  </button>
+                </div>
+                {(status === "sent" || status === "verifying" || otp) && (
+                  <input
+                    className="min-h-11 rounded border border-line bg-white px-3 py-2 text-center text-lg font-semibold tracking-[0.24em]"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    value={otp}
+                    onChange={(event) => setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))}
+                    placeholder="000000"
+                    aria-label="Login code"
+                    required
+                  />
+                )}
               </form>
+              {status === "sent" && (
+                <button
+                  className="mt-3 text-sm font-medium text-pine hover:text-ink"
+                  type="button"
+                  onClick={sendOtp}
+                >
+                  Resend code
+                </button>
+              )}
               {message && (
                 <p className={`mt-3 text-sm ${status === "error" ? "text-clay" : "text-pine"}`}>
                   {message}

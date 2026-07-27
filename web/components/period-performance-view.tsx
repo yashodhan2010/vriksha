@@ -127,9 +127,9 @@ export function PeriodPerformanceView({
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">{strategy.benchmark}</p>
+              <p className="text-xs uppercase tracking-wide text-ink/52">CAGR</p>
               <p className="mt-1 text-lg font-semibold tabular-nums text-ink">
-                {formatPercent(activePeriodReturn.benchmark)}
+                {formatPercent(activePeriodReturn.cagr)}
               </p>
             </div>
             <div>

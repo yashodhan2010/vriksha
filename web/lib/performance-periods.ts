@@ -13,6 +13,7 @@ export type PeriodReturn = {
   label: string;
   strategy: number | null;
   benchmark: number | null;
+  cagr: number | null;
   maxDrawdown: number | null;
   monthsUsed: number;
 };
@@ -35,12 +36,35 @@ function compoundReturn(values: number[]) {
   return (values.reduce((total, value) => total * (1 + value / 100), 1) - 1) * 100;
 }
 
-function getWindow(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
-  if (data.length === 0) return [];
-  const months = period.key === "max" ? Math.min(period.months, data.length) : period.months;
-  if (period.key !== "max" && data.length < months) return [];
+function annualizedReturn(totalReturn: number, months: number) {
+  if (months <= 0) return null;
 
-  return data.slice(-months);
+  return (Math.pow(1 + totalReturn / 100, 12 / months) - 1) * 100;
+}
+
+function normalizeMonthlyReturns(data: Strategy["monthlyReturns"]) {
+  const grouped = new Map<string, Strategy["monthlyReturns"]>();
+
+  data.forEach((item) => {
+    grouped.set(item.month, [...(grouped.get(item.month) ?? []), item]);
+  });
+
+  return Array.from(grouped.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([month, items]) => ({
+      month,
+      strategy: compoundReturn(items.map((item) => item.strategy)),
+      benchmark: items[items.length - 1].benchmark
+    }));
+}
+
+function getWindow(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
+  const monthlyReturns = normalizeMonthlyReturns(data);
+  if (monthlyReturns.length === 0) return [];
+  const months = period.key === "max" ? Math.min(period.months, monthlyReturns.length) : period.months;
+  if (period.key !== "max" && monthlyReturns.length < months) return [];
+
+  return monthlyReturns.slice(-months);
 }
 
 function getWindowStartMonth(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
@@ -60,12 +84,14 @@ export function getPeriodReturns(strategy: Strategy): PeriodReturn[] {
   return performancePeriods.map((period) => {
     const data = getWindow(strategy.monthlyReturns, period);
     const startMonth = getWindowStartMonth(strategy.monthlyReturns, period);
+    const totalReturn = data.length > 0 ? compoundReturn(data.map((item) => item.strategy)) : null;
 
     return {
       key: period.key,
       label: period.label,
-      strategy: data.length > 0 ? compoundReturn(data.map((item) => item.strategy)) : null,
+      strategy: totalReturn,
       benchmark: data.length > 0 ? compoundReturn(data.map((item) => item.benchmark)) : null,
+      cagr: totalReturn === null ? null : annualizedReturn(totalReturn, data.length),
       maxDrawdown: data.length > 0 ? getMaxDrawdown(strategy, startMonth) : null,
       monthsUsed: data.length
     };

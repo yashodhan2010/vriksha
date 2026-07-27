@@ -22,6 +22,17 @@ import {
 } from "@/lib/performance-periods";
 import type { Strategy } from "@/lib/types";
 
+function getChartTicks(series: Array<{ label: string }>, periodKey: PerformancePeriodKey) {
+  if (series.length <= 12) return series.map((item) => item.label);
+
+  const step = periodKey === "max" || periodKey === "5y" ? 12 : 3;
+  const ticks = series
+    .filter((_item, index) => index === 0 || index === series.length - 1 || index % step === 0)
+    .map((item) => item.label);
+
+  return [...new Set(ticks)];
+}
+
 function PeriodTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload || payload.length === 0) return null;
 
@@ -60,6 +71,12 @@ export function PeriodPerformanceView({
     () => getPeriodPerformanceSeries(strategy, activePeriod),
     [strategy, activePeriod]
   );
+  const activePeriodLabel = performancePeriods.find((period) => period.key === activePeriod)?.label ?? "";
+  const activePeriodReturn = periodReturns.find((period) => period.key === activePeriod);
+  const dateRange = series.length > 0
+    ? `${series[0].label} to ${series[series.length - 1].label}`
+    : "";
+  const chartTicks = useMemo(() => getChartTicks(series, activePeriod), [series, activePeriod]);
 
   return (
     <div className="space-y-5">
@@ -101,12 +118,39 @@ export function PeriodPerformanceView({
       </div>
 
       <div className="rounded border border-line bg-white p-4">
+        {activePeriodReturn && (
+          <div className="mb-4 grid gap-3 border-b border-line pb-4 sm:grid-cols-3">
+            <div>
+              <p className="text-xs uppercase tracking-wide text-ink/52">Strategy return</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums text-moss">
+                {formatPercent(activePeriodReturn.strategy)}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-wide text-ink/52">{strategy.benchmark}</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums text-ink">
+                {formatPercent(activePeriodReturn.benchmark)}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-wide text-ink/52">Max drawdown</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums text-clay">
+                {formatPercent(activePeriodReturn.maxDrawdown)}
+              </p>
+            </div>
+          </div>
+        )}
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className={compact ? "text-base font-semibold" : "text-lg font-semibold"}>
               Cumulative Return
             </h3>
             <p className="text-sm text-ink/58">Strategy vs {strategy.benchmark}</p>
+            {dateRange && (
+              <p className="mt-1 text-xs font-medium text-ink/52">
+                {activePeriodLabel}: {dateRange}
+              </p>
+            )}
           </div>
           <div className="inline-flex rounded border border-line bg-paper p-1">
             {performancePeriods.map((period) => (
@@ -130,7 +174,15 @@ export function PeriodPerformanceView({
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={series}>
                 <CartesianGrid stroke="#eee7dc" />
-                <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: 12 }} />
+                <XAxis
+                  dataKey="label"
+                  ticks={chartTicks}
+                  interval={0}
+                  minTickGap={16}
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fill: "#18211f99", fontSize: 12 }}
+                />
                 <YAxis tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: 12 }} />
                 <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
                 <Line type="monotone" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />

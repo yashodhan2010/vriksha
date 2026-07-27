@@ -13,6 +13,7 @@ export type PeriodReturn = {
   label: string;
   strategy: number | null;
   benchmark: number | null;
+  maxDrawdown: number | null;
   monthsUsed: number;
 };
 
@@ -42,15 +43,30 @@ function getWindow(data: Strategy["monthlyReturns"], period: PerformancePeriod) 
   return data.slice(-months);
 }
 
+function getWindowStartMonth(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
+  return getWindow(data, period)[0]?.month ?? null;
+}
+
+function getMaxDrawdown(strategy: Strategy, startMonth: string | null) {
+  const drawdowns = startMonth
+    ? strategy.drawdowns.filter((item) => item.period >= startMonth)
+    : strategy.drawdowns;
+  if (drawdowns.length === 0) return null;
+
+  return Math.min(...drawdowns.map((item) => item.drawdown));
+}
+
 export function getPeriodReturns(strategy: Strategy): PeriodReturn[] {
   return performancePeriods.map((period) => {
     const data = getWindow(strategy.monthlyReturns, period);
+    const startMonth = getWindowStartMonth(strategy.monthlyReturns, period);
 
     return {
       key: period.key,
       label: period.label,
       strategy: data.length > 0 ? compoundReturn(data.map((item) => item.strategy)) : null,
       benchmark: data.length > 0 ? compoundReturn(data.map((item) => item.benchmark)) : null,
+      maxDrawdown: data.length > 0 ? getMaxDrawdown(strategy, startMonth) : null,
       monthsUsed: data.length
     };
   });

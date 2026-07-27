@@ -112,7 +112,7 @@ export default async function StrategyDetailPage({
       </section>
 
       <section className="mt-10">
-        <Reveal className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+        <Reveal className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="card p-6">
           <h2 className="flex items-center gap-2.5 text-xl font-semibold">
             <span className="icon-chip"><ListChecks size={16} /></span> Methodology

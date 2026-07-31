@@ -4,6 +4,15 @@ function hasDemoStrategyAccess(strategySlug: string) {
   return process.env.DEMO_SUBSCRIBED_STRATEGIES?.split(",").map((slug) => slug.trim()).includes(strategySlug) ?? false;
 }
 
+function isAdminEmail(email: string | undefined | null) {
+  if (!email) return false;
+  return process.env.ADMIN_EMAILS
+    ?.split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean)
+    .includes(email.toLowerCase()) ?? false;
+}
+
 export async function getCurrentUser() {
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
@@ -79,6 +88,10 @@ export async function isAdmin() {
 
   if (!user) {
     return false;
+  }
+
+  if (isAdminEmail(user.email)) {
+    return true;
   }
 
   const { data } = await supabase

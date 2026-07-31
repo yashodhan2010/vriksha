@@ -8,6 +8,7 @@ import {
   individualFamilyAnnualFeeCapPaise,
   type BillingCycle
 } from "@/lib/pricing";
+import { getVerifiedKycProfileForUser, kycVersions } from "@/lib/kyc";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const checkoutSchema = z.object({
@@ -33,6 +34,11 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: "Login required before checkout." }, { status: 401 });
+  }
+
+  const verifiedKyc = await getVerifiedKycProfileForUser(user.id);
+  if (!verifiedKyc) {
+    return NextResponse.json({ error: "Verified KYC is required before checkout." }, { status: 403 });
   }
 
   const uniqueSlugs = [...new Set(parsed.data.strategySlugs)];
@@ -65,8 +71,20 @@ export async function POST(request: Request) {
       tax_paise: basket.taxPaise,
       total_paise: basket.totalPaise,
       currency: basket.currency,
+      kyc_profile_id: verifiedKyc.id,
+      kyc_verified_at: verifiedKyc.verified_at ?? new Date().toISOString(),
+      terms_version: kycVersions.terms,
+      mitc_version: kycVersions.mitc,
+      disclaimer_version: "v1",
       fee_cap_acknowledged: true,
-      terms_accepted_at: new Date().toISOString()
+      terms_accepted_at: new Date().toISOString(),
+      fee_cap_snapshot: {
+        client_type: parsed.data.clientType,
+        annualized_total_paise: annualizedTotal,
+        individual_huf_cap_paise: individualFamilyAnnualFeeCapPaise,
+        fee_cap_relevant: feeCapRelevant,
+        kyc_profile_id: verifiedKyc.id
+      }
     })
     .select("id")
     .single();
@@ -136,4 +154,3 @@ export async function POST(request: Request) {
     razorpayKeyId: keyId
   });
 }
-

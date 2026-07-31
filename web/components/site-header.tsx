@@ -13,6 +13,7 @@ const navItems: Array<{ href: Route; label: string }> = [
   { href: "/strategies", label: "Strategies" },
   { href: "/performance", label: "Performance" },
   { href: "/compliance", label: "Compliance" },
+  { href: "/kyc", label: "KYC" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/contact", label: "Contact" }
 ];

@@ -1,6 +1,7 @@
 import { isAdmin } from "@/lib/access";
 
 const tasks = [
+  "Review KYC exceptions",
   "Import approved strategy package",
   "Review generated model portfolio",
   "Publish rebalance after RA approval",
@@ -28,6 +29,11 @@ export default async function AdminPage() {
               This is a v1 shell for the operational workflow. The database schema and strategy
               package contract are included so this can be wired to real imports next.
             </p>
+            {task === "Review KYC exceptions" && (
+              <a className="mt-4 inline-flex rounded bg-pine px-4 py-2 text-sm font-semibold text-white" href="/admin/kyc">
+                Open KYC queue
+              </a>
+            )}
           </div>
         ))}
       </div>

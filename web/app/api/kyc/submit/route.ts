@@ -15,6 +15,7 @@ import {
   normalizePincode,
   type KycDocumentType
 } from "@/lib/kyc";
+import { triggerKycWorker } from "@/lib/kyc-worker-trigger";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const kycSchema = z.object({
@@ -244,5 +245,12 @@ export async function POST(request: Request) {
     }))
   );
 
-  return NextResponse.json({ ok: true, kycProfileId: profile.id, status: "queued_for_validation" });
+  const workerTrigger = await triggerKycWorker(documentIds.length);
+
+  return NextResponse.json({
+    ok: true,
+    kycProfileId: profile.id,
+    status: "queued_for_validation",
+    workerTrigger
+  });
 }

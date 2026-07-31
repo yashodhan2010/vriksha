@@ -23,6 +23,8 @@ ADMIN_EMAILS=yashodhan@example.com,compliance@example.com
 RESEND_API_KEY=
 CONTACT_FROM_EMAIL=Vriksha Capital <enquiry@vriksha-capital.com>
 CONTACT_TO_EMAIL=enquiry@vriksha-capital.com
+KYC_WORKER_TRIGGER_URL=https://your-worker-domain.example.com/jobs/process
+KYC_WORKER_SECRET=long-random-worker-trigger-secret
 ```
 
 The OCR worker needs:
@@ -34,6 +36,7 @@ KYC_WORKER_ID=production-kyc-worker-01
 KYC_ADMIN_EMAIL=enquiry@vriksha-capital.com
 RESEND_API_KEY=
 CONTACT_FROM_EMAIL=Vriksha Capital <enquiry@vriksha-capital.com>
+KYC_WORKER_SECRET=long-random-worker-trigger-secret
 ```
 
 Do not expose `SUPABASE_SERVICE_ROLE_KEY` in browser code or client-visible settings.
@@ -69,6 +72,20 @@ Continuous local polling:
 python worker.py
 ```
 
+Local HTTP trigger service:
+
+```powershell
+$env:KYC_WORKER_SECRET="long-random-worker-trigger-secret"
+uvicorn server:app --host 127.0.0.1 --port 8088
+```
+
+Then set the web app locally:
+
+```text
+KYC_WORKER_TRIGGER_URL=http://127.0.0.1:8088/jobs/process
+KYC_WORKER_SECRET=long-random-worker-trigger-secret
+```
+
 ## Production Worker
 
 Run `kyc_worker/worker.py` as a persistent background worker on a small VPS or worker platform.
@@ -81,6 +98,15 @@ Recommended first deployment:
 Python venv
 pip install -r kyc_worker/requirements.txt
 systemd service running python worker.py
+```
+
+Recommended automatic mode:
+
+```text
+Run uvicorn server:app behind HTTPS
+Set KYC_WORKER_TRIGGER_URL in Vercel to https://worker-domain/jobs/process
+Set the same KYC_WORKER_SECRET in Vercel and the worker environment
+Keep python worker.py or a scheduled process as a fallback poller if desired
 ```
 
 ## KYC Status Flow

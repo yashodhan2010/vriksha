@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { isAdmin } from "@/lib/access";
+import { triggerKycWorker } from "@/lib/kyc-worker-trigger";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const rerunSchema = z.object({
@@ -67,5 +68,7 @@ export async function POST(request: Request) {
     metadata: { document_ids: documents.map((document) => document.id) }
   });
 
-  return NextResponse.json({ ok: true });
+  const workerTrigger = await triggerKycWorker(documents.length);
+
+  return NextResponse.json({ ok: true, workerTrigger });
 }

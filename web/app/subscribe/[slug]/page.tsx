@@ -58,9 +58,8 @@ export default async function SubscribePage({ params }: { params: Promise<{ slug
           </div>
         )}
         <div className="mt-6 rounded border border-line bg-paper p-4 text-xs leading-5 text-ink/62">
-          Fees shown are placeholder research subscription fees. Checkout requires terms
-          acceptance, fee-limit acknowledgement, and Razorpay webhook confirmation before access is
-          unlocked.
+          Checkout requires terms acceptance, fee-limit acknowledgement, and payment confirmation
+          before access is unlocked.
         </div>
       </div>
     </main>

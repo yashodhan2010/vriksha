@@ -184,7 +184,7 @@ export function PerformanceDisclosureGate({
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
       setStatus("error");
-      setMessage("Supabase is not configured yet.");
+      setMessage("Login is temporarily unavailable. Please try again later.");
       return;
     }
 

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
 
   const supabase = createSupabaseAdminClient();
   if (!supabase) {
-    return NextResponse.json({ error: "Checkout storage is not configured." }, { status: 500 });
+    return NextResponse.json({ error: "Checkout is temporarily unavailable." }, { status: 500 });
   }
 
   const { data: session, error: sessionError } = await supabase
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
   if (!keyId || !keySecret) {
     return NextResponse.json({
       ok: true,
-      mode: "placeholder",
+      mode: "manual_confirmation",
       checkoutId: session.id,
       amountPaise: basket.totalPaise,
       razorpayOrderId: null

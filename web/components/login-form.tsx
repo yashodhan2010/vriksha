@@ -45,7 +45,7 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
   async function verifyOtp() {
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
-      throw new Error("Supabase is not configured yet. Add the public Supabase keys to web/.env.local.");
+      throw new Error("Login is temporarily unavailable. Please try again later.");
     }
 
     const { error } = await supabase.auth.verifyOtp({

@@ -46,7 +46,7 @@ export function ContactMailForm() {
     setNotice(
       payload.emailSent
         ? "Message sent. We will get back to you soon."
-        : "Message saved. Email notification is not configured yet, but your enquiry is recorded."
+        : "Message received. We will get back to you soon."
     );
     setName("");
     setEmail("");

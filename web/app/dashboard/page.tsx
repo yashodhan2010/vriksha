@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { getStrategy, strategies } from "@/lib/data";
+import { strategies } from "@/lib/data";
 import { getCurrentUser, hasStrategyAccess } from "@/lib/access";
 
 export default async function DashboardPage() {
@@ -12,7 +12,6 @@ export default async function DashboardPage() {
     }))
   );
   const accessible = accessPairs.filter((item) => item.canAccess).map((item) => item.strategy);
-  const fallback = getStrategy("nifty-quality-momentum");
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -34,8 +33,8 @@ export default async function DashboardPage() {
         <section className="card mt-8 p-6">
           <h2 className="text-xl font-semibold">No active strategy access</h2>
           <p className="mt-2 text-sm leading-6 text-ink/68">
-            In production this page will read Supabase Auth plus active subscription/manual grants.
-            For local demo, set DEMO_SUBSCRIBED_STRATEGIES={fallback?.slug} in the web environment.
+            You do not currently have an active strategy subscription. Choose a strategy to unlock
+            the latest model portfolio and rebalance notes.
           </p>
           <Link href="/strategies" className="mt-4 inline-flex rounded bg-pine px-4 py-2 text-sm font-medium text-white">
             Browse strategies

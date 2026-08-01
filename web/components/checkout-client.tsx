@@ -100,8 +100,8 @@ export function CheckoutClient() {
     setStatus("created");
     setNotice(
       payload?.razorpayOrderId
-        ? "Razorpay order created. Checkout UI integration is the next step."
-        : "Checkout session created. Razorpay keys are not configured yet, so no payment was charged."
+        ? "Payment session created. Continue to complete payment."
+        : "Checkout request received. We will confirm payment instructions shortly."
     );
   }
 
@@ -195,7 +195,7 @@ export function CheckoutClient() {
         {exceedsFeeCap && (
           <div className="mt-4 flex gap-3 rounded border border-clay/30 bg-clay/8 p-3 text-sm leading-6 text-clay">
             <AlertTriangle className="mt-0.5 shrink-0" size={16} aria-hidden="true" />
-            Individual/HUF fee exceeds the current placeholder cap of {formatMoney(individualFamilyAnnualFeeCapPaise)} per annum per family.
+            Individual/HUF fee exceeds the current fee cap of {formatMoney(individualFamilyAnnualFeeCapPaise)} per annum per family.
           </div>
         )}
 

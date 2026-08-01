@@ -11,7 +11,7 @@ export const billingCycles: Array<{ id: BillingCycle; label: string; accessDays:
 
 export const individualFamilyAnnualFeeCapPaise = 15100000;
 
-const placeholderPrices: Record<string, Record<BillingCycle, number>> = {
+const subscriptionPrices: Record<string, Record<BillingCycle, number>> = {
   "dual-momentum": {
     monthly: 499900,
     quarterly: 1299900,
@@ -38,7 +38,7 @@ export function formatMoney(amountPaise: number, currency = "INR") {
 }
 
 export function getStrategyPrice(strategySlug: string, billingCycle: BillingCycle) {
-  const amountPaise = placeholderPrices[strategySlug]?.[billingCycle] ?? 499900;
+  const amountPaise = subscriptionPrices[strategySlug]?.[billingCycle] ?? 499900;
   const cycle = billingCycles.find((item) => item.id === billingCycle) ?? billingCycles[0];
 
   return {

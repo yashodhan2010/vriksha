@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fraunces, Inter } from "next/font/google";
 import { ShieldCheck } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import { raProfile, standardMarketRiskWarning } from "@/lib/compliance";
+import { raProfile } from "@/lib/compliance";
 import "./globals.css";
 
 const sans = Inter({
@@ -31,9 +31,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <noscript>
           <style>{".reveal{opacity:1!important;transform:none!important;}"}</style>
         </noscript>
-        <div className="bg-ink px-4 py-2 text-center text-[13px] font-medium leading-5 text-white">
-          <p className="container-page">{standardMarketRiskWarning}</p>
-        </div>
         <SiteHeader />
         {children}
         <footer className="border-t border-line bg-[#fffaf4]">

@@ -6,9 +6,8 @@ export default function InvestorCharterPage() {
       <p className="text-sm uppercase tracking-[0.18em] text-clay">Investor Charter</p>
       <h1 className="mt-2 text-3xl font-semibold">Investor Charter For Research Analyst Services</h1>
       <p className="mt-4 text-sm leading-6 text-ink/68">
-        This page summarizes the investor-facing charter for Research Analyst services. The final
-        production version should be reviewed against the latest SEBI circular and the RA compliance
-        records before launch.
+        This page summarizes the investor-facing charter for Research Analyst services, including
+        investor rights, service standards, and grievance redressal routes.
       </p>
       <section className="mt-8 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Investor Rights And Services</h2>

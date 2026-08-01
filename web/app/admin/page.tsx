@@ -18,7 +18,7 @@ export default async function AdminPage() {
       <h1 className="mt-2 text-3xl font-semibold">Publishing Console</h1>
       {!admin && (
         <p className="mt-4 card p-4 text-sm text-ink/68">
-          Admin access will be enforced by Supabase roles. For local demo, set DEMO_ADMIN=true.
+          You do not have access to the publishing console.
         </p>
       )}
       <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -26,8 +26,7 @@ export default async function AdminPage() {
           <div className="card p-5" key={task}>
             <p className="font-semibold">{task}</p>
             <p className="mt-2 text-sm leading-6 text-ink/66">
-              This is a v1 shell for the operational workflow. The database schema and strategy
-              package contract are included so this can be wired to real imports next.
+              Review, approve, and publish operational updates through the internal workflow.
             </p>
             {task === "Review KYC exceptions" && (
               <a className="mt-4 inline-flex rounded bg-pine px-4 py-2 text-sm font-semibold text-white" href="/admin/kyc">

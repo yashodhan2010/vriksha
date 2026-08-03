@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { Route } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, ShieldCheck, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -94,10 +95,14 @@ export function SiteHeader() {
     >
       <div className="container-page flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <span className="grid h-9 w-9 place-items-center rounded bg-pine text-white">
-            <ShieldCheck size={18} aria-hidden="true" />
-          </span>
-          <span className="font-serif text-lg tracking-tight">Vriksha</span>
+          <Image
+            src="/logo.png"
+            alt="Vriksha"
+            width={144}
+            height={40}
+            priority
+            className="h-10 w-auto"
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm text-ink/72 md:flex">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Fraunces, Inter } from "next/font/google";
-import { ShieldCheck } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { raProfile } from "@/lib/compliance";
 import "./globals.css";
@@ -21,7 +21,12 @@ const serif = Fraunces({
 
 export const metadata: Metadata = {
   title: "Vriksha",
-  description: "SEBI RA-backed model portfolio strategy subscriptions."
+  description: "SEBI RA-backed model portfolio strategy subscriptions.",
+  icons: {
+    icon: "/emblem.png",
+    shortcut: "/emblem.png",
+    apple: "/emblem.png"
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -37,10 +42,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="container-page grid gap-10 py-10 md:grid-cols-[1.3fr_1fr]">
             <div>
               <Link href="/" className="flex w-fit items-center gap-2 font-serif text-lg font-semibold text-ink transition-opacity duration-180 hover:opacity-80">
-                <span className="grid h-8 w-8 place-items-center rounded bg-pine text-white">
-                  <ShieldCheck size={16} aria-hidden="true" />
-                </span>
-                Vriksha
+                <Image
+                  src="/logo.png"
+                  alt="Vriksha"
+                  width={132}
+                  height={36}
+                  className="h-9 w-auto"
+                />
               </Link>
               <p className="mt-4 max-w-md text-sm leading-6 text-ink/68">
                 Vriksha publishes model portfolios and research notes under a SEBI RA framework.

@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
 import { PeriodPerformanceView } from "@/components/period-performance-view";
+import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { getStrategy } from "@/lib/data";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 
@@ -55,6 +56,12 @@ export default async function StrategyPerformancePage({
           Model portfolios are research products and are not trade execution services.
         </p>
       </section>
+
+      <RegistrationDisclosureBlock
+        className="mt-6"
+        suitability={strategy.suitability}
+        targetInvestor={strategy.targetInvestor}
+      />
     </main>
   );
 }

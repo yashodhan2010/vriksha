@@ -24,6 +24,13 @@ export type PeriodPerformancePoint = {
   benchmark: number;
 };
 
+type NormalizedPoint = {
+  month: string;
+  date: Date;
+  strategy: number;
+  benchmark: number;
+};
+
 export const performancePeriods: PerformancePeriod[] = [
   { key: "1m", label: "1M", months: 1 },
   { key: "6m", label: "6M", months: 6 },
@@ -42,6 +49,31 @@ function annualizedReturn(totalReturn: number, months: number) {
   return (Math.pow(1 + totalReturn / 100, 12 / months) - 1) * 100;
 }
 
+function parseMonthKey(month: string) {
+  const parsed = new Date(`${month}-01T00:00:00Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function monthDiff(start: Date, end: Date) {
+  return (end.getUTCFullYear() - start.getUTCFullYear()) * 12 + (end.getUTCMonth() - start.getUTCMonth());
+}
+
+function inferCadenceMonths(points: NormalizedPoint[]) {
+  if (points.length < 2) return 1;
+
+  const diffs = points
+    .slice(1)
+    .map((point, index) => monthDiff(points[index].date, point.date))
+    .filter((value) => value > 0);
+
+  if (diffs.length === 0) return 1;
+
+  const counts = new Map<number, number>();
+  diffs.forEach((diff) => counts.set(diff, (counts.get(diff) ?? 0) + 1));
+
+  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 1;
+}
+
 function normalizeMonthlyReturns(data: Strategy["monthlyReturns"]) {
   const grouped = new Map<string, Strategy["monthlyReturns"]>();
 
@@ -51,20 +83,46 @@ function normalizeMonthlyReturns(data: Strategy["monthlyReturns"]) {
 
   return Array.from(grouped.entries())
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([month, items]) => ({
-      month,
-      strategy: compoundReturn(items.map((item) => item.strategy)),
-      benchmark: items[items.length - 1].benchmark
-    }));
+    .map(([month, items]) => {
+      const date = parseMonthKey(month);
+      if (!date) return null;
+
+      return {
+        month,
+        date,
+        strategy: compoundReturn(items.map((item) => item.strategy)),
+        benchmark: items[items.length - 1].benchmark
+      };
+    })
+    .filter((item): item is NormalizedPoint => item !== null);
 }
 
 function getWindow(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
-  const monthlyReturns = normalizeMonthlyReturns(data);
-  if (monthlyReturns.length === 0) return [];
-  const months = period.key === "max" ? Math.min(period.months, monthlyReturns.length) : period.months;
-  if (period.key !== "max" && monthlyReturns.length < months) return [];
+  const points = normalizeMonthlyReturns(data);
+  if (points.length === 0) return [];
 
-  return monthlyReturns.slice(-months);
+  const latest = points[points.length - 1].date;
+  const cadenceMonths = inferCadenceMonths(points);
+
+  if (period.key !== "max" && period.months < cadenceMonths) {
+    return [];
+  }
+
+  const cutoff = new Date(Date.UTC(latest.getUTCFullYear(), latest.getUTCMonth() - period.months + 1, 1));
+  const window = period.key === "max"
+    ? points.filter((point) => point.date >= cutoff)
+    : points.filter((point) => point.date >= cutoff);
+
+  if (window.length === 0) return [];
+
+  if (period.key !== "max") {
+    const coveredMonths = monthDiff(window[0].date, latest) + cadenceMonths;
+    if (coveredMonths < period.months) {
+      return [];
+    }
+  }
+
+  return window;
 }
 
 function getWindowStartMonth(data: Strategy["monthlyReturns"], period: PerformancePeriod) {
@@ -84,6 +142,10 @@ export function getPeriodReturns(strategy: Strategy): PeriodReturn[] {
   return performancePeriods.map((period) => {
     const data = getWindow(strategy.monthlyReturns, period);
     const startMonth = getWindowStartMonth(strategy.monthlyReturns, period);
+    const cadenceMonths = inferCadenceMonths(data);
+    const monthsCovered = data.length === 0
+      ? 0
+      : monthDiff(data[0].date, data[data.length - 1].date) + cadenceMonths;
     const totalReturn = data.length > 0 ? compoundReturn(data.map((item) => item.strategy)) : null;
 
     return {
@@ -91,9 +153,9 @@ export function getPeriodReturns(strategy: Strategy): PeriodReturn[] {
       label: period.label,
       strategy: totalReturn,
       benchmark: data.length > 0 ? compoundReturn(data.map((item) => item.benchmark)) : null,
-      cagr: totalReturn === null ? null : annualizedReturn(totalReturn, data.length),
+      cagr: totalReturn === null ? null : annualizedReturn(totalReturn, monthsCovered),
       maxDrawdown: data.length > 0 ? getMaxDrawdown(strategy, startMonth) : null,
-      monthsUsed: data.length
+      monthsUsed: monthsCovered
     };
   });
 }

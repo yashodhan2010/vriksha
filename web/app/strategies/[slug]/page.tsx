@@ -12,6 +12,7 @@ import {
   TrendingUp
 } from "lucide-react";
 import { Paywall } from "@/components/paywall";
+import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy } from "@/lib/data";
@@ -114,9 +115,31 @@ export default async function StrategyDetailPage({
             SEBI registration: {strategy.sebiRegistration}. Backtests are illustrative and depend on
             assumptions documented in the strategy package.
           </p>
+          {strategy.benchmarkComposition && (
+            <p className="mt-2 text-xs leading-5 text-ink/58">
+              Benchmark composition: {strategy.benchmarkComposition}
+            </p>
+          )}
         </div>
         </Reveal>
       </section>
+
+      {strategy.keyRisks && strategy.keyRisks.length > 0 && (
+        <section className="mt-10 card p-6">
+          <h2 className="text-xl font-semibold">Key Risks</h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-ink/72">
+            {strategy.keyRisks.map((risk) => (
+              <li key={risk}>{risk}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <RegistrationDisclosureBlock
+        className="mt-10"
+        suitability={strategy.suitability}
+        targetInvestor={strategy.targetInvestor}
+      />
 
       <section className="mt-10">
         {canViewPortfolio ? (

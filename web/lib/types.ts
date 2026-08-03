@@ -33,6 +33,7 @@ export type Strategy = {
   status: "Open" | "Coming soon";
   labels: StrategyLabel[];
   benchmark: string;
+  benchmarkComposition?: string;
   universe: string;
   rebalanceFrequency: string;
   targetHoldings: number;
@@ -42,6 +43,9 @@ export type Strategy = {
   sebiRegistration: string;
   methodology: string[];
   methodologySections?: Array<{ title: string; body: string }>;
+  suitability?: string;
+  targetInvestor?: string;
+  keyRisks?: string[];
   metrics: StrategyMetric[];
   monthlyReturns: Array<{ month: string; strategy: number; benchmark: number }>;
   yearlyReturns: Array<{ year: string; strategy: number; benchmark: number }>;

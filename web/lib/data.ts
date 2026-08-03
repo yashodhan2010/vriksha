@@ -1,5 +1,71 @@
 import type { Strategy } from "./types";
 import importedStrategies from "./imported-strategies.json";
+import { raProfile } from "./compliance";
+
+const momentumKeyRisks = [
+  "Turnover risk: periodic reshuffles can increase transaction costs and reduce realised returns.",
+  "Whipsaw risk: trend reversals in range-bound markets can trigger losses around rebalance points.",
+  "Factor-crowding risk: momentum exposures can correct sharply when market leadership rotates.",
+  "Concentration risk: high-scoring names and sectors can cluster despite rule-based diversification.",
+  "Gap risk between rebalances: large overnight moves can materially change realised portfolio outcomes.",
+  "Capacity and market-impact risk: larger deployment can increase slippage, especially in less liquid constituents.",
+  "Tracking and execution risk for subscribers: delays, lot-size constraints, and rounding can create return drift.",
+  "Model risk: published outputs depend on historical data quality, assumptions, and fixed rule interpretation."
+];
+
+function normalizeMethodologyText(value: string) {
+  return value
+    .replace(
+      /proprietary blend of price trend, consistency of movement, implementation-cost awareness, and risk controls\.?/gi,
+      "disclosed rule-set combining price trend, consistency of movement, implementation-cost awareness, and risk controls; exact ranking parameters remain private."
+    )
+    .replace(
+      /proprietary blend of price trend, consistency of movement, and risk controls\.?/gi,
+      "disclosed rule-set combining price trend, consistency of movement, and risk controls; exact ranking parameters remain private."
+    )
+    .replace(
+      /10-year CAGR above 20%/gi,
+      "a long-horizon return threshold used in internal research tests"
+    );
+}
+
+function normalizeStrategy(strategy: Strategy): Strategy {
+  const normalized: Strategy = {
+    ...strategy,
+    labels: strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label)),
+    minCapital: !strategy.minCapital || /not specified/i.test(strategy.minCapital)
+      ? "INR 1,00,000 (minimum practical basket size for implementation)"
+      : strategy.minCapital,
+    raName: /prathamesh/i.test(strategy.raName) ? "Prathmesh Gupta" : strategy.raName,
+    sebiRegistration: strategy.sebiRegistration?.trim() || raProfile.sebiRegistrationNumber,
+    suitability: "NA",
+    targetInvestor: "NA",
+    benchmarkComposition: strategy.benchmark === "NIFTY 500 TRI"
+      ? "NIFTY 500 TRI: free-float market-cap weighted broad-market index across 500 listed Indian equities."
+      : strategy.benchmark,
+    methodology: strategy.methodology.map((item) => normalizeMethodologyText(item)),
+    methodologySections: strategy.methodologySections?.map((section) => ({
+      ...section,
+      body: normalizeMethodologyText(section.body)
+    }))
+  };
+
+  if (normalized.slug === "conservative-dual-momentum") {
+    normalized.name = "Dual Momentum (Relative Conservative Variant)";
+    normalized.subtitle = "A broader-basket Nifty 500 dual-momentum model portfolio calibrated for smoother participation relative to the standard dual-momentum variant.";
+  }
+
+  if (normalized.slug === "low-drawdown-dual-momentum") {
+    normalized.name = "Dual Momentum (Historically Lower Drawdown Variant)";
+    normalized.subtitle = "A Nifty 500 dual-momentum model portfolio variant selected using lower historical drawdown filters in internal research, with no future drawdown assurance.";
+  }
+
+  if (["dual-momentum", "conservative-dual-momentum", "low-drawdown-dual-momentum"].includes(normalized.slug)) {
+    normalized.keyRisks = momentumKeyRisks;
+  }
+
+  return normalized;
+}
 
 const fallbackStrategies: Strategy[] = [
   {
@@ -82,10 +148,7 @@ const fallbackStrategies: Strategy[] = [
 
 export const strategies: Strategy[] =
   Array.isArray(importedStrategies) && importedStrategies.length > 0
-    ? (importedStrategies as Strategy[]).map((strategy) => ({
-      ...strategy,
-      labels: strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label))
-    }))
+    ? (importedStrategies as Strategy[]).map((strategy) => normalizeStrategy(strategy))
     : fallbackStrategies;
 
 export function getStrategy(slug: string) {

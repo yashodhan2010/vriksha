@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { KycForm } from "@/components/kyc-form";
 import { getCurrentUser } from "@/lib/access";
 import { getLatestKycProfileForUser, isVerifiedKycStatus } from "@/lib/kyc";
@@ -60,6 +61,9 @@ async function getDocuments(profileId: string) {
 
 export default async function KycPage() {
   const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login?next=/kyc");
+  }
   const profile = user ? await getLatestKycProfileForUser(user.id) : null;
   const documents = profile ? await getDocuments(profile.id) : [];
   const currentStatus = profile?.status ?? "not_started";
@@ -73,18 +77,6 @@ export default async function KycPage() {
         Fee-paying research clients must complete KYC before checkout. Documents are stored in a
         private bucket and routed through OCR matching before any manual compliance review.
       </p>
-
-      {!user && (
-        <section className="card mt-8 p-6">
-          <h2 className="text-xl font-semibold">Login required</h2>
-          <p className="mt-2 text-sm leading-6 text-ink/68">
-            Login identifies the client before KYC records are created.
-          </p>
-          <Link href="/login?next=/kyc" className="mt-4 inline-flex rounded bg-ink px-4 py-2 text-sm font-medium text-white">
-            Login to continue
-          </Link>
-        </section>
-      )}
 
       {user && isVerifiedKycStatus(profile?.status) && (
         <section className="card-accent-pine mt-8 p-6">

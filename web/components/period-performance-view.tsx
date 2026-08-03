@@ -121,15 +121,15 @@ export function PeriodPerformanceView({
         {activePeriodReturn && (
           <div className="mb-4 grid gap-3 border-b border-line pb-4 sm:grid-cols-3">
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">Strategy return</p>
+              <p className="text-xs uppercase tracking-wide text-ink/52">Backtest return</p>
               <p className="mt-1 text-lg font-semibold tabular-nums text-moss">
                 {formatPercent(activePeriodReturn.strategy)}
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">CAGR</p>
+              <p className="text-xs uppercase tracking-wide text-ink/52">CAGR (1Y+)</p>
               <p className="mt-1 text-lg font-semibold tabular-nums text-ink">
-                {formatPercent(activePeriodReturn.cagr)}
+                {activePeriodReturn.monthsUsed < 12 ? "NA" : formatPercent(activePeriodReturn.cagr)}
               </p>
             </div>
             <div>
@@ -143,7 +143,7 @@ export function PeriodPerformanceView({
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className={compact ? "text-base font-semibold" : "text-lg font-semibold"}>
-              Cumulative Return
+              Cumulative Backtest Return
             </h3>
             <p className="text-sm text-ink/58">Strategy vs {strategy.benchmark}</p>
             {dateRange && (

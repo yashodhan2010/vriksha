@@ -47,6 +47,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 Model portfolios are research products and are not trade execution services. All
                 returns shown are subject to assumptions, costs, market risk, and methodology limits.
               </p>
+              <p className="mt-3 max-w-md text-sm leading-6 text-ink/68">
+                Information provided by Vriksha-Capital through its website is for informational and
+                educational purpose and is not a solicitation to buy any of our products.
+              </p>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/52">

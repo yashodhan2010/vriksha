@@ -82,7 +82,10 @@ const fallbackStrategies: Strategy[] = [
 
 export const strategies: Strategy[] =
   Array.isArray(importedStrategies) && importedStrategies.length > 0
-    ? (importedStrategies as Strategy[])
+    ? (importedStrategies as Strategy[]).map((strategy) => ({
+      ...strategy,
+      labels: strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label))
+    }))
     : fallbackStrategies;
 
 export function getStrategy(slug: string) {

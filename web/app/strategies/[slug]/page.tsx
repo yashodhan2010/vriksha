@@ -11,15 +11,11 @@ import {
   TrendingDown,
   TrendingUp
 } from "lucide-react";
-import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
-import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
-import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { Paywall } from "@/components/paywall";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
-import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import type { Rebalance } from "@/lib/types";
 
@@ -57,7 +53,7 @@ export default async function StrategyDetailPage({
       <section className="grid gap-8 lg:grid-cols-[1fr_320px]">
         <div>
           <div className="flex flex-wrap gap-2">
-            {strategy.labels.map((label) => (
+            {strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label)).map((label) => (
               <span className="rounded bg-sky px-3 py-1 text-xs font-medium" key={label}>
                 {label}
               </span>
@@ -76,39 +72,14 @@ export default async function StrategyDetailPage({
           </div>
           <div className="mt-5 grid gap-2">
             <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
+            <Link href={`/strategies/${strategy.slug}/performance`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
+              View backtest performance
+            </Link>
             <Link href={`/subscribe/${strategy.slug}`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
               Subscription details
             </Link>
           </div>
         </aside>
-      </section>
-
-      <PerformanceDisclosureGate
-        acknowledgementKey={`strategy:${strategy.slug}`}
-        className="mt-10"
-      >
-        <section className="mt-10">
-          <PeriodPerformanceView strategy={strategy} />
-        </section>
-        <section className="mt-10 grid gap-6 lg:grid-cols-2">
-          <div>
-            <h2 className="text-xl font-semibold">Monthly Return Path</h2>
-            <div className="mt-4"><MonthlyPerformanceChart data={strategy.monthlyReturns} /></div>
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold">Calendar Year Returns</h2>
-            <div className="mt-4"><YearlyReturnChart data={strategy.yearlyReturns} /></div>
-          </div>
-        </section>
-      </PerformanceDisclosureGate>
-
-      <section className="mt-6 card p-5 text-sm leading-6 text-ink/70">
-        <p className="font-semibold text-ink">{standardMarketRiskWarning}</p>
-        <p className="mt-2">{standardSebiDisclaimer}</p>
-        <p className="mt-2">
-          Backtested returns are illustrative and do not indicate guaranteed future performance.
-          Model portfolios are research products and are not trade execution services.
-        </p>
       </section>
 
       <section className="mt-10">

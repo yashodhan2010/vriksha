@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileCheck2, LockKeyhole, ShieldCheck, UploadCloud } from "lucide-react";
+import { ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react";
 import { GrowthMotif } from "@/components/growth-motif";
 import { Reveal } from "@/components/reveal";
 import { strategies } from "@/lib/data";
@@ -14,7 +14,7 @@ const processSteps = [
   {
     step: "02",
     title: "Acknowledge the risk notice",
-    text: "Request to view historical and backtested performance after reading the standard risk disclosures."
+    text: "Request to view historical backtest performance after reading the standard risk disclosures."
   },
   {
     step: "03",
@@ -38,13 +38,11 @@ export default function HomePage() {
         <GrowthMotif className="pointer-events-none absolute -right-10 -top-16 hidden h-[420px] w-[420px] sm:block lg:h-[520px] lg:w-[520px]" />
         <div className="container-page relative grid min-h-[calc(100vh-4rem)] content-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-white/68">SEBI RA model portfolios</p>
             <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-              Vriksha strategy subscriptions
+              Research-backed quant model portfolio subscriptions for Indian equities
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/74">
-              Browse public strategy research, explicitly request to view backtested performance,
-              and subscribe for access to the latest model portfolio and recent rebalances.
+              Differentiated quant based model portfolio strategies.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link href="/strategies" className="btn bg-white text-pine hover:bg-white/90">
@@ -70,9 +68,9 @@ export default function HomePage() {
               <div className="flex items-start gap-3">
                 <LockKeyhole className="mt-0.5 shrink-0" size={18} aria-hidden="true" />
                 <div>
-                  <p className="font-semibold">Performance details locked</p>
+                  <p className="font-semibold">Backtest performance details locked</p>
                   <p className="mt-2 leading-6 text-white/72">
-                    Historical and backtested returns are shown only after an explicit risk
+                    Historical backtest returns are shown only after an explicit risk
                     acknowledgement on the strategy page.
                   </p>
                   <Link
@@ -144,23 +142,6 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      <section className="container-page section-tight">
-        <Reveal className="grid gap-4 md:grid-cols-3">
-          {[
-            { icon: FileCheck2, title: "Public research pages", text: "Backtest metrics, methodology, benchmark comparison, risk notes, and disclosures." },
-            { icon: LockKeyhole, title: "Subscriber paywall", text: "Latest model portfolio and last five rebalances are gated by active strategy access." },
-            { icon: UploadCloud, title: "Strategy package import", text: "Approved strategy outputs are validated, parsed, and published without recalculating the strategy." }
-          ].map((item) => (
-            <div className="card p-6" key={item.title}>
-              <span className="icon-chip">
-                <item.icon size={18} aria-hidden="true" />
-              </span>
-              <h2 className="mt-4 text-lg font-semibold">{item.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-ink/68">{item.text}</p>
-            </div>
-          ))}
-        </Reveal>
-      </section>
     </main>
   );
 }

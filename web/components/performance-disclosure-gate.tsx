@@ -272,10 +272,10 @@ export function PerformanceDisclosureGate({
           </span>
           <div className="w-full">
             <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-              Verify email to request performance
+              Verify email to request backtest performance
             </h2>
             <p className="mt-2 text-sm leading-6 text-ink/70">
-              Unlock the performance section with return charts, benchmark comparisons, and risk
+              Unlock the backtest performance section with return charts, benchmark comparisons, and risk
               context after a verified one-to-one request.
             </p>
             <LockedValueSummary />
@@ -361,10 +361,10 @@ export function PerformanceDisclosureGate({
         </span>
         <div>
           <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-            Performance details are hidden
+            Backtest performance details are hidden
           </h2>
           <p className="mt-2 text-sm leading-6 text-ink/70">
-            Unlock the performance section with return charts, benchmark comparisons, and risk
+            Unlock the backtest performance section with return charts, benchmark comparisons, and risk
             context after acknowledging the related risks and limitations.
           </p>
           <LockedValueSummary />

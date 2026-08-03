@@ -11,9 +11,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 const navItems: Array<{ href: Route; label: string }> = [
   { href: "/", label: "Home" },
   { href: "/strategies", label: "Strategies" },
-  { href: "/performance", label: "Performance" },
   { href: "/compliance", label: "Compliance" },
-  { href: "/kyc", label: "KYC" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/contact", label: "Contact" }
 ];
@@ -63,6 +61,10 @@ export function SiteHeader() {
     window.location.href = "/";
   }
 
+  const visibleNavItems = loggedIn
+    ? [...navItems.slice(0, 3), { href: "/kyc" as Route, label: "KYC" }, ...navItems.slice(3)]
+    : navItems;
+
   useEffect(() => {
     if (!open) return;
 
@@ -99,7 +101,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm text-ink/72 md:flex">
-          {navItems.map((item) => {
+          {visibleNavItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <Link
@@ -170,7 +172,7 @@ export function SiteHeader() {
       >
         <div className="overflow-hidden">
           <nav id="mobile-nav" className="container-page flex flex-col gap-1 border-t border-line py-3">
-            {navItems.map((item) => {
+            {visibleNavItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link

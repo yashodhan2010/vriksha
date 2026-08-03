@@ -8,15 +8,11 @@ import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 export default function StrategyCatalogPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-3">
         <div>
           <p className="text-sm uppercase tracking-[0.18em] text-clay">Catalog</p>
-          <h1 className="mt-2 text-3xl font-semibold">Strategies</h1>
+          <h1 className="mt-2 text-3xl font-semibold">Stock Baskets</h1>
         </div>
-        <p className="max-w-2xl text-sm leading-6 text-ink/68">
-          Public pages show performance, methodology, risk, and benchmark context. Subscriber-only
-          pages reveal the current model portfolio and rebalance trail.
-        </p>
       </div>
       <div className="mt-8">
         <Reveal className="grid gap-4 md:grid-cols-2">
@@ -35,7 +31,7 @@ export default function StrategyCatalogPage() {
               <ArrowRight size={18} aria-hidden="true" />
             </div>
             <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap gap-2">
-              {strategy.labels.map((label) => (
+              {strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label)).map((label) => (
                 <span className="rounded bg-sky px-3 py-1 text-xs font-medium text-ink" key={label}>
                   {label}
                 </span>
@@ -43,8 +39,8 @@ export default function StrategyCatalogPage() {
             </div>
             <div className="pointer-events-none relative z-20 mt-6 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-line bg-white p-4 text-sm">
               <div>
-                <p className="font-semibold">Performance details locked</p>
-                <p className="mt-1 text-ink/58">Open the strategy page to explicitly request historical returns.</p>
+                <p className="font-semibold">Backtest performance details locked</p>
+                <p className="mt-1 text-ink/58">Open the strategy page to explicitly request historical backtest returns.</p>
               </div>
               <LockKeyhole size={18} aria-hidden="true" />
             </div>

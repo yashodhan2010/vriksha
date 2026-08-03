@@ -96,12 +96,12 @@ export function SiteHeader() {
       <div className="container-page flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Image
-            src="/logo.png"
+            src="/logo-cropped.png"
             alt="Vriksha"
-            width={144}
-            height={40}
+            width={180}
+            height={56}
             priority
-            className="h-10 w-auto"
+            className="h-12 w-auto"
           />
         </Link>
 

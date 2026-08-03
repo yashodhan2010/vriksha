@@ -76,7 +76,7 @@ cd "C:\Users\Yashodhan\OneDrive\Documents\Vriksha\vriksha"
 | Typecheck website | `cd web; npm run typecheck` |
 | Build website | `cd web; npm run build` |
 | Validate full strategy package | `python strategy_importer\package_contract.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\strategy-package"` |
-| Import full strategy package | `python strategy_importer\import_package.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\strategy-package"c:\Users\Yashodhan\Downloads\Dashboard - Wright Research.html` |
+| Import full strategy package | `python strategy_importer\import_package.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\strategy-package"` |
 | Import all strategy packages | `python strategy_importer\import_all_packages.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages" --reset` |
 | Validate model portfolio update | `python strategy_importer\package_contract.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\model-portfolio-update" --kind update` |
 | Import model portfolio update | `python strategy_importer\import_package.py "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-manager\data\output\packages\dual-momentum\model-portfolio-update" --kind update` |

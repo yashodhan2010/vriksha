@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   title: "Vriksha",
   description: "SEBI RA-backed model portfolio strategy subscriptions.",
   icons: {
-    icon: "/emblem.png",
-    shortcut: "/emblem.png",
-    apple: "/emblem.png"
+    icon: "/emblem-cropped.png",
+    shortcut: "/emblem-cropped.png",
+    apple: "/emblem-cropped.png"
   }
 };
 
@@ -43,11 +43,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div>
               <Link href="/" className="flex w-fit items-center gap-2 font-serif text-lg font-semibold text-ink transition-opacity duration-180 hover:opacity-80">
                 <Image
-                  src="/logo.png"
+                  src="/logo-cropped.png"
                   alt="Vriksha"
-                  width={132}
-                  height={36}
-                  className="h-9 w-auto"
+                  width={180}
+                  height={56}
+                  className="h-12 w-auto"
                 />
               </Link>
               <p className="mt-4 max-w-md text-sm leading-6 text-ink/68">

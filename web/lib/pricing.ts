@@ -20,9 +20,9 @@ function tieredPrice(monthlyPaise: number): Record<BillingCycle, number> {
 }
 
 const subscriptionPrices: Record<string, Record<BillingCycle, number>> = {
-  "dual-momentum": tieredPrice(750000),
-  "conservative-dual-momentum": tieredPrice(750000),
-  "low-drawdown-dual-momentum": tieredPrice(650000),
+  "dual-momentum": tieredPrice(650000),
+  "conservative-dual-momentum": tieredPrice(350000),
+  "low-drawdown-dual-momentum": tieredPrice(250000),
   "diversified-asset-income": tieredPrice(100000)
 };
 

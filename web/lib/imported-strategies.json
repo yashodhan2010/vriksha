@@ -21720,7 +21720,7 @@
     "price": "Subscription required",
     "public_name": "Asset Allocation - Mahogany Root ETF Edition",
     "raName": "Prathamesh Gupta",
-    "rebalanceFrequency": "Monthly",
+    "rebalanceFrequency": "Quarterly",
     "rebalances": [
       {
         "changes": [
@@ -21907,7 +21907,7 @@
     "slug": "diversified-asset-income",
     "status": "Open",
     "subtitle": "A fixed-weight multi-asset portfolio across InvIT, REIT, gold, debt, and Nifty 50 sleeves with quarterly rebalancing.",
-    "targetHoldings": 25,
+    "targetHoldings": 5,
     "universe": "InvIT, REIT, Gold, Debt, Nifty 50",
     "yearlyReturns": [
       {

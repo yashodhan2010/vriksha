@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
+  ArrowLeft,
   ArrowLeftRight,
   CalendarDays,
   ChevronDown,
   Download,
   IndianRupee,
   ListChecks,
+  LockKeyhole,
   Minus,
   Plus,
   TrendingDown,
@@ -19,6 +21,7 @@ import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
+import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
 import type { Rebalance } from "@/lib/types";
 
 const actionStyles: Record<Rebalance["changes"][number]["action"], { icon: typeof Plus; className: string }> = {
@@ -49,9 +52,19 @@ export default async function StrategyDetailPage({
   const strategy = getStrategy(slug);
   if (!strategy) notFound();
   const canViewPortfolio = await hasStrategyAccess(strategy.slug);
+  const family = getFamilyMeta(getStrategyFamily(strategy));
+  const edition = getEditionMeta(getStrategyEdition(strategy));
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Link
+        href="/strategies"
+        className="mb-6 inline-flex items-center gap-2 rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink/72 transition duration-180 hover:border-pine/40 hover:text-pine"
+        aria-label="Back to all strategies"
+      >
+        <ArrowLeft size={16} aria-hidden="true" />
+        All strategies
+      </Link>
       <section className="grid gap-8 lg:grid-cols-[1fr_320px]">
         <div>
           <div className="flex flex-wrap gap-2">
@@ -63,6 +76,14 @@ export default async function StrategyDetailPage({
           </div>
           <h1 className="mt-4 text-4xl font-semibold">{strategy.name}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-ink/70">{strategy.subtitle}</p>
+          <div className="mt-5 flex flex-wrap gap-3 text-sm">
+            <span className="rounded border border-pine/20 bg-pine/10 px-3 py-2 font-semibold text-pine">
+              {family.label} · {family.signal}
+            </span>
+            <span className="rounded border border-gold/30 bg-gold/20 px-3 py-2 font-semibold text-ink/72">
+              {edition.label} · {edition.summary}
+            </span>
+          </div>
         </div>
         <aside className="card p-5">
           <div className="space-y-4 text-sm">
@@ -74,14 +95,40 @@ export default async function StrategyDetailPage({
           </div>
           <div className="mt-5 grid gap-2">
             <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
-            <Link href={`/strategies/${strategy.slug}/performance`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
-              View backtest performance
-            </Link>
             <Link href={`/subscribe/${strategy.slug}`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
               Subscription details
             </Link>
           </div>
         </aside>
+      </section>
+
+      <section className="relative mt-8 overflow-hidden rounded border border-line/80 bg-white/58 p-4 shadow-sm backdrop-blur">
+        <div className="absolute inset-0 opacity-70" aria-hidden="true">
+          <div className="grid h-full grid-cols-3 gap-3 p-4 blur-[2px]">
+            {strategy.metrics.slice(0, 3).map((metric) => (
+              <div className="rounded border border-line bg-paper/82 p-4" key={metric.label}>
+                <p className="text-xs uppercase tracking-[0.14em] text-ink/46">{metric.label}</p>
+                <p className="mt-3 h-7 rounded bg-line/70" />
+                <p className="mt-3 h-3 w-2/3 rounded bg-line/60" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative z-10 flex min-h-32 flex-col items-start justify-center gap-3 rounded bg-paper/72 p-5 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">Locked research view</p>
+            <p className="mt-2 text-sm leading-6 text-ink/68">
+              A historical return path and period-by-period performance view is available after the disclosure acknowledgement.
+            </p>
+          </div>
+          <Link
+            href={`/strategies/${strategy.slug}/performance`}
+            className="inline-flex items-center justify-center gap-2 rounded bg-ink px-4 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white transition duration-180 hover:bg-pine"
+          >
+            <LockKeyhole size={16} aria-hidden="true" />
+            VIEW BACKTEST PERFORMANCE
+          </Link>
+        </div>
       </section>
 
       <div className="mt-8 flex justify-center">

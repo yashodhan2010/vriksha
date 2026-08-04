@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { createSupabaseServerClient } from "./supabase/server";
 
 function hasDemoStrategyAccess(strategySlug: string) {
@@ -13,7 +14,16 @@ function isAdminEmail(email: string | undefined | null) {
     .includes(email.toLowerCase()) ?? false;
 }
 
+async function hasSupabaseAuthCookie() {
+  const cookieStore = await cookies();
+  return cookieStore.getAll().some((cookie) => /^sb-.+-auth-token/.test(cookie.name));
+}
+
 export async function getCurrentUser() {
+  if (!(await hasSupabaseAuthCookie())) {
+    return null;
+  }
+
   const supabase = await createSupabaseServerClient();
   if (!supabase) {
     return null;
@@ -29,6 +39,10 @@ export async function getCurrentUser() {
 export async function hasStrategyAccess(strategySlug: string) {
   if (hasDemoStrategyAccess(strategySlug)) {
     return true;
+  }
+
+  if (!(await hasSupabaseAuthCookie())) {
+    return false;
   }
 
   const supabase = await createSupabaseServerClient();
@@ -75,6 +89,10 @@ export async function hasStrategyAccess(strategySlug: string) {
 export async function isAdmin() {
   if (process.env.DEMO_ADMIN === "true") {
     return true;
+  }
+
+  if (!(await hasSupabaseAuthCookie())) {
+    return false;
   }
 
   const supabase = await createSupabaseServerClient();

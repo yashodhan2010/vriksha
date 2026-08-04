@@ -11,6 +11,7 @@ import {
   type BillingCycle,
   type ClientType
 } from "@/lib/pricing";
+import { getFamilyMeta, getStrategyFamily } from "@/lib/strategy-taxonomy";
 
 const basketStorageKey = "vriksha-strategy-basket";
 const cycleStorageKey = "vriksha-billing-cycle";
@@ -39,6 +40,19 @@ export function CheckoutClient() {
   const basketDetails = useMemo(
     () => calculateBasket(basket, billingCycle),
     [basket, billingCycle]
+  );
+  const groupedBasket = basketDetails.items.reduce<Array<{ family: ReturnType<typeof getFamilyMeta>; items: typeof basketDetails.items }>>(
+    (groups, item) => {
+      const family = getFamilyMeta(getStrategyFamily(item.strategy));
+      const existing = groups.find((group) => group.family.id === family.id);
+      if (existing) {
+        existing.items.push(item);
+      } else {
+        groups.push({ family, items: [item] });
+      }
+      return groups;
+    },
+    []
   );
 
   const annualizedTotal =
@@ -127,27 +141,38 @@ export function CheckoutClient() {
               Your basket is empty.
             </div>
           ) : (
-            basketDetails.items.map(({ strategy, price }) => (
-              <article className="rounded border border-line bg-white p-4" key={strategy.slug}>
-                <div className="flex items-start justify-between gap-4">
+            groupedBasket.map(({ family, items }) => (
+              <section className="grid gap-3" key={family.id}>
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <h2 className="font-semibold">{strategy.name}</h2>
-                    <p className="mt-1 text-sm leading-6 text-ink/62">{strategy.subtitle}</p>
-                    <p className="mt-2 text-xs text-ink/52">{price.accessDays} days access</p>
+                    <p className="text-xs uppercase tracking-[0.14em] text-clay">{family.signal}</p>
+                    <h2 className="font-semibold">{family.label}</h2>
                   </div>
-                  <div className="text-right">
-                    <p className="font-semibold">{formatMoney(price.amountPaise)}</p>
-                    <button
-                      className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-clay"
-                      type="button"
-                      onClick={() => remove(strategy.slug)}
-                    >
-                      <Trash2 size={13} aria-hidden="true" />
-                      Remove
-                    </button>
-                  </div>
+                  <p className="text-xs text-ink/52">{items.length} selected</p>
                 </div>
-              </article>
+                {items.map(({ strategy, price }) => (
+                  <article className="rounded border border-line bg-white p-4" key={strategy.slug}>
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="font-semibold">{strategy.name}</h3>
+                        <p className="mt-1 text-sm leading-6 text-ink/62">{strategy.subtitle}</p>
+                        <p className="mt-2 text-xs text-ink/52">{price.accessDays} days access</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">{formatMoney(price.amountPaise)}</p>
+                        <button
+                          className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-clay"
+                          type="button"
+                          onClick={() => remove(strategy.slug)}
+                        >
+                          <Trash2 size={13} aria-hidden="true" />
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </section>
             ))
           )}
         </div>

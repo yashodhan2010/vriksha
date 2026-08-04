@@ -20,13 +20,23 @@ export default async function StrategyPerformancePage({
 
   return (
     <main className="mx-auto max-w-7xl px-4 pb-28 pt-10 sm:px-6 sm:pb-10 lg:px-8">
-      <Link
-        href={`/strategies/${strategy.slug}`}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink/72 hover:text-ink"
-      >
-        <ChevronLeft size={16} aria-hidden="true" />
-        Back to strategy details
-      </Link>
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href="/strategies"
+          className="inline-flex items-center gap-1.5 rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink/72 transition duration-180 hover:border-pine/40 hover:text-pine"
+          aria-label="Back to all strategies"
+        >
+          <ChevronLeft size={16} aria-hidden="true" />
+          All strategies
+        </Link>
+        <Link
+          href={`/strategies/${strategy.slug}`}
+          className="inline-flex items-center gap-1.5 rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink/72 transition duration-180 hover:border-pine/40 hover:text-pine"
+        >
+          <ChevronLeft size={16} aria-hidden="true" />
+          Strategy details
+        </Link>
+      </div>
       <p className="mt-6 text-sm uppercase tracking-[0.18em] text-clay">Backtests</p>
       <h1 className="mt-2 text-3xl font-semibold">{strategy.name} Backtest Performance</h1>
       <div className="mt-5 flex flex-wrap gap-2">

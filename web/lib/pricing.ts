@@ -11,22 +11,19 @@ export const billingCycles: Array<{ id: BillingCycle; label: string; accessDays:
 
 export const individualFamilyAnnualFeeCapPaise = 15100000;
 
+function tieredPrice(monthlyPaise: number): Record<BillingCycle, number> {
+  return {
+    monthly: monthlyPaise,
+    quarterly: monthlyPaise * 2.5,
+    annual: monthlyPaise * 10
+  };
+}
+
 const subscriptionPrices: Record<string, Record<BillingCycle, number>> = {
-  "dual-momentum": {
-    monthly: 499900,
-    quarterly: 1299900,
-    annual: 4799900
-  },
-  "conservative-dual-momentum": {
-    monthly: 399900,
-    quarterly: 999900,
-    annual: 3599900
-  },
-  "low-drawdown-dual-momentum": {
-    monthly: 599900,
-    quarterly: 1499900,
-    annual: 5399900
-  }
+  "dual-momentum": tieredPrice(750000),
+  "conservative-dual-momentum": tieredPrice(750000),
+  "low-drawdown-dual-momentum": tieredPrice(650000),
+  "diversified-asset-income": tieredPrice(100000)
 };
 
 export function formatMoney(amountPaise: number, currency = "INR") {

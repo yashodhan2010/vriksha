@@ -39,7 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         {children}
         <footer className="border-t border-line bg-[#fffaf4]">
-          <div className="container-page grid gap-10 py-10 md:grid-cols-[1.3fr_1fr]">
+          <div className="container-page grid gap-10 py-10 md:grid-cols-[1.7fr_0.8fr]">
             <div>
               <Link href="/" className="flex w-fit items-center gap-2 font-serif text-lg font-semibold text-ink transition-opacity duration-180 hover:opacity-80">
                 <Image
@@ -50,12 +50,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   className="h-12 w-auto"
                 />
               </Link>
-              <p className="mt-4 max-w-md text-sm leading-6 text-ink/68">
-                Vriksha publishes model portfolios and research notes under a SEBI RA framework.
+              <p className="mt-4 text-sm leading-6 text-ink/68">
+                Vriksha publishes model portfolios and research notes under a SEBI RA License
+                (No. {raProfile.sebiRegistrationNumber}).
                 Model portfolios are research products and are not trade execution services. All
                 returns shown are subject to assumptions, costs, market risk, and methodology limits.
               </p>
-              <p className="mt-3 max-w-md text-sm leading-6 text-ink/68">
+              <p className="mt-3 text-sm leading-6 text-ink/68">
+                Investments are subject to market risk. Please read all related documents, disclosures,
+                assumptions, and risk factors carefully before making any investment decision.
+              </p>
+              <p className="mt-3 text-sm leading-6 text-ink/68">
                 Information provided by Vriksha-Capital through its website is for informational and
                 educational purpose and is not a solicitation to buy any of our products.
               </p>
@@ -68,6 +73,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Link href="/compliance" className="link-underline w-fit font-semibold text-pine hover:text-pine">
                   Compliance
                 </Link>
+                <Link href="/contact" className="link-underline w-fit">Contact Us</Link>
                 <Link href="/investor-charter" className="link-underline w-fit">Investor Charter</Link>
                 <Link href="/complaints" className="link-underline w-fit">Complaints Disclosure</Link>
                 <Link href="/audit-report" className="link-underline w-fit">Audit Report</Link>

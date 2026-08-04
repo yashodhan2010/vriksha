@@ -108,7 +108,7 @@ export async function POST(request: Request) {
   }
 
   const panError = validateFile(panFile, "PAN document");
-  const addressError = validateFile(addressFile, "Address proof");
+  const addressError = validateFile(addressFile, "Address Proof");
   if (panError || addressError) {
     return NextResponse.json({ error: panError ?? addressError }, { status: 400 });
   }

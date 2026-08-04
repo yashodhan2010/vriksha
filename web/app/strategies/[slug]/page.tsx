@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArrowLeftRight,
   CalendarDays,
+  ChevronDown,
   Download,
   IndianRupee,
   ListChecks,
@@ -83,7 +84,17 @@ export default async function StrategyDetailPage({
         </aside>
       </section>
 
-      <section className="mt-10">
+      <div className="mt-8 flex justify-center">
+        <a
+          href="#strategy-content"
+          className="group grid h-11 w-11 place-items-center rounded-full border border-line bg-white text-ink/62 shadow-sm transition duration-180 hover:border-pine/40 hover:text-pine"
+          aria-label="Scroll to strategy details"
+        >
+          <ChevronDown className="transition duration-180 group-hover:translate-y-0.5" size={20} aria-hidden="true" />
+        </a>
+      </div>
+
+      <section className="mt-8 scroll-mt-24" id="strategy-content">
         <Reveal className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="card p-6">
           <h2 className="flex items-center gap-2.5 text-xl font-semibold">

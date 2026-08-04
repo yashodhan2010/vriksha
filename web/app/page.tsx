@@ -39,7 +39,7 @@ export default function HomePage() {
         <div className="container-page relative grid min-h-[calc(100vh-4rem)] content-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-              Research-backed quant model portfolio subscriptions for Indian equities
+              Research Backed Quant Model Portfolios
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/74">
               Differentiated quant based model portfolio strategies.

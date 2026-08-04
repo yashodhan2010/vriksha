@@ -34,7 +34,7 @@ export function KycForm({ initialStatus }: { initialStatus?: KycStatus | null })
 
     form.reset();
     setStatus("submitted");
-    setNotice("KYC submitted. The OCR validation worker will process the documents and route only exceptions to review.");
+    setNotice("KYC submitted. Your documents are being processed.");
   }
 
   return (
@@ -132,7 +132,7 @@ export function KycForm({ initialStatus }: { initialStatus?: KycStatus | null })
             <input className="rounded border border-line bg-white px-3 py-2 font-normal file:mr-3 file:rounded file:border-0 file:bg-paper file:px-3 file:py-1.5 file:text-sm" name="panDocument" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" required />
           </label>
           <label className="grid gap-2 text-sm font-medium">
-            Address proof
+            Address Proof
             <input className="rounded border border-line bg-white px-3 py-2 font-normal file:mr-3 file:rounded file:border-0 file:bg-paper file:px-3 file:py-1.5 file:text-sm" name="addressDocument" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" required />
           </label>
         </div>

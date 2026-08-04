@@ -16,7 +16,7 @@ type KycDocumentStatus = {
 const statusCopy: Record<string, { title: string; text: string; tone: string }> = {
   queued_for_validation: {
     title: "Verification in progress",
-    text: "Your documents are queued for OCR validation. This usually completes automatically once the worker processes the queue.",
+    text: "Your documents are being processed.",
     tone: "card-accent-pine"
   },
   ocr_processing: {
@@ -46,6 +46,23 @@ const statusCopy: Record<string, { title: string; text: string; tone: string }> 
   }
 };
 
+function formatDocumentType(value: string) {
+  const labels: Record<string, string> = {
+    pan: "PAN",
+    address_proof: "Address Proof"
+  };
+  return labels[value] ?? value.replaceAll("_", " ");
+}
+
+function formatDocumentStatus(value: string) {
+  const labels: Record<string, string> = {
+    queued: "Under Process",
+    queued_for_validation: "Under Process",
+    ocr_processing: "Under Process"
+  };
+  return labels[value] ?? value.replaceAll("_", " ");
+}
+
 async function getDocuments(profileId: string) {
   const supabase = createSupabaseAdminClient();
   if (!supabase) return [];
@@ -74,8 +91,7 @@ export default async function KycPage() {
       <p className="text-sm uppercase tracking-[0.18em] text-clay">Client onboarding</p>
       <h1 className="mt-2 text-3xl font-semibold">KYC Verification</h1>
       <p className="mt-4 max-w-3xl text-sm leading-6 text-ink/68">
-        Fee-paying research clients must complete KYC before checkout. Documents are stored in a
-        private bucket and routed through OCR matching before any manual compliance review.
+        Fee-paying research clients must complete KYC before checkout.
       </p>
 
       {user && isVerifiedKycStatus(profile?.status) && (
@@ -104,9 +120,9 @@ export default async function KycPage() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {documents.map((document) => (
                 <div className="rounded border border-line bg-white p-4 text-sm" key={document.id}>
-                  <p className="font-semibold">{document.document_type.replaceAll("_", " ")}</p>
+                  <p className="font-semibold">{formatDocumentType(document.document_type)}</p>
                   <p className="mt-1 text-ink/62">
-                    {document.status.replaceAll("_", " ")}
+                    {formatDocumentStatus(document.status)}
                     {document.ocr_confidence ? ` / confidence ${document.ocr_confidence}` : ""}
                   </p>
                   {document.rejection_reason && (

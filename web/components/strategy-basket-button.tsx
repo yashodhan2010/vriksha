@@ -31,6 +31,7 @@ export function StrategyBasketButton({
     const nextBasket = [...new Set([...basket, slug])];
     window.localStorage.setItem(storageKey, JSON.stringify(nextBasket));
     window.localStorage.setItem("vriksha-billing-cycle", billingCycle);
+    window.dispatchEvent(new Event("vriksha:basket-updated"));
     setAdded(true);
   }
 

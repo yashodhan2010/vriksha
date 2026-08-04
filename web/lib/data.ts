@@ -50,16 +50,6 @@ function normalizeStrategy(strategy: Strategy): Strategy {
     }))
   };
 
-  if (normalized.slug === "conservative-dual-momentum") {
-    normalized.name = "Dual Momentum (Relative Conservative Variant)";
-    normalized.subtitle = "A broader-basket Nifty 500 dual-momentum model portfolio calibrated for smoother participation relative to the standard dual-momentum variant.";
-  }
-
-  if (normalized.slug === "low-drawdown-dual-momentum") {
-    normalized.name = "Dual Momentum (Historically Lower Drawdown Variant)";
-    normalized.subtitle = "A Nifty 500 dual-momentum model portfolio variant selected using lower historical drawdown filters in internal research, with no future drawdown assurance.";
-  }
-
   if (["dual-momentum", "conservative-dual-momentum", "low-drawdown-dual-momentum"].includes(normalized.slug)) {
     normalized.keyRisks = momentumKeyRisks;
   }

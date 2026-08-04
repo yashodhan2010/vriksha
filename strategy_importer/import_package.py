@@ -148,11 +148,15 @@ def build_strategy_from_full_package(package_dir: Path) -> dict[str, Any]:
     ]
     methodology_path = package_dir / "methodology.md"
     slug = manifest["slug"]
+    public_name = manifest.get("public_name") or manifest["name"]
+    internal_name = manifest.get("internal_name") or manifest["name"]
     exports = export_links(slug)
     return {
         "slug": slug,
-        "name": manifest["name"],
-        "subtitle": manifest.get("short_description") or f"{manifest['name']} model portfolio.",
+        "name": public_name,
+        "public_name": public_name,
+        "internal_name": internal_name,
+        "subtitle": manifest.get("short_description") or f"{public_name} model portfolio.",
         "status": "Open",
         "labels": manifest.get("category_labels") or ["Model Portfolio"],
         "benchmark": manifest.get("benchmark", ""),
@@ -244,8 +248,14 @@ def rebalances(package_dir: Path) -> list[dict[str, Any]]:
 def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> list[dict[str, Any]]:
     manifest = read_json(package_dir / "manifest.json")
     slug = manifest["slug"]
+    public_name = manifest.get("public_name") or manifest.get("name", slug)
+    internal_name = manifest.get("internal_name") or manifest.get("name", slug)
     for strategy in existing:
         if strategy.get("slug") == slug:
+            if manifest.get("public_name"):
+                strategy["name"] = public_name
+                strategy["public_name"] = public_name
+                strategy["internal_name"] = internal_name
             strategy["holdings"] = holdings(package_dir)
             strategy["rebalances"] = rebalances(package_dir)
             strategy["exports"] = {
@@ -256,7 +266,9 @@ def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> l
     existing.append(
         {
             "slug": slug,
-            "name": manifest.get("name", slug),
+            "name": public_name,
+            "public_name": public_name,
+            "internal_name": internal_name,
             "subtitle": "Latest imported model portfolio update.",
             "status": "Open",
             "labels": ["Model Portfolio"],

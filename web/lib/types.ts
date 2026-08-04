@@ -29,6 +29,8 @@ export type Rebalance = {
 export type Strategy = {
   slug: string;
   name: string;
+  public_name?: string;
+  internal_name?: string;
   subtitle: string;
   status: "Open" | "Coming soon";
   labels: StrategyLabel[];

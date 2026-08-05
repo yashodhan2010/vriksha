@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LockKeyhole } from "lucide-react";
+import { getSubscribePath } from "@/lib/data";
 
 function LockedPortfolioPreview() {
   const rows = [
@@ -78,7 +79,7 @@ export function Paywall({ slug }: { slug: string }) {
               <span className="rounded border border-line bg-paper px-3 py-2">Subscriber CSV exports</span>
             </div>
             <Link
-              href={`/subscribe/${slug}`}
+              href={getSubscribePath(slug)}
               className="mt-4 inline-flex rounded bg-pine px-4 py-2 text-sm font-medium text-white"
             >
               Subscribe

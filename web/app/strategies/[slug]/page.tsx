@@ -18,7 +18,7 @@ import { Paywall } from "@/components/paywall";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
-import { getStrategy } from "@/lib/data";
+import { getStrategy, getStrategyPerformancePath, getSubscribePath } from "@/lib/data";
 import { hasStrategyAccess } from "@/lib/access";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
@@ -95,7 +95,7 @@ export default async function StrategyDetailPage({
           </div>
           <div className="mt-5 grid gap-2">
             <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
-            <Link href={`/subscribe/${strategy.slug}`} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
+            <Link href={getSubscribePath(strategy)} className="block rounded border border-line px-4 py-3 text-center text-sm font-semibold">
               Subscription details
             </Link>
           </div>
@@ -122,7 +122,7 @@ export default async function StrategyDetailPage({
             </p>
           </div>
           <Link
-            href={`/strategies/${strategy.slug}/performance`}
+            href={getStrategyPerformancePath(strategy)}
             className="inline-flex items-center justify-center gap-2 rounded bg-ink px-4 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white transition duration-180 hover:bg-pine"
           >
             <LockKeyhole size={16} aria-hidden="true" />

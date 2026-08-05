@@ -6,7 +6,7 @@ import { PerformanceDisclosureGate } from "@/components/performance-disclosure-g
 import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
-import { getStrategy } from "@/lib/data";
+import { getStrategy, getStrategyPath, getSubscribePath } from "@/lib/data";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 
 export default async function StrategyPerformancePage({
@@ -30,7 +30,7 @@ export default async function StrategyPerformancePage({
           All strategies
         </Link>
         <Link
-          href={`/strategies/${strategy.slug}`}
+          href={getStrategyPath(strategy)}
           className="inline-flex items-center gap-1.5 rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink/72 transition duration-180 hover:border-pine/40 hover:text-pine"
         >
           <ChevronLeft size={16} aria-hidden="true" />
@@ -42,7 +42,7 @@ export default async function StrategyPerformancePage({
       <div className="mt-5 flex flex-wrap gap-2">
         <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
         <Link
-          href={`/subscribe/${strategy.slug}`}
+          href={getSubscribePath(strategy)}
           className="inline-flex items-center justify-center rounded border border-line px-4 py-3 text-sm font-semibold hover:bg-paper"
         >
           Subscription details
@@ -90,7 +90,7 @@ export default async function StrategyPerformancePage({
               <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
             </div>
             <Link
-              href={`/subscribe/${strategy.slug}`}
+              href={getSubscribePath(strategy)}
               className="inline-flex min-h-11 items-center justify-center rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink transition duration-180 hover:bg-paper"
             >
               Subscribe

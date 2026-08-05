@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
-import { getStrategy } from "@/lib/data";
+import { getStrategy, getStrategyPath, getSubscribePath } from "@/lib/data";
 import { getCurrentUser, hasStrategyAccess } from "@/lib/access";
 import { billingCycles, formatMoney, getStrategyPrice } from "@/lib/pricing";
 
@@ -35,7 +35,7 @@ export default async function SubscribePage({ params }: { params: Promise<{ slug
         </p>
         {!user && (
           <Link
-            href={`/login?next=${encodeURIComponent(`/subscribe/${strategy.slug}`)}`}
+            href={`/login?next=${encodeURIComponent(getSubscribePath(strategy))}`}
             className="mt-5 inline-flex rounded bg-ink px-5 py-3 text-sm font-semibold text-white"
           >
             Login to continue
@@ -43,7 +43,7 @@ export default async function SubscribePage({ params }: { params: Promise<{ slug
         )}
         {user && alreadySubscribed && (
           <Link
-            href={`/strategies/${strategy.slug}`}
+            href={getStrategyPath(strategy)}
             className="mt-5 inline-flex rounded bg-pine px-5 py-3 text-sm font-semibold text-white"
           >
             Open subscriber view

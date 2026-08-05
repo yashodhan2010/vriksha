@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { strategies } from "@/lib/data";
+import { getStrategyPath, getStrategyPerformancePath, strategies } from "@/lib/data";
 import { getCurrentUser, hasStrategyAccess } from "@/lib/access";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
                     <td>{formatDate(item.startsAt)}</td>
                     <td>{formatDate(item.endsAt)}</td>
                     <td>
-                      <Link href={`/strategies/${item.slug}`} className="font-semibold text-pine hover:text-ink">
+                      <Link href={getStrategyPath(item.slug)} className="font-semibold text-pine hover:text-ink">
                         Open
                       </Link>
                     </td>
@@ -232,10 +232,10 @@ export default async function DashboardPage() {
                   <p className="mt-2 text-sm text-ink/68">Latest model portfolio and recent rebalance trail are available.</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Link className="inline-flex rounded border border-line px-4 py-2 text-sm font-semibold hover:bg-paper" href={`/strategies/${strategy.slug}`}>
+                  <Link className="inline-flex rounded border border-line px-4 py-2 text-sm font-semibold hover:bg-paper" href={getStrategyPath(strategy)}>
                     Open basket
                   </Link>
-                  <Link className="inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine" href={`/strategies/${strategy.slug}/performance`}>
+                  <Link className="inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine" href={getStrategyPerformancePath(strategy)}>
                     Backtest performance
                   </Link>
                 </div>
@@ -277,9 +277,9 @@ export default async function DashboardPage() {
                     <td>{formatDate(item.endsAt)}</td>
                     <td>
                       <div className="flex flex-wrap gap-2">
-                        <Link href={`/strategies/${item.strategy.slug}`} className="font-semibold text-pine hover:text-ink">Details</Link>
+                        <Link href={getStrategyPath(item.strategy)} className="font-semibold text-pine hover:text-ink">Details</Link>
                         {item.canAccess && (
-                          <Link href={`/strategies/${item.strategy.slug}/performance`} className="font-semibold text-pine hover:text-ink">Backtests</Link>
+                          <Link href={getStrategyPerformancePath(item.strategy)} className="font-semibold text-pine hover:text-ink">Backtests</Link>
                         )}
                       </div>
                     </td>

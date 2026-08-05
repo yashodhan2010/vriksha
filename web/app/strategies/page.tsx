@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
-import { strategies } from "@/lib/data";
+import { getStrategyPath, strategies } from "@/lib/data";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import {
   getEditionMeta,
@@ -97,7 +97,7 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
                   <article className="card-interactive relative cursor-pointer p-6" key={strategy.slug}>
                     <Link
                       className="absolute inset-0 z-10 rounded"
-                      href={`/strategies/${strategy.slug}`}
+                      href={getStrategyPath(strategy)}
                       aria-label={`View details for ${strategy.name}`}
                     />
                     <div className="pointer-events-none relative z-20 flex items-start justify-between gap-4">

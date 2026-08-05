@@ -141,6 +141,38 @@ export const strategies: Strategy[] =
     ? (importedStrategies as Strategy[]).map((strategy) => normalizeStrategy(strategy))
     : fallbackStrategies;
 
+const publicStrategySlugs: Record<string, string> = {
+  "dual-momentum": "bamboo-canopy",
+  "conservative-dual-momentum": "bamboo-trunk",
+  "low-drawdown-dual-momentum": "bamboo-root"
+};
+
+const internalStrategySlugsByPublicSlug = Object.fromEntries(
+  Object.entries(publicStrategySlugs).map(([internalSlug, publicSlug]) => [publicSlug, internalSlug])
+) as Record<string, string>;
+
+export function getInternalStrategySlug(slug: string) {
+  return internalStrategySlugsByPublicSlug[slug] ?? slug;
+}
+
+export function getPublicStrategySlug(strategy: Pick<Strategy, "slug"> | string) {
+  const slug = typeof strategy === "string" ? strategy : strategy.slug;
+  return publicStrategySlugs[slug] ?? slug;
+}
+
+export function getStrategyPath(strategy: Pick<Strategy, "slug"> | string) {
+  return `/strategies/${getPublicStrategySlug(strategy)}`;
+}
+
+export function getStrategyPerformancePath(strategy: Pick<Strategy, "slug"> | string) {
+  return `${getStrategyPath(strategy)}/performance`;
+}
+
+export function getSubscribePath(strategy: Pick<Strategy, "slug"> | string) {
+  return `/subscribe/${getPublicStrategySlug(strategy)}`;
+}
+
 export function getStrategy(slug: string) {
-  return strategies.find((strategy) => strategy.slug === slug);
+  const internalSlug = getInternalStrategySlug(slug);
+  return strategies.find((strategy) => strategy.slug === internalSlug);
 }

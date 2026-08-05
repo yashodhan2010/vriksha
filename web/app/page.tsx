@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react";
 import { GrowthMotif } from "@/components/growth-motif";
 import { Reveal } from "@/components/reveal";
-import { strategies } from "@/lib/data";
+import { getStrategyPath, strategies } from "@/lib/data";
 import { raProfile } from "@/lib/compliance";
 
 const processSteps = [
@@ -59,7 +59,7 @@ export default function HomePage() {
           <div className="relative self-end rounded border border-white/16 bg-white/8 p-6 transition duration-180 hover:border-white/30 hover:bg-white/12">
             <Link
               className="absolute inset-0 z-0 rounded"
-              href={`/strategies/${featured.slug}`}
+              href={getStrategyPath(featured)}
               aria-label={`View details for ${featured.name}`}
             />
             <p className="relative z-10 text-sm text-white/64">Featured strategy</p>
@@ -74,7 +74,7 @@ export default function HomePage() {
                     acknowledgement on the strategy page.
                   </p>
                   <Link
-                    href={`/strategies/${featured.slug}`}
+                    href={getStrategyPath(featured)}
                     className="relative z-20 mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline-offset-4 transition duration-180 hover:underline"
                   >
                     View strategy <ArrowRight size={15} aria-hidden="true" />
@@ -127,7 +127,7 @@ export default function HomePage() {
         </div>
         <Reveal className="mt-8 grid gap-4 md:grid-cols-3">
           {preview.map((strategy) => (
-            <Link href={`/strategies/${strategy.slug}`} className="card-interactive p-6" key={strategy.slug}>
+            <Link href={getStrategyPath(strategy)} className="card-interactive p-6" key={strategy.slug}>
               <h3 className="text-lg font-semibold">{strategy.name}</h3>
               <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
               <div className="mt-4 flex flex-wrap gap-2">

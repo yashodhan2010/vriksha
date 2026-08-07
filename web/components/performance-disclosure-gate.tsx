@@ -70,21 +70,23 @@ function LockedGateShell({
   compact: boolean;
 }) {
   return (
-    <section className={`${className} overflow-hidden rounded border border-line bg-paper/70 p-4 shadow-sm sm:p-5`}>
-      <div className="rounded border border-line bg-white/95 p-5 shadow-sm">
+    <section className={`${className} overflow-hidden rounded border border-line bg-paper/70 shadow-sm ${compact ? "p-3" : "p-4 sm:p-5"}`}>
+      <div className={`rounded border border-line bg-white/95 shadow-sm ${compact ? "p-4" : "p-5"}`}>
         {children}
       </div>
-      <div className="relative mt-5 overflow-hidden rounded border border-line bg-white/55 p-4">
-        <LockedPerformancePreview compact={compact} />
-        <div className="absolute inset-0 bg-white/52 backdrop-blur-[2px]" aria-hidden="true" />
-      </div>
+      {!compact && (
+        <div className="relative mt-5 overflow-hidden rounded border border-line bg-white/55 p-4">
+          <LockedPerformancePreview compact={compact} />
+          <div className="absolute inset-0 bg-white/52 backdrop-blur-[2px]" aria-hidden="true" />
+        </div>
+      )}
     </section>
   );
 }
 
-function LockedValueSummary() {
+function LockedValueSummary({ compact }: { compact: boolean }) {
   return (
-    <div className="mt-4 grid gap-2 text-xs font-medium text-ink/64 sm:grid-cols-3">
+    <div className={`mt-4 grid gap-2 text-xs font-medium text-ink/64 ${compact ? "" : "sm:grid-cols-3"}`}>
       <span className="rounded border border-line bg-paper px-3 py-2">1M, 6M, 1Y, 5Y and Max returns</span>
       <span className="rounded border border-line bg-paper px-3 py-2">Strategy vs benchmark chart</span>
       <span className="rounded border border-line bg-paper px-3 py-2">Risk and limitation context</span>
@@ -266,11 +268,11 @@ export function PerformanceDisclosureGate({
   if (!loggedIn) {
     return (
       <LockedGateShell className={className} compact={compact}>
-        <div className="flex items-start gap-4">
+        <div className={`flex items-start gap-4 ${compact ? "flex-col" : ""}`}>
           <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white">
             <LockKeyhole size={18} aria-hidden="true" />
           </span>
-          <div className="w-full">
+          <div className="w-full min-w-0">
             <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
               Verify email to request backtest performance
             </h2>
@@ -278,11 +280,11 @@ export function PerformanceDisclosureGate({
               Unlock the backtest performance section with return charts, benchmark comparisons, and risk
               context after a verified one-to-one request.
             </p>
-            <LockedValueSummary />
+            <LockedValueSummary compact={compact} />
             <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
                 <input
-                  className="min-h-11 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
+                  className="min-h-11 min-w-0 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
@@ -291,7 +293,7 @@ export function PerformanceDisclosureGate({
                   required
                 />
                 <button
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60"
+                  className={`inline-flex min-h-11 items-center justify-center gap-2 rounded bg-ink px-4 py-2 text-sm font-semibold text-white transition duration-180 hover:bg-pine disabled:cursor-not-allowed disabled:opacity-60 ${compact ? "w-full" : ""}`}
                   type="submit"
                   disabled={status === "sending" || status === "verifying"}
                 >
@@ -346,7 +348,7 @@ export function PerformanceDisclosureGate({
 
   return (
     <LockedGateShell className={className} compact={compact}>
-      <div className="flex items-start gap-4">
+      <div className={`flex items-start gap-4 ${compact ? "flex-col" : ""}`}>
         <span className="group relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white transition duration-250 hover:bg-pine">
           <LockKeyhole
             className="absolute transition duration-250 group-hover:scale-75 group-hover:opacity-0"
@@ -359,7 +361,7 @@ export function PerformanceDisclosureGate({
             aria-hidden="true"
           />
         </span>
-        <div>
+        <div className="min-w-0">
           <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
             Backtest performance details are hidden
           </h2>
@@ -367,7 +369,7 @@ export function PerformanceDisclosureGate({
             Unlock the backtest performance section with return charts, benchmark comparisons, and risk
             context after acknowledging the related risks and limitations.
           </p>
-          <LockedValueSummary />
+          <LockedValueSummary compact={compact} />
           <label className="mt-4 flex cursor-pointer items-start gap-3 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72 transition duration-250 hover:border-gold/60 hover:bg-paper">
             <input
               className="mt-1 h-4 w-4 accent-pine"

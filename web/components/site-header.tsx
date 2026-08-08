@@ -186,7 +186,7 @@ export function SiteHeader() {
               href="/login"
               className="rounded bg-ink px-4 py-2 text-sm font-medium text-white transition duration-180 hover:bg-pine active:bg-pine/90"
             >
-              Login
+              Client login
             </Link>
           )}
           {!loggedIn && (

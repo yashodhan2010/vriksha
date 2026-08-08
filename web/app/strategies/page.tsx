@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";
+import { PortfolioNeedFilterBar } from "@/components/portfolio-need-selector";
 import { Reveal } from "@/components/reveal";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategyPath, strategies } from "@/lib/data";
+import { getPortfolioNeed } from "@/lib/portfolio-needs";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import {
   getEditionMeta,
@@ -16,6 +18,7 @@ import {
 type StrategyCatalogPageProps = {
   searchParams?: Promise<{
     family?: string;
+    need?: string;
   }>;
 };
 
@@ -32,7 +35,8 @@ function filterHref(family?: StrategyFamily) {
 
 export default async function StrategyCatalogPage({ searchParams }: StrategyCatalogPageProps) {
   const params = await searchParams;
-  const activeFamily = isFamily(params?.family) ? params.family : undefined;
+  const activeNeed = getPortfolioNeed(params?.need);
+  const activeFamily = activeNeed?.family ?? (isFamily(params?.family) ? params.family : undefined);
 
   const filteredStrategies = strategies.filter((strategy) => {
     const family = getStrategyFamily(strategy);
@@ -52,9 +56,11 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
         <p className="text-sm uppercase tracking-[0.18em] text-clay">Strategy Grove</p>
         <h1 className="mt-2 text-3xl font-semibold">Explore Stock Baskets</h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-ink/68">
-          Vriksha strategies are organized by growth family and edition, so each basket has a clear place in the research map.
+          Vriksha strategies are organized by portfolio role, growth family, and edition, so each basket has a clear place in the research map.
         </p>
       </div>
+
+      <PortfolioNeedFilterBar activeNeed={activeNeed?.id} />
 
       <section className="mt-8 rounded border border-line bg-white/78 p-3 shadow-sm backdrop-blur">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

@@ -58,6 +58,21 @@ export async function hasStrategyAccess(strategySlug: string) {
     return false;
   }
 
+  if (isAdminEmail(user.email)) {
+    return true;
+  }
+
+  const { data: adminProfile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .in("role", ["admin", "research_analyst", "compliance"])
+    .maybeSingle();
+
+  if (adminProfile) {
+    return true;
+  }
+
   const now = Date.now();
   const isCurrent = (endsAt: string | null) => !endsAt || new Date(endsAt).getTime() > now;
 

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "db:apply": "node scripts/apply-supabase-migrations.mjs",
+    "db:audit-security": "node scripts/audit-supabase-security.mjs",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },

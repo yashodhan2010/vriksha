@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Paywall } from "@/components/paywall";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
+import { PortfolioAllocationPlanner } from "@/components/portfolio-allocation-planner";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy, getStrategyPerformancePath, getSubscribePath } from "@/lib/data";
@@ -123,53 +124,6 @@ function TopHoldingsGlimpse({ holdings }: { holdings: PortfolioHolding[] }) {
           Full target weights, notes, CSV export, and rebalance trail remain subscriber-only.
         </p>
       )}
-    </div>
-  );
-}
-
-function LatestPortfolioTable({ strategy }: { strategy: Strategy }) {
-  return (
-    <div className="rounded border border-line bg-[#fffaf4] p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-xl font-semibold">Latest Model Portfolio</h2>
-        {strategy.exports?.latestModelPortfolioCsv && (
-          <a
-            className="inline-flex items-center gap-2 rounded bg-ink px-3 py-2 text-sm font-medium text-white"
-            href={strategy.exports.latestModelPortfolioCsv}
-          >
-            <Download size={15} aria-hidden="true" />
-            CSV
-          </a>
-        )}
-      </div>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[680px] text-left text-sm">
-          <thead className="text-xs uppercase tracking-wide text-ink/52">
-            <tr>
-              <th className="py-2 font-medium">Symbol</th>
-              <th className="font-medium">Company</th>
-              <th className="font-medium">Sector</th>
-              <th className="font-medium">Weight</th>
-              <th className="font-medium">Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            {strategy.holdings.map((holding) => (
-              <tr className="border-t border-line transition-colors duration-180 hover:bg-paper" key={holding.symbol}>
-                <td className="py-3 font-semibold">{holding.symbol}</td>
-                <td>{holding.company}</td>
-                <td>
-                  <span className="rounded-full bg-sky/60 px-2.5 py-0.5 text-xs font-medium text-ink/72">{holding.sector}</span>
-                </td>
-                <td>
-                  <span className="tabular-nums font-medium">{(holding.weight * 100).toFixed(1)}%</span>
-                </td>
-                <td className="text-ink/68">{holding.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }
@@ -394,7 +348,12 @@ export default async function StrategyDetailPage({
                   <TopHoldingsGlimpse holdings={strategy.holdings} />
                   <div className="mt-5">
                     {canViewPortfolio ? (
-                      <LatestPortfolioTable strategy={strategy} />
+                      <PortfolioAllocationPlanner
+                        csvHref={strategy.exports?.latestModelPortfolioCsv}
+                        holdings={strategy.holdings}
+                        strategyName={strategy.name}
+                        strategySlug={strategy.slug}
+                      />
                     ) : (
                       <Paywall slug={strategy.slug} />
                     )}

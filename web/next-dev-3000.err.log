@@ -1,2 +1,8 @@
 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (106kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (254kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ⨯ Failed to generate static paths for /strategies/[slug]/performance:
+TypeError: __webpack_modules__[moduleId] is not a function
+    at eval (webpack-internal:///(rsc)/./app/strategies/[slug]/performance/page.tsx:10:106)
+    at <unknown> (rsc)/./app/strategies/[slug]/performance/page.tsx (C:\Users\Yashodhan\OneDrive\Documents\Vriksha\vriksha\web\.next\server\app\strategies\[slug]\performance\page.js:44:1) {
+  type: 'TypeError'
+}

@@ -166,6 +166,20 @@ function useMounted() {
   return mounted;
 }
 
+function useNarrowViewport() {
+  const [isNarrow, setIsNarrow] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const sync = () => setIsNarrow(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  return isNarrow;
+}
+
 export function MonthlyPerformanceChart({
   data
 }: {
@@ -175,17 +189,17 @@ export function MonthlyPerformanceChart({
   const summary = getMonthlySummary(heatmapYears.flatMap((year) => year.months).filter((cell): cell is HeatmapCell => Boolean(cell)));
 
   return (
-    <div className="w-full rounded border border-line bg-white p-4">
-      <div className="mb-4 grid gap-2 sm:grid-cols-3">
+    <div className="w-full overflow-hidden rounded border border-line bg-white p-3 sm:p-4">
+      <div className="mb-3 grid grid-cols-3 gap-2 sm:mb-4">
         {summary.map((item) => (
-          <div className="rounded border border-line bg-paper px-3 py-2" key={item.label}>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/48">{item.label}</p>
-            <p className="mt-1 text-lg font-semibold tabular-nums text-ink">{item.value}</p>
+          <div className="rounded border border-line bg-paper px-2 py-2 sm:px-3" key={item.label}>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-ink/48 sm:text-[11px] sm:tracking-[0.12em]">{item.label}</p>
+            <p className="mt-1 text-sm font-semibold tabular-nums text-ink sm:text-lg">{item.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-xs text-ink/58">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-ink/58 sm:gap-3 sm:text-xs">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded bg-clay" aria-hidden="true" />
@@ -196,12 +210,12 @@ export function MonthlyPerformanceChart({
             Positive
           </span>
         </div>
-        <span>Cell color shows strategy monthly return. Hover to compare benchmark.</span>
+        <span className="leading-4">Cell color shows strategy monthly return. Press or hover to compare benchmark.</span>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="min-w-[720px]">
-          <div className="grid grid-cols-[64px_repeat(12,minmax(48px,1fr))] gap-1 text-xs font-semibold text-ink/54">
+      <div className="-mx-1 overflow-x-auto px-1 pb-1">
+        <div className="min-w-[620px] sm:min-w-[720px]">
+          <div className="grid grid-cols-[44px_repeat(12,minmax(42px,1fr))] gap-1 text-[10px] font-semibold text-ink/54 sm:grid-cols-[64px_repeat(12,minmax(48px,1fr))] sm:text-xs">
             <span />
             {monthLabels.map((month) => (
               <span className="text-center" key={month}>{month}</span>
@@ -209,11 +223,11 @@ export function MonthlyPerformanceChart({
           </div>
           <div className="mt-1 grid gap-1">
             {heatmapYears.map((year) => (
-              <div className="grid grid-cols-[64px_repeat(12,minmax(48px,1fr))] gap-1" key={year.year}>
-                <div className="flex items-center text-xs font-semibold text-ink/62">{year.year}</div>
+              <div className="grid grid-cols-[44px_repeat(12,minmax(42px,1fr))] gap-1 sm:grid-cols-[64px_repeat(12,minmax(48px,1fr))]" key={year.year}>
+                <div className="flex items-center text-[10px] font-semibold text-ink/62 sm:text-xs">{year.year}</div>
                 {year.months.map((cell, index) => (
                   <div
-                    className="flex h-9 items-center justify-center rounded border border-line/70 text-[11px] font-semibold tabular-nums transition duration-180 hover:scale-[1.03] hover:shadow-sm"
+                    className="flex h-8 items-center justify-center rounded border border-line/70 text-[10px] font-semibold tabular-nums transition duration-180 hover:scale-[1.03] hover:shadow-sm sm:h-9 sm:text-[11px]"
                     key={`${year.year}-${index}`}
                     style={{
                       backgroundColor: heatmapColor(cell?.strategy ?? null),
@@ -242,17 +256,19 @@ export function YearlyReturnChart({
 }: {
   data: Array<{ year: string; strategy: number; benchmark: number }>;
 }) {
-  if (!useMounted()) return <ChartSkeleton />;
+  const mounted = useMounted();
+  const isNarrow = useNarrowViewport();
+  if (!mounted) return <ChartSkeleton />;
   const reduceMotion = prefersReducedMotion();
 
   return (
-    <div className="h-72 w-full rounded border border-line bg-white p-4">
+    <div className="h-64 w-full rounded border border-line bg-white p-3 sm:h-72 sm:p-4">
       <ChartLegend />
       <ResponsiveContainer width="100%" height="85%">
-        <BarChart data={data}>
+        <BarChart data={data} margin={{ top: 8, right: isNarrow ? 4 : 16, bottom: 0, left: isNarrow ? -24 : 0 }}>
           <CartesianGrid stroke="#eee7dc" />
-          <XAxis dataKey="year" tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: 12 }} />
-          <YAxis tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: 12 }} />
+          <XAxis dataKey="year" tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }} />
+          <YAxis width={isNarrow ? 32 : 44} tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }} />
           <Tooltip content={<ChartTooltip />} cursor={{ fill: "rgba(31,58,51,0.06)" }} />
           <Bar
             dataKey="strategy"

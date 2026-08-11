@@ -23,3 +23,9 @@
  ✓ Compiled /strategies/[slug]/performance in 4.2s (1888 modules)
  GET /strategies/conservative-dual-momentum/performance 200 in 5400ms
  ✓ Compiled in 370ms (866 modules)
+ ✓ Compiled in 2.8s (866 modules)
+ ✓ Compiled in 286ms (866 modules)
+ ✓ Compiled in 362ms (866 modules)
+ ✓ Compiled in 276ms (866 modules)
+ ✓ Compiled /strategies/[slug]/performance in 470ms (1022 modules)
+ GET /strategies/conservative-dual-momentum/performance 200 in 1156ms

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import {
   CartesianGrid,
@@ -31,6 +31,20 @@ function getChartTicks(series: Array<{ label: string }>, periodKey: PerformanceP
     .map((item) => item.label);
 
   return [...new Set(ticks)];
+}
+
+function useNarrowViewport() {
+  const [isNarrow, setIsNarrow] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const sync = () => setIsNarrow(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  return isNarrow;
 }
 
 function PeriodTooltip({ active, payload, label }: TooltipProps<number, string>) {
@@ -66,6 +80,7 @@ export function PeriodPerformanceView({
   compact?: boolean;
 }) {
   const [activePeriod, setActivePeriod] = useState<PerformancePeriodKey>("1y");
+  const isNarrow = useNarrowViewport();
   const periodReturns = useMemo(() => getPeriodReturns(strategy), [strategy]);
   const series = useMemo(
     () => getPeriodPerformanceSeries(strategy, activePeriod),
@@ -76,11 +91,15 @@ export function PeriodPerformanceView({
   const dateRange = series.length > 0
     ? `${series[0].label} to ${series[series.length - 1].label}`
     : "";
-  const chartTicks = useMemo(() => getChartTicks(series, activePeriod), [series, activePeriod]);
+  const chartTicks = useMemo(() => {
+    const ticks = getChartTicks(series, activePeriod);
+    if (!isNarrow || ticks.length <= 3) return ticks;
+    return ticks.filter((_tick, index) => index === 0 || index === ticks.length - 1 || index === Math.floor(ticks.length / 2));
+  }, [series, activePeriod, isNarrow]);
 
   return (
-    <div className="space-y-5">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="space-y-4 sm:space-y-5">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-5">
         {periodReturns.map((period) => {
           const direction = period.strategy === null || period.strategy === 0
             ? "neutral"
@@ -89,27 +108,27 @@ export function PeriodPerformanceView({
           return (
             <button
               className={cn(
-                "rounded border border-line bg-white p-4 text-left transition duration-180 hover:border-pine/40 hover:bg-paper",
+                "min-h-[94px] rounded border border-line bg-white p-3 text-left transition duration-180 hover:border-pine/40 hover:bg-paper sm:min-h-[124px] sm:p-4",
                 activePeriod === period.key && "border-gold/70 bg-paper shadow-sm"
               )}
               key={period.key}
               type="button"
               onClick={() => setActivePeriod(period.key)}
             >
-              <span className="text-xs uppercase tracking-wide text-ink/52">{period.label}</span>
+              <span className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">{period.label}</span>
               <span
                 className={cn(
-                  "mt-2 flex items-center gap-1.5 text-2xl font-semibold tabular-nums",
+                  "mt-1.5 flex items-center gap-1 text-lg font-semibold tabular-nums sm:mt-2 sm:gap-1.5 sm:text-2xl",
                   direction === "positive" && "text-moss",
                   direction === "negative" && "text-clay",
                   direction === "neutral" && "text-ink"
                 )}
               >
-                {direction === "positive" && <TrendingUp size={16} className="shrink-0" aria-hidden="true" />}
-                {direction === "negative" && <TrendingDown size={16} className="shrink-0" aria-hidden="true" />}
+                {direction === "positive" && <TrendingUp size={14} className="shrink-0 sm:h-4 sm:w-4" aria-hidden="true" />}
+                {direction === "negative" && <TrendingDown size={14} className="shrink-0 sm:h-4 sm:w-4" aria-hidden="true" />}
                 {formatPercent(period.strategy)}
               </span>
-              <span className="mt-1 block text-sm text-ink/62">
+              <span className="mt-1 block text-[11px] leading-4 text-ink/62 sm:text-sm sm:leading-5">
                 {strategy.benchmark} {formatPercent(period.benchmark)}
               </span>
             </button>
@@ -117,24 +136,24 @@ export function PeriodPerformanceView({
         })}
       </div>
 
-      <div className="rounded border border-line bg-white p-4">
+      <div className="rounded border border-line bg-white p-3 sm:p-4">
         {activePeriodReturn && (
-          <div className="mb-4 grid gap-3 border-b border-line pb-4 sm:grid-cols-3">
+          <div className="mb-4 grid grid-cols-3 gap-2 border-b border-line pb-4 sm:gap-3">
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">Backtest return</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums text-moss">
+              <p className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">Backtest return</p>
+              <p className="mt-1 text-base font-semibold tabular-nums text-moss sm:text-lg">
                 {formatPercent(activePeriodReturn.strategy)}
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">CAGR (1Y+)</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums text-ink">
+              <p className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">CAGR (1Y+)</p>
+              <p className="mt-1 text-base font-semibold tabular-nums text-ink sm:text-lg">
                 {activePeriodReturn.monthsUsed < 12 ? "NA" : formatPercent(activePeriodReturn.cagr)}
               </p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-ink/52">Max drawdown</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums text-clay">
+              <p className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">Max drawdown</p>
+              <p className="mt-1 text-base font-semibold tabular-nums text-clay sm:text-lg">
                 {formatPercent(activePeriodReturn.maxDrawdown)}
               </p>
             </div>
@@ -152,11 +171,11 @@ export function PeriodPerformanceView({
               </p>
             )}
           </div>
-          <div className="inline-flex rounded border border-line bg-paper p-1">
+          <div className="grid grid-cols-5 rounded border border-line bg-paper p-1 sm:inline-flex">
             {performancePeriods.map((period) => (
               <button
                 className={cn(
-                  "rounded px-3 py-1.5 text-xs font-semibold text-ink/64 transition duration-180 hover:text-ink",
+                  "rounded px-2 py-1.5 text-[11px] font-semibold text-ink/64 transition duration-180 hover:text-ink sm:px-3 sm:text-xs",
                   activePeriod === period.key && "bg-white text-ink shadow-sm"
                 )}
                 key={period.key}
@@ -170,20 +189,20 @@ export function PeriodPerformanceView({
         </div>
 
         {series.length > 0 ? (
-          <div className="h-72 w-full">
+          <div className="h-56 w-full sm:h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={series}>
+              <LineChart data={series} margin={{ top: 8, right: isNarrow ? 4 : 16, bottom: 0, left: isNarrow ? -24 : 0 }}>
                 <CartesianGrid stroke="#eee7dc" />
                 <XAxis
                   dataKey="label"
                   ticks={chartTicks}
                   interval={0}
-                  minTickGap={16}
+                  minTickGap={isNarrow ? 28 : 16}
                   tickLine={false}
                   axisLine={false}
-                  tick={{ fill: "#18211f99", fontSize: 12 }}
+                  tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
                 />
-                <YAxis tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: 12 }} />
+                <YAxis width={isNarrow ? 32 : 44} tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }} />
                 <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
                 <Line type="monotone" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
                 <Line type="monotone" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />

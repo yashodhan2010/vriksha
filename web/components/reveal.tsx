@@ -36,6 +36,19 @@ export function Reveal({
       return;
     }
 
+    const revealIfNearViewport = () => {
+      const rect = node.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 120 && rect.bottom > -120) {
+        setVisible(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (revealIfNearViewport()) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -43,7 +56,7 @@ export function Reveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.01, rootMargin: "0px 0px 120px 0px" }
     );
     observer.observe(node);
     return () => observer.disconnect();

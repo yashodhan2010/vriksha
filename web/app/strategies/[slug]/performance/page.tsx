@@ -43,7 +43,7 @@ export default async function StrategyPerformancePage({
         <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
         <Link
           href={getSubscribePath(strategy)}
-          className="inline-flex items-center justify-center rounded border border-line px-4 py-3 text-sm font-semibold hover:bg-paper"
+          className="inline-flex min-h-11 items-center justify-center rounded border border-line bg-white px-4 py-3 text-sm font-semibold text-ink transition duration-180 hover:border-pine hover:bg-pine hover:text-white active:border-pine active:bg-pine active:text-white focus-visible:border-pine focus-visible:bg-pine focus-visible:text-white"
         >
           Subscription details
         </Link>
@@ -91,7 +91,7 @@ export default async function StrategyPerformancePage({
             </div>
             <Link
               href={getSubscribePath(strategy)}
-              className="inline-flex min-h-11 items-center justify-center rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink transition duration-180 hover:bg-paper"
+              className="inline-flex min-h-11 items-center justify-center rounded border border-line bg-white px-3 py-2 text-sm font-semibold text-ink transition duration-180 hover:border-pine hover:bg-pine hover:text-white active:border-pine active:bg-pine active:text-white focus-visible:border-pine focus-visible:bg-pine focus-visible:text-white"
             >
               Subscribe
             </Link>

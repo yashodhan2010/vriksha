@@ -12,13 +12,16 @@ function LockedPerformancePreview({ compact }: { compact: boolean }) {
   const barHeights = ["42%", "68%", "54%", "78%", "47%", "62%", "72%", "58%"];
 
   return (
-    <div className="pointer-events-none select-none space-y-5 opacity-70 blur-[1.5px]" aria-hidden="true">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {["Return profile", "Drawdown", "Volatility", "Benchmark"].map((label) => (
+    <div className="pointer-events-none select-none space-y-5 opacity-80" aria-hidden="true">
+      <div className={`grid gap-3 ${compact ? "grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-4"}`}>
+        {["CAGR", "1Y return", "5Y return", "Max return"].map((label) => (
           <div className="rounded border border-line bg-white/85 p-4" key={label}>
-            <div className="h-3 w-24 rounded-full bg-ink/12" />
-            <div className="mt-4 h-7 w-20 rounded bg-pine/22" />
-            <div className="mt-3 h-2 w-full rounded-full bg-line" />
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/48">{label}</span>
+              <LockKeyhole size={12} className="text-pine" />
+            </div>
+            <div className="mt-4 h-7 w-24 rounded bg-pine/18" />
+            <div className="mt-3 h-2 w-full rounded-full bg-line/80" />
           </div>
         ))}
       </div>
@@ -70,7 +73,7 @@ function LockedGateShell({
   compact: boolean;
 }) {
   return (
-    <section className={`${className} overflow-hidden rounded border border-line bg-paper/70 shadow-sm ${compact ? "p-3" : "p-4 sm:p-5"}`}>
+    <section className={`${className} overflow-hidden rounded border border-pine/25 bg-pine/[0.04] shadow-sm ${compact ? "p-3" : "p-4 sm:p-5"}`}>
       <div className={`rounded border border-line bg-white/95 shadow-sm ${compact ? "p-4" : "p-5"}`}>
         {children}
       </div>
@@ -84,12 +87,54 @@ function LockedGateShell({
   );
 }
 
+function LockedMetricTile({ label }: { label: string }) {
+  return (
+    <div className="rounded border border-pine/20 bg-white p-3 shadow-xs">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/52">{label}</span>
+        <span className="grid h-6 w-6 place-items-center rounded bg-pine text-white">
+          <LockKeyhole size={13} aria-hidden="true" />
+        </span>
+      </div>
+      <div className="mt-3 flex items-center gap-2">
+        <span className="h-7 w-16 rounded bg-pine/14" />
+        <span className="h-2 flex-1 rounded-full bg-line" />
+      </div>
+    </div>
+  );
+}
+
 function LockedValueSummary({ compact }: { compact: boolean }) {
   return (
-    <div className={`mt-4 grid gap-2 text-xs font-medium text-ink/64 ${compact ? "" : "sm:grid-cols-3"}`}>
-      <span className="rounded border border-line bg-paper px-3 py-2">1M, 6M, 1Y, 5Y and Max returns</span>
-      <span className="rounded border border-line bg-paper px-3 py-2">Strategy vs benchmark chart</span>
-      <span className="rounded border border-line bg-paper px-3 py-2">Risk and limitation context</span>
+    <div className="mt-4 overflow-hidden rounded border border-pine/25 bg-pine/[0.04]">
+      <div className="border-b border-pine/15 bg-pine px-4 py-3 text-white">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/72">Backtest results preview</p>
+        <p className="mt-1 text-sm font-semibold">Returns, CAGR, benchmark comparison and risk context are locked.</p>
+      </div>
+      <div className="p-3">
+        <div className={`grid gap-2 ${compact ? "grid-cols-2" : "sm:grid-cols-4"}`}>
+          {["CAGR (1Y+)", "1Y return", "5Y return", "Max return"].map((label) => (
+            <LockedMetricTile label={label} key={label} />
+          ))}
+        </div>
+        <div className={`mt-3 grid gap-3 ${compact ? "" : "lg:grid-cols-[1.15fr_0.85fr]"}`}>
+          <div className="relative h-24 overflow-hidden rounded border border-line bg-white">
+            <div className="absolute inset-x-4 top-1/2 border-t border-line" />
+            <div className="absolute bottom-7 left-4 right-4 h-10 rounded-t-[70%] border-t-[3px] border-pine/70" />
+            <div className="absolute bottom-4 left-4 right-4 h-8 rounded-t-[70%] border-t-[3px] border-clay/55" />
+            <div className="absolute inset-0 grid place-items-center bg-white/30">
+              <span className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white">
+                <LockKeyhole size={13} aria-hidden="true" />
+                Strategy vs benchmark chart
+              </span>
+            </div>
+          </div>
+          <div className="grid gap-2 text-xs font-medium text-ink/64">
+            <span className="rounded border border-line bg-white px-3 py-2">Monthly backtest returns heatmap</span>
+            <span className="rounded border border-line bg-white px-3 py-2">Drawdown and limitation context</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -277,8 +322,8 @@ export function PerformanceDisclosureGate({
               Verify email to request backtest performance
             </h2>
             <p className="mt-2 text-sm leading-6 text-ink/70">
-              Unlock the backtest performance section with return charts, benchmark comparisons, and risk
-              context after a verified one-to-one request.
+              Backtest results are available here after a verified one-to-one request. Unlock to view
+              return ranges, CAGR, benchmark comparison, charts, and risk context.
             </p>
             <LockedValueSummary compact={compact} />
             <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
@@ -363,11 +408,11 @@ export function PerformanceDisclosureGate({
         </span>
         <div className="min-w-0">
           <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-            Backtest performance details are hidden
+            Backtest results are locked
           </h2>
           <p className="mt-2 text-sm leading-6 text-ink/70">
-            Unlock the backtest performance section with return charts, benchmark comparisons, and risk
-            context after acknowledging the related risks and limitations.
+            The strategy return view is behind this acknowledgement. Unlock to view backtest return
+            ranges, CAGR, benchmark comparison, charts, and risk context.
           </p>
           <LockedValueSummary compact={compact} />
           <label className="mt-4 flex cursor-pointer items-start gap-3 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72 transition duration-250 hover:border-gold/60 hover:bg-paper">

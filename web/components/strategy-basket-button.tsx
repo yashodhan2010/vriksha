@@ -6,6 +6,8 @@ import { ShoppingBasket } from "lucide-react";
 import type { BillingCycle } from "@/lib/pricing";
 
 const storageKey = "vriksha-strategy-basket";
+const actionButtonClass =
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded border border-line bg-white px-4 py-3 text-sm font-semibold text-ink transition duration-180 hover:border-pine hover:bg-pine hover:text-white active:border-pine active:bg-pine active:text-white focus-visible:border-pine focus-visible:bg-pine focus-visible:text-white";
 
 function readBasket() {
   if (typeof window === "undefined") return [];
@@ -40,7 +42,7 @@ export function StrategyBasketButton({
       <Link
         href="/checkout"
         onClick={(event) => event.stopPropagation()}
-        className="inline-flex items-center justify-center gap-2 rounded bg-ink px-4 py-3 text-sm font-semibold text-white"
+        className="inline-flex min-h-11 items-center justify-center gap-2 rounded border border-pine bg-pine px-4 py-3 text-sm font-semibold text-white transition duration-180 hover:bg-ink active:bg-ink"
       >
         <ShoppingBasket size={16} aria-hidden="true" />
         View basket
@@ -50,7 +52,7 @@ export function StrategyBasketButton({
 
   return (
     <button
-      className="inline-flex items-center justify-center gap-2 rounded bg-pine px-4 py-3 text-sm font-semibold text-white"
+      className={actionButtonClass}
       type="button"
       onClick={addToBasket}
     >

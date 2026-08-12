@@ -57,6 +57,7 @@ model UserProfile {
   subscriptions Subscription[]
   accessGrants  AccessGrant[]
   auditLogs     AuditLog[]
+  infoSubscriptions InfoSubscription[]
 }
 
 model ResearchAnalyst {
@@ -261,6 +262,22 @@ model AccessGrant {
 
   user     UserProfile @relation(fields: [userId], references: [id])
   strategy Strategy    @relation(fields: [strategyId], references: [id])
+}
+
+model InfoSubscription {
+  id             String    @id @default(cuid())
+  userId         String
+  email          String
+  status         String    @default("active")
+  source         String    @default("blog")
+  startsAt       DateTime  @default(now())
+  unsubscribedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user UserProfile @relation(fields: [userId], references: [id])
+
+  @@unique([userId])
 }
 
 model ImportRun {

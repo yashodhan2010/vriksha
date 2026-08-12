@@ -101,6 +101,53 @@ export async function hasStrategyAccess(strategySlug: string) {
   );
 }
 
+export async function hasInfoSubscription() {
+  if (process.env.DEMO_INFO_SUBSCRIBED === "true") {
+    return true;
+  }
+
+  if (!(await hasSupabaseAuthCookie())) {
+    return false;
+  }
+
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return false;
+  }
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return false;
+  }
+
+  if (isAdminEmail(user.email)) {
+    return true;
+  }
+
+  const { data: adminProfile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .in("role", ["admin", "research_analyst", "compliance"])
+    .maybeSingle();
+
+  if (adminProfile) {
+    return true;
+  }
+
+  const { data } = await supabase
+    .from("info_subscriptions")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("status", "active")
+    .maybeSingle();
+
+  return Boolean(data);
+}
+
 export async function isAdmin() {
   if (process.env.DEMO_ADMIN === "true") {
     return true;

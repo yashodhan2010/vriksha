@@ -79,6 +79,7 @@ $packagesRoot = "C:\Users\Yashodhan\OneDrive\Documents\Algo\vrisksha-strategy-ma
 |---|---|
 | Install web dependencies | `cd web; npm install` |
 | Start local website | `cd web; npm run dev` |
+| Sync blog HTML imports | `cd web; npm run blogs:sync` |
 | Typecheck website | `cd web; npm run typecheck` |
 | Build website | `cd web; npm run build` |
 | Validate full strategy package | `python strategy_importer\package_contract.py "$packagesRoot\dual-momentum\strategy-package"` |
@@ -99,6 +100,35 @@ npm run dev
 ```
 
 Without `DEMO_SUBSCRIBED_STRATEGIES`, the latest model portfolio and CSV export routes stay paywalled.
+
+## Blog Research Notes
+
+Drop standalone `.html` research notes into `imports/blogs/`, then run:
+
+```powershell
+cd web
+npm run blogs:sync
+```
+
+The sync command extracts optional comment metadata, copies each report to
+`web/public/blog-html/{slug}/index.html`, and updates `web/content/blogs.generated.json`.
+The website reads that generated manifest for `/blog` and `/blog/{slug}`.
+
+Optional metadata format:
+
+```html
+<!--
+title: Europe Weekly Market Note
+date: 2026-08-11
+category: Market Notes
+excerpt: Weekly observations on European equities, rates, and portfolio risk.
+tags: Europe, Macro, Equity
+featured: true
+-->
+```
+
+Imported reports are embedded in a sandboxed frame with Vriksha header, footer, metadata, and
+educational/compliance disclaimers around the original HTML.
 
 ## Supabase Auth & Access
 

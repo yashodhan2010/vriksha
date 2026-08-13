@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "blogs:sync": "node scripts/sync-blogs.mjs",
     "start": "next start",
     "db:apply": "node scripts/apply-supabase-migrations.mjs",
     "db:audit-security": "node scripts/audit-supabase-security.mjs",

@@ -4,28 +4,13 @@
 
    ▲ Next.js 15.5.20
    - Local:        http://localhost:3000
-   - Network:      http://10.11.0.30:3000
+   - Network:      http://10.38.195.66:3000
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 2.6s
- ✓ Compiled /middleware in 320ms (171 modules)
- ○ Compiling /strategies ...
- ✓ Compiled /strategies in 3.1s (827 modules)
- GET /strategies 200 in 3680ms
- ✓ Compiled in 351ms (334 modules)
- ✓ Compiled in 159ms (334 modules)
- ✓ Compiled in 163ms (334 modules)
- ✓ Compiled in 330ms (334 modules)
- ✓ Compiled in 146ms (334 modules)
- ✓ Compiled in 130ms (334 modules)
- ○ Compiling /strategies/[slug]/performance ...
- ✓ Compiled /strategies/[slug]/performance in 4.2s (1888 modules)
- GET /strategies/conservative-dual-momentum/performance 200 in 5400ms
- ✓ Compiled in 370ms (866 modules)
- ✓ Compiled in 2.8s (866 modules)
- ✓ Compiled in 286ms (866 modules)
- ✓ Compiled in 362ms (866 modules)
- ✓ Compiled in 276ms (866 modules)
- ✓ Compiled /strategies/[slug]/performance in 470ms (1022 modules)
- GET /strategies/conservative-dual-momentum/performance 200 in 1156ms
+ ✓ Ready in 4.3s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 785ms (171 modules)
+ ○ Compiling /blog ...
+ ✓ Compiled /blog in 2.1s (793 modules)
+ GET /blog 200 in 3330ms

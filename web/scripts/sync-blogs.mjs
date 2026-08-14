@@ -46,13 +46,35 @@ function cleanText(value = "") {
     .trim();
 }
 
-function titleCaseFromFilename(filename) {
-  return path
-    .basename(filename, path.extname(filename))
+function normalizeFilenameText(value = "") {
+  return value
+    .replace(/â€”|—|–/g, " ")
     .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function regionFromFilename(filename) {
+  const normalized = normalizeFilenameText(path.basename(filename, path.extname(filename)));
+  const match = normalized.match(/\b(Asia|Europe|India|US|Global)\b/i);
+  if (!match) return "";
+  return match[1].toUpperCase() === "US" ? "US" : match[1][0].toUpperCase() + match[1].slice(1).toLowerCase();
+}
+
+function titleCaseFromFilename(filename) {
+  const region = regionFromFilename(filename);
+  if (region) return `${region} Weekly Market Note`;
+
+  return normalizeFilenameText(path.basename(filename, path.extname(filename)))
+    .replace(/\bMaster Global Template\b/gi, "")
+    .replace(/\bFinal\b/gi, "")
     .replace(/\s+/g, " ")
     .trim()
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function isWeakTitle(value = "") {
+  return /^(react artifact|vite \+ react|untitled|document)$/i.test(value.trim());
 }
 
 function slugify(value) {
@@ -106,6 +128,20 @@ function visibleText(html) {
       .replace(/^\s*<!--[\s\S]*?-->/, " ")
       .replace(/<noscript\b[\s\S]*?<\/noscript>/gi, " ")
   );
+}
+
+function isWeakExtractedText(value = "") {
+  const words = value.match(/\b[\w'-]+\b/g)?.length ?? 0;
+  return words < 5 || /^(react|react artifact|vite react)$/i.test(value.trim());
+}
+
+function scriptStringText(html) {
+  const values = [];
+  for (const match of html.matchAll(/children:"([^"]{3,240})"/g)) {
+    values.push(match[1]);
+  }
+
+  return cleanText(values.join(" "));
 }
 
 function estimateReadingTime(text) {
@@ -200,31 +236,46 @@ async function readManifest() {
 function buildMetadata(html, filePath) {
   const frontmatter = parseFrontmatter(html);
   const fallbackTitle = titleCaseFromFilename(filePath);
-  const title =
-    cleanText(frontmatter.title) ||
+  const frontmatterTitle = cleanText(frontmatter.title);
+  const candidateTitle =
     getMetaContent(html, "title") ||
     getMetaContent(html, "og:title") ||
     firstTagText(html, "title") ||
-    firstTagText(html, "h1") ||
+    firstTagText(html, "h1");
+  const title =
+    frontmatterTitle ||
+    (candidateTitle && !isWeakTitle(candidateTitle) ? candidateTitle : "") ||
     fallbackTitle;
 
   const date = normalizeDate(frontmatter.date || getMetaContent(html, "article:published_time"));
   const rawCategory = cleanText(frontmatter.category) || "Market Notes";
   const category = allowedCategories.has(rawCategory) ? rawCategory : rawCategory;
+  const region = regionFromFilename(filePath);
+  const extractedText = visibleText(html);
+  const weakExtractedText = isWeakExtractedText(extractedText);
+  const artifactText = extractedText && !weakExtractedText ? extractedText : scriptStringText(html);
+  const defaultRegionExcerpt = region
+    ? `A Vriksha weekly market note covering ${region} macro signals, market levels, liquidity, risks, and research desk observations.`
+    : "";
   const excerpt =
     cleanText(frontmatter.excerpt) ||
     getMetaContent(html, "description") ||
     getMetaContent(html, "og:description") ||
-    visibleText(html).slice(0, 170).replace(/\s+\S*$/, "") ||
+    (weakExtractedText ? defaultRegionExcerpt : "") ||
+    artifactText.slice(0, 170).replace(/\s+\S*$/, "") ||
+    defaultRegionExcerpt ||
     "A Vriksha research note for disciplined market review.";
+  const tags = parseTags(frontmatter.tags);
+  if (!tags.length && region) tags.push(region, "Macro", "Markets");
+
   return {
     baseSlug: slugify(frontmatter.slug || title || fallbackTitle),
     title,
     date,
     category,
     excerpt,
-    tags: parseTags(frontmatter.tags),
-    readingTime: estimateReadingTime(visibleText(html)),
+    tags,
+    readingTime: estimateReadingTime(artifactText),
     featured: String(frontmatter.featured || "").toLowerCase() === "true"
   };
 }
@@ -253,7 +304,8 @@ async function sync() {
       inspectExternalReferences(html, sourceFile);
       const metadata = buildMetadata(html, filePath);
       const existing = previousBySource.get(sourceFile);
-      let slug = existing?.slug && !usedSlugs.has(existing.slug) ? existing.slug : metadata.baseSlug;
+      const existingSlugIsWeak = existing?.slug ? /^react-artifact(?:-\d+)?$/.test(existing.slug) : false;
+      let slug = existing?.slug && !existingSlugIsWeak && !usedSlugs.has(existing.slug) ? existing.slug : metadata.baseSlug;
       let index = 2;
       while (usedSlugs.has(slug)) {
         slug = `${metadata.baseSlug}-${index}`;

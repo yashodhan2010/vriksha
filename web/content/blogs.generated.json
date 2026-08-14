@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "title": "Asia Weekly Market Note",
+    "date": "2026-08-14",
+    "category": "Market Notes",
+    "excerpt": "A Vriksha weekly market note covering Asia macro signals, market levels, liquidity, risks, and research desk observations.",
+    "tags": [
+      "Asia",
+      "Macro",
+      "Markets"
+    ],
+    "readingTime": "2 min read",
+    "featured": false,
+    "slug": "asia-weekly-market-note",
+    "sourceFile": "imports/blogs/Asia-Weekly-—-Master-Global-Template-Final.html",
+    "publicPath": "/blog-html/asia-weekly-market-note/index.html"
+  },
+  {
+    "title": "Europe Weekly Market Note",
+    "date": "2026-08-14",
+    "category": "Market Notes",
+    "excerpt": "A Vriksha weekly market note covering Europe macro signals, market levels, liquidity, risks, and research desk observations.",
+    "tags": [
+      "Europe",
+      "Macro",
+      "Markets"
+    ],
+    "readingTime": "2 min read",
+    "featured": false,
+    "slug": "europe-weekly-market-note",
+    "sourceFile": "imports/blogs/Europe-Weekly-—-Master-Global-Template.html",
+    "publicPath": "/blog-html/europe-weekly-market-note/index.html"
+  },
+  {
+    "title": "Global Weekly Market Note",
+    "date": "2026-08-14",
+    "category": "Market Notes",
+    "excerpt": "A Vriksha weekly market note covering Global macro signals, market levels, liquidity, risks, and research desk observations.",
+    "tags": [
+      "Global",
+      "Macro",
+      "Markets"
+    ],
+    "readingTime": "2 min read",
+    "featured": false,
+    "slug": "global-weekly-market-note",
+    "sourceFile": "imports/blogs/Global-—-7,753.html",
+    "publicPath": "/blog-html/global-weekly-market-note/index.html"
+  },
+  {
+    "title": "India Weekly Market Note",
+    "date": "2026-08-14",
+    "category": "Market Notes",
+    "excerpt": "A Vriksha weekly market note covering India macro signals, market levels, liquidity, risks, and research desk observations.",
+    "tags": [
+      "India",
+      "Macro",
+      "Markets"
+    ],
+    "readingTime": "2 min read",
+    "featured": false,
+    "slug": "india-weekly-market-note",
+    "sourceFile": "imports/blogs/India-Weekly-—-Master-Global-Template-Final.html",
+    "publicPath": "/blog-html/india-weekly-market-note/index.html"
+  },
+  {
+    "title": "US Weekly Market Note",
+    "date": "2026-08-14",
+    "category": "Market Notes",
+    "excerpt": "A Vriksha weekly market note covering US macro signals, market levels, liquidity, risks, and research desk observations.",
+    "tags": [
+      "US",
+      "Macro",
+      "Markets"
+    ],
+    "readingTime": "2 min read",
+    "featured": false,
+    "slug": "us-weekly-market-note",
+    "sourceFile": "imports/blogs/US-Weekly-—-Master-Global-Template.html",
+    "publicPath": "/blog-html/us-weekly-market-note/index.html"
+  }
+]

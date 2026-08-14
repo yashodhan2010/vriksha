@@ -92,8 +92,27 @@ export default async function BlogPage({
       </section>
 
       <section className="container-page py-10">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Browse by Branch</p>
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
+            {blogCategories.map((category) => {
+              const active = category === (selectedCategory ?? "All Notes");
+              return (
+                <Link
+                  href={category === "All Notes" ? "/blog" : `/blog?category=${encodeURIComponent(category)}`}
+                  className={`relative shrink-0 rounded-[18px_4px_18px_4px] border px-3 py-2 text-xs font-semibold ${tagClasses(active)}`}
+                  key={category}
+                >
+                  <span className="mr-2 inline-block h-3 w-2 rounded-[100%_0_100%_0] border border-current/30 align-[-1px]" aria-hidden="true" />
+                  {categoryLabel(category)}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {featured && (
-          <article className="relative grid overflow-hidden rounded-[34px_10px_34px_10px] border border-pine/20 bg-white shadow-sm lg:grid-cols-[0.82fr_1.18fr]">
+          <article className="mt-7 relative grid overflow-hidden rounded-[34px_10px_34px_10px] border border-pine/20 bg-white shadow-sm lg:grid-cols-[0.82fr_1.18fr]">
             <div className="relative border-b border-line bg-pine p-6 text-white lg:border-b-0 lg:border-r lg:border-line/20">
               <div className="absolute -right-10 -top-12 h-32 w-24 rotate-12 rounded-[100%_0_100%_0] border border-white/12 bg-white/[0.04]" aria-hidden="true" />
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">Latest Leaf</p>
@@ -133,25 +152,6 @@ export default async function BlogPage({
             </div>
           </article>
         )}
-
-        <div className="mt-9">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-clay">Browse by Branch</p>
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
-            {blogCategories.map((category) => {
-              const active = category === (selectedCategory ?? "All Notes");
-              return (
-                <Link
-                  href={category === "All Notes" ? "/blog" : `/blog?category=${encodeURIComponent(category)}`}
-                  className={`relative shrink-0 rounded-[18px_4px_18px_4px] border px-3 py-2 text-xs font-semibold ${tagClasses(active)}`}
-                  key={category}
-                >
-                  <span className="mr-2 inline-block h-3 w-2 rounded-[100%_0_100%_0] border border-current/30 align-[-1px]" aria-hidden="true" />
-                  {categoryLabel(category)}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
 
         <div className="mt-5 grid gap-6 lg:grid-cols-[220px_1fr]">
           <aside className="hidden lg:block">

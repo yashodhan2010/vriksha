@@ -4,13 +4,20 @@
 
    ▲ Next.js 15.5.20
    - Local:        http://localhost:3000
-   - Network:      http://10.38.195.66:3000
+   - Network:      http://192.168.31.41:3000
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 4.3s
+ ✓ Ready in 2.4s
  ○ Compiling /middleware ...
- ✓ Compiled /middleware in 785ms (171 modules)
- ○ Compiling /blog ...
- ✓ Compiled /blog in 2.1s (793 modules)
- GET /blog 200 in 3330ms
+ ✓ Compiled /middleware in 767ms (171 modules)
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 4.2s (807 modules)
+ GET /blog 200 in 6455ms
+ GET /blog/asia-weekly-market-note 200 in 6624ms
+ GET /blog 200 in 344ms
+ GET /blog?category=Strategy+Notes 200 in 77ms
+ GET /blog?category=Market+Notes 200 in 150ms
+ GET /blog?category=Education 200 in 110ms
+ GET /blog?category=Market+Notes 200 in 114ms
+ ✓ Compiled in 2.2s (807 modules)

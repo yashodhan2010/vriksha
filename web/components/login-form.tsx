@@ -15,7 +15,11 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
   const remainingSeconds = otpExpiresAt
     ? Math.max(0, Math.ceil((otpExpiresAt - now) / 1000))
     : 0;
-  const canResend = status === "sent" && otpExpiresAt !== null && remainingSeconds === 0;
+  const canResend =
+    Boolean(email.trim()) &&
+    status !== "sending" &&
+    status !== "verifying" &&
+    (status === "error" || (otpExpiresAt !== null && remainingSeconds === 0));
 
   useEffect(() => {
     if (!otpExpiresAt || remainingSeconds === 0) return;
@@ -56,6 +60,22 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
 
     if (error) {
       throw new Error(error.message);
+    }
+  }
+
+  async function resendOtp() {
+    setStatus("sending");
+    setMessage("");
+    setOtp("");
+    try {
+      await sendOtp();
+      setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
+      setNow(Date.now());
+      setStatus("sent");
+      setMessage("We sent a fresh login code from Vriksha Capital.");
+    } catch (error) {
+      setStatus("error");
+      setMessage(error instanceof Error ? error.message : "Could not resend the login code.");
     }
   }
 
@@ -139,22 +159,9 @@ export function LoginForm({ redirectTo = "/dashboard" }: { redirectTo?: string }
         <button
           className="mt-3 w-full text-sm font-medium text-pine hover:text-ink"
           type="button"
-          onClick={async () => {
-            setStatus("sending");
-            setMessage("");
-            try {
-              await sendOtp();
-              setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
-              setNow(Date.now());
-              setStatus("sent");
-              setMessage("We sent a fresh login code from Vriksha Capital.");
-            } catch (error) {
-              setStatus("error");
-              setMessage(error instanceof Error ? error.message : "Could not resend the login code.");
-            }
-          }}
+          onClick={resendOtp}
         >
-          Resend code
+          {status === "error" ? "Send a fresh code" : "Resend code"}
         </button>
       )}
       {message && (

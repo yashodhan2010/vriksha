@@ -166,7 +166,11 @@ export function PerformanceDisclosureGate({
   const remainingSeconds = otpExpiresAt
     ? Math.max(0, Math.ceil((otpExpiresAt - now) / 1000))
     : 0;
-  const canResend = status === "sent" && otpExpiresAt !== null && remainingSeconds === 0;
+  const canResend =
+    Boolean(email.trim()) &&
+    status !== "sending" &&
+    status !== "verifying" &&
+    (status === "error" || (otpExpiresAt !== null && remainingSeconds === 0));
 
   useEffect(() => {
     async function initialize() {
@@ -215,13 +219,22 @@ export function PerformanceDisclosureGate({
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       setStatus("error");
       setMessage(payload?.error ?? "Could not send the login code.");
-      return;
+      return false;
     }
 
     setStatus("sent");
     setOtpExpiresAt(Date.now() + authOtpExpirySeconds * 1000);
     setNow(Date.now());
     setMessage("Check your email for the login code from Vriksha Capital.");
+    return true;
+  }
+
+  async function resendOtp() {
+    setOtp("");
+    const sent = await sendOtp();
+    if (sent) {
+      setMessage("We sent a fresh login code from Vriksha Capital.");
+    }
   }
 
   async function verifyOtp() {
@@ -375,9 +388,9 @@ export function PerformanceDisclosureGate({
               <button
                 className="mt-3 text-sm font-medium text-pine hover:text-ink"
                 type="button"
-                onClick={sendOtp}
+                onClick={resendOtp}
               >
-                Resend code
+                {status === "error" ? "Send a fresh code" : "Resend code"}
               </button>
             )}
             {message && (

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vriksha Capital Design System Board</title>
+  <style>
+    :root {
+      --paper: #fdfbf6;
+      --card: #ffffff;
+      --green-wash: #f5faf7;
+      --zebra: #f3f9f4;
+      --strong-green-wash: #e6f4eb;
+      --forest: #0f5d3a;
+      --title: #111111;
+      --body: #1a1a1a;
+      --secondary: #4a4a4a;
+      --tertiary: #8a8170;
+      --line: #ede8da;
+      --bar: #e8e2d6;
+      --accent: #cfe2d6;
+      --separator: #c2b8a3;
+      --warning: #d48a5c;
+      --gold: #c49a3a;
+      --stop: #a05a5a;
+      --error-wash: #fef2f2;
+      --radius-card: 12px;
+      --max: 1280px;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      color: var(--body);
+      background: var(--paper);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); }
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-family: Fraunces, Georgia, ui-serif, serif;
+      color: var(--title);
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+    }
+    p { margin: 0; line-height: 1.65; }
+    a { color: inherit; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 32px 24px; }
+    .label {
+      font: 600 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--tertiary);
+    }
+    .hero {
+      border-bottom: 1px solid var(--bar);
+      background: linear-gradient(180deg, #fdfbf6 0%, #f5faf7 100%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: end;
+      padding: 56px 24px;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .hero h1 { font-size: clamp(42px, 6vw, 72px); max-width: 760px; }
+    .hero p { margin-top: 16px; color: var(--secondary); max-width: 680px; font-size: 17px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: 0 1px 2px rgba(17, 17, 17, 0.04);
+    }
+    .accent-card { border-left: 3px solid var(--forest); }
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .section-title { margin-bottom: 20px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+    .section-title h2 { font-size: 34px; }
+    .swatch { min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
+    .swatch span { display: block; width: 100%; height: 56px; border-radius: 10px; border: 1px solid rgba(0,0,0,.08); }
+    .button-row, .pill-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 0 18px;
+      font-weight: 600;
+      background: var(--card);
+      color: var(--body);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn.primary { background: var(--forest); border-color: var(--forest); color: white; }
+    .btn.disabled { color: var(--tertiary); background: var(--green-wash); cursor: not-allowed; }
+    .btn.stop { background: var(--error-wash); border-color: #e8d6d6; color: var(--stop); }
+    .btn:focus { outline: 2px solid var(--forest); outline-offset: 2px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .field input, .field select {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      padding: 0 12px;
+      color: var(--body);
+    }
+    .field input:focus, .field select:focus { outline: 2px solid var(--forest); outline-offset: 2px; }
+    .helper { margin-top: 6px; font-size: 12px; color: var(--tertiary); }
+    .error input { border-color: #e8d6d6; }
+    .error .helper { color: var(--stop); }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .pill.active { background: var(--forest); border-color: var(--forest); color: white; }
+    .callout {
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--forest);
+      border-radius: 12px;
+      background: white;
+      padding: 16px;
+    }
+    .callout.warning { border-left-color: var(--warning); }
+    .callout.stop { border-left-color: var(--stop); background: var(--error-wash); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; overflow: hidden; border-radius: 12px; }
+    th { background: var(--forest); color: white; text-align: left; padding: 10px 12px; font-weight: 600; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    tr:nth-child(even) td { background: var(--zebra); }
+    .screen {
+      min-height: 360px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .screen h3 { font-size: 24px; }
+    .phone {
+      max-width: 360px;
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px;
+      background: var(--paper);
+      box-shadow: 0 10px 28px rgba(17, 17, 17, 0.07);
+    }
+    .legal {
+      border-top: 1px solid var(--bar);
+      background: white;
+      padding: 24px;
+      border-left: 3px solid var(--forest);
+      font-size: 12px;
+      color: var(--secondary);
+    }
+    .legal .risk { font-size: 10pt; color: var(--body); font-weight: 600; }
+    .leaf-card {
+      border-radius: 28px 8px 28px 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .leaf-card:after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 42px;
+      height: 58px;
+      border: 1px solid rgba(15, 93, 58, .12);
+      border-radius: 100% 0 100% 0;
+      background: rgba(15, 93, 58, .025);
+    }
+    .slide {
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 24px;
+      display: grid;
+      align-content: center;
+      gap: 14px;
+    }
+    .slide.green { background: var(--forest); color: white; }
+    .slide.green h3, .slide.green .label { color: white; }
+    @media (max-width: 840px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .wrap { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="label">Vriksha Capital / Design System</div>
+        <h1>Credible research surfaces for self-directed investors.</h1>
+        <p>A warm paper system with serif authority, dense factual cards, careful tables, and visible compliance framing. Designed for trust through clarity.</p>
+      </div>
+      <div class="card accent-card">
+        <div class="label">Regulatory guardrails</div>
+        <p style="margin-top:12px">No performance figures, no public return charts, no testimonials, no urgency mechanics, no regulatory logos, and no founder photograph.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap">
+      <div class="section-title">
+        <h2>Tokens</h2>
+        <span class="label">Exact brief colors</span>
+      </div>
+      <div class="grid grid-4">
+        <div class="card swatch"><span style="background:#fdfbf6"></span><b>Warm paper</b><code>#fdfbf6</code></div>
+        <div class="card swatch"><span style="background:#0f5d3a"></span><b>Forest green</b><code>#0f5d3a</code></div>
+        <div class="card swatch"><span style="background:#e6f4eb"></span><b>Green wash</b><code>#e6f4eb</code></div>
+        <div class="card swatch"><span style="background:#c49a3a"></span><b>Muted gold</b><code>#c49a3a</code></div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-title">
+        <h2>Components</h2>
+        <span class="label">Default / focus / disabled / error</span>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Buttons and Badges</h3>
+          <div class="button-row" style="margin-top:16px">
+            <a class="btn primary" href="#">Ask for information</a>
+            <a class="btn" href="#">Download</a>
+            <a class="btn stop" href="#">Cancel subscription</a>
+            <a class="btn disabled" href="#">Disabled</a>
+          </div>
+          <div class="pill-row" style="margin-top:18px">
+            <span class="pill active">Market Notes</span>
+            <span class="pill">Strategy Notes</span>
+            <span class="pill">Risk Analytics</span>
+            <span class="pill">Compliance</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Form Fields</h3>
+          <div class="grid grid-2" style="margin-top:16px">
+            <div class="field">
+              <label>Name</label>
+              <input value="Prathmesh Gupta">
+              <div class="helper">Visible labels, quiet helper text.</div>
+            </div>
+            <div class="field error">
+              <label>Email</label>
+              <input value="missing-domain">
+              <div class="helper">Enter a valid email address.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Callouts</h3>
+          <div class="grid" style="margin-top:16px">
+            <div class="callout"><b>Info</b><p>Use for methodology and document context.</p></div>
+            <div class="callout warning"><b>Warning</b><p>Use for implementation constraints and risk caveats.</p></div>
+            <div class="callout stop"><b>Stop</b><p>Use when a step is blocked or a visitor is not suited right now.</p></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Table</h3>
+          <table style="margin-top:16px">
+            <thead><tr><th>Holding</th><th>Sector</th><th style="text-align:right">Weight</th></tr></thead>
+            <tbody>
+              <tr><td>Example A</td><td>Financials</td><td style="text-align:right">8.5%</td></tr>
+              <tr><td>Example B</td><td>Industrials</td><td style="text-align:right">6.0%</td></tr>
+              <tr><td>Example C</td><td>Technology</td><td style="text-align:right">5.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-title">
+        <h2>Screen Direction</h2>
+        <span class="label">Desktop and mobile patterns</span>
+      </div>
+      <div class="grid grid-3">
+        <article class="screen">
+          <div class="label">Home</div>
+          <h3>Rules-based model portfolios for self-directed investors.</h3>
+          <p>One clear action. Factual panels for what Vriksha does and does not do.</p>
+          <a class="btn primary" href="#">Ask for information</a>
+        </article>
+        <article class="screen">
+          <div class="label">Strategy Page</div>
+          <h3>Construction before persuasion.</h3>
+          <div class="grid grid-2">
+            <div class="callout"><b>Universe</b><p>Defined and documented.</p></div>
+            <div class="callout"><b>Rebalance</b><p>Fortnightly cadence.</p></div>
+          </div>
+          <p>No performance section or placeholder.</p>
+        </article>
+        <article class="screen">
+          <div class="label">Document Reader</div>
+          <h3>Report-like reading view.</h3>
+          <p>Metadata, contents rail, document frame, download control, compliance callout.</p>
+          <div class="leaf-card card"><b>Research note preview</b><p>Comfortable measure and clear hierarchy.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-title">
+        <h2>Mobile Pattern</h2>
+        <span class="label">Phone-first reading</span>
+      </div>
+      <div class="phone">
+        <div class="label">Self-assessment</div>
+        <h3 style="margin-top:12px">Is this suitable for how you invest?</h3>
+        <p style="margin-top:10px;color:var(--secondary)">Question 3 of 5</p>
+        <div class="grid" style="margin-top:18px">
+          <div class="card">I can place trades myself.</div>
+          <div class="card">I need someone to execute for me.</div>
+          <div class="card">I am not sure yet.</div>
+        </div>
+        <a class="btn primary" style="width:100%;margin-top:18px" href="#">Continue</a>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-title">
+        <h2>Presentation Masters</h2>
+        <span class="label">One idea per slide</span>
+      </div>
+      <div class="grid grid-3">
+        <div class="slide">
+          <div class="label">Statement</div>
+          <h3>A model portfolio is research, not trade execution.</h3>
+        </div>
+        <div class="slide">
+          <div class="label">One number</div>
+          <h3 style="font-size:56px">35</h3>
+          <p>Holdings in the model portfolio.</p>
+        </div>
+        <div class="slide green">
+          <div class="label">Section</div>
+          <h3>How the process works</h3>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="legal">
+      <p>Prathmesh Jaiprakash Gupta, Individual Research Analyst, registered with SEBI under registration number INH000027788, granted 4 June 2026. Enlisted with BSE Administration & Supervision Ltd. (RAASB), enlistment number 7261.</p>
+      <p style="margin-top:10px">Registered office: 701 &amp; 702, Floor-7, Sunset (Padmavati) CHS, Eknath Buwa Hatiskar Marg, Hatiskarwadi, Nr. Telephone Exchange, Prabhadevi, Mumbai, Maharashtra 400025.</p>
+      <p style="margin-top:10px"><a href="https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doRecognisedFpi=yes&amp;intmId=14">Verify this registration on the public registry -></a></p>
+      <p class="risk" style="margin-top:10px">Investment in securities market are subject to market risks. Read all the related documents carefully before investing.</p>
+      <p style="margin-top:10px">Registration granted by SEBI and certification from NISM in no way guarantee the performance of the intermediary or provide any assurance of returns to investors.</p>
+      <p style="margin-top:10px">Grievances: Customer Care +91 99305 21527 -> Compliance Officer (21 working days) -> Principal Officer -> SEBI SCORES -> SMART ODR</p>
+    </div>
+  </footer>
+</body>
+</html>

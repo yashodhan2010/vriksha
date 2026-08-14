@@ -21,3 +21,5 @@
  GET /blog?category=Education 200 in 110ms
  GET /blog?category=Market+Notes 200 in 114ms
  ✓ Compiled in 2.2s (807 modules)
+ ✓ Compiled in 2s (330 modules)
+ ✓ Compiled in 262ms (330 modules)

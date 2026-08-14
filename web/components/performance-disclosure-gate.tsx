@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LockKeyhole, MailCheck, UnlockKeyhole } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { authOtpExpirySeconds, formatOtpCountdown } from "@/lib/auth-otp";
 import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/compliance";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
@@ -113,7 +114,7 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
       </div>
       <div className="p-3">
         <div className={`grid gap-2 ${compact ? "grid-cols-2" : "sm:grid-cols-4"}`}>
-          {["CAGR (1Y+)", "1Y return", "5Y return", "Max return"].map((label) => (
+          {["CAGR", "Max drawdown", "Volatility", "Sharpe / Sortino"].map((label) => (
             <LockedMetricTile label={label} key={label} />
           ))}
         </div>
@@ -125,11 +126,12 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
             <div className="absolute inset-0 grid place-items-center bg-white/30">
               <span className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white">
                 <LockKeyhole size={13} aria-hidden="true" />
-                Strategy vs benchmark chart
+                Strategy vs benchmark growth
               </span>
             </div>
           </div>
           <div className="grid gap-2 text-xs font-medium text-ink/64">
+            <span className="rounded border border-line bg-white px-3 py-2">Backtest period and assumptions</span>
             <span className="rounded border border-line bg-white px-3 py-2">Monthly backtest returns heatmap</span>
             <span className="rounded border border-line bg-white px-3 py-2">Drawdown and limitation context</span>
           </div>
@@ -143,12 +145,18 @@ export function PerformanceDisclosureGate({
   children,
   compact = false,
   className = "",
-  acknowledgementKey = "default"
+  acknowledgementKey = "default",
+  analyticsStrategySlug,
+  analyticsStrategyFamily,
+  unlockFocusId = "backtest"
 }: {
   children: React.ReactNode;
   compact?: boolean;
   className?: string;
   acknowledgementKey?: string;
+  analyticsStrategySlug?: string;
+  analyticsStrategyFamily?: string;
+  unlockFocusId?: string;
 }) {
   const [acknowledged, setAcknowledged] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -192,6 +200,14 @@ export function PerformanceDisclosureGate({
 
     initialize();
   }, [storageKey]);
+
+  useEffect(() => {
+    if (!ready || !acknowledged) return;
+    trackEvent("backtest_viewed", {
+      strategySlug: analyticsStrategySlug ?? strategySlug,
+      strategyFamily: analyticsStrategyFamily
+    });
+  }, [acknowledged, analyticsStrategyFamily, analyticsStrategySlug, ready, strategySlug]);
 
   useEffect(() => {
     if (!otpExpiresAt || remainingSeconds === 0) return;
@@ -279,6 +295,10 @@ export function PerformanceDisclosureGate({
   async function accept() {
     setStatus("logging");
     setMessage("");
+    trackEvent("backtest_acknowledgement_started", {
+      strategySlug: analyticsStrategySlug ?? strategySlug,
+      strategyFamily: analyticsStrategyFamily
+    });
 
     const response = await fetch("/api/performance-access", {
       method: "POST",
@@ -302,6 +322,19 @@ export function PerformanceDisclosureGate({
     window.sessionStorage.setItem(storageKey, "true");
     setAcknowledged(true);
     setStatus("idle");
+    trackEvent("backtest_acknowledgement_completed", {
+      strategySlug: analyticsStrategySlug ?? strategySlug,
+      strategyFamily: analyticsStrategyFamily
+    });
+    window.setTimeout(() => {
+      const target = document.getElementById(unlockFocusId);
+      target?.setAttribute("tabindex", "-1");
+      target?.focus({ preventScroll: true });
+      target?.scrollIntoView({
+        block: "start",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+      });
+    }, 50);
   }
 
   if (!ready) {
@@ -332,11 +365,11 @@ export function PerformanceDisclosureGate({
           </span>
           <div className="w-full min-w-0">
             <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-              Verify email to request backtest performance
+              How has this strategy behaved historically?
             </h2>
             <p className="mt-2 text-sm leading-6 text-ink/70">
-              Backtest results are available here after a verified one-to-one request. Unlock to view
-              return ranges, CAGR, benchmark comparison, charts, and risk context.
+              Review simulated portfolio growth, benchmark comparison, drawdowns and risk-adjusted performance.
+              Historical results are hypothetical and subject to the assumptions and limitations described below.
             </p>
             <LockedValueSummary compact={compact} />
             <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
@@ -421,25 +454,27 @@ export function PerformanceDisclosureGate({
         </span>
         <div className="min-w-0">
           <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
-            Backtest results are locked
+            How has this strategy behaved historically?
           </h2>
           <p className="mt-2 text-sm leading-6 text-ink/70">
-            The strategy return view is behind this acknowledgement. Unlock to view backtest return
-            ranges, CAGR, benchmark comparison, charts, and risk context.
+            Review simulated portfolio growth, benchmark comparison, drawdowns and risk-adjusted performance.
+            Historical results are hypothetical and subject to the assumptions and limitations described below.
           </p>
           <LockedValueSummary compact={compact} />
-          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72 transition duration-250 hover:border-gold/60 hover:bg-paper">
-            <input
-              className="mt-1 h-4 w-4 accent-pine"
-              type="checkbox"
-              onChange={accept}
-              disabled={status === "logging"}
-            />
-            <span>
+          <div className="mt-4 rounded border border-line bg-white p-3 text-sm leading-6 text-ink/72">
+            <p>
               I understand that {standardMarketRiskWarning.toLowerCase()} {standardSebiDisclaimer}
               {" "}Past or backtested performance does not guarantee future returns.
-            </span>
-          </label>
+            </p>
+            <button
+              className="mt-3 inline-flex min-h-11 items-center justify-center rounded bg-pine px-4 py-3 text-sm font-semibold text-white transition duration-180 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60"
+              type="button"
+              onClick={accept}
+              disabled={status === "logging"}
+            >
+              {status === "logging" ? "Recording acknowledgement" : "Acknowledge risks and view backtest"}
+            </button>
+          </div>
           {message && (
             <p className={`mt-3 text-sm ${status === "error" ? "text-clay" : "text-pine"}`}>
               {message}

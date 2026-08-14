@@ -17,9 +17,22 @@
  GET /blog/asia-weekly-market-note 200 in 6624ms
  GET /blog 200 in 344ms
  GET /blog?category=Strategy+Notes 200 in 77ms
- GET /blog?category=Market+Notes 200 in 150ms
- GET /blog?category=Education 200 in 110ms
- GET /blog?category=Market+Notes 200 in 114ms
- ✓ Compiled in 2.2s (807 modules)
- ✓ Compiled in 2s (330 modules)
- ✓ Compiled in 262ms (330 modules)
+ GET /blog?catego ✓ Compiled in 2.5s (878 modules)
+ ✓ Compiled in 288ms (878 modules)
+ ✓ Compiled in 260ms (878 modules)
+ ✓ Compiled in 193ms (878 modules)
+ ○ Compiling /strategies/[slug] ...
+ ✓ Compiled /strategies/[slug]/performance in 1296ms (1982 modules)
+ GET /strategies/bamboo-trunk/performance 200 in 2023ms
+ GET /strategies/bamboo-trunk 200 in 3046ms
+ ✓ Compiled in 910ms (879 modules)
+ ✓ Compiled in 610ms (879 modules)
+ ✓ Compiled in 1155ms (1050 modules)
+ ○ Compiling /dashboard/portfolio ...
+ ✓ Compiled /dashboard/account in 2.3s (1426 modules)
+ GET /dashboard/portfolio 200 in 3274ms
+ GET /dashboard/rebalances 200 in 2977ms
+ GET /dashboard/research 200 in 2781ms
+ GET /dashboard/account 200 in 2768ms
+ GET /dashboard 200 in 3536ms
+ ✓ Compiled in 649ms (881 modules)

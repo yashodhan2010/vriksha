@@ -175,8 +175,8 @@ export function getPeriodPerformanceSeries(
 
     return {
       label: item.month,
-      strategy: (strategyCurve - 1) * 100,
-      benchmark: (benchmarkCurve - 1) * 100
+      strategy: strategyCurve * 100,
+      benchmark: benchmarkCurve * 100
     };
   });
 }

@@ -21,6 +21,7 @@ const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Se
 const monthLookup = new Map(monthLabels.map((month, index) => [month.toLowerCase(), index]));
 
 type MonthlyReturn = { month: string; strategy: number; benchmark: number };
+type YearlyReturn = { year: string; strategy: number; benchmark: number };
 type HeatmapCell = {
   key: string;
   label: string;
@@ -120,10 +121,24 @@ function getHeatmapYears(data: MonthlyReturn[]) {
   return Array.from(byYear.entries()).map(([year, months]) => ({ year, months }));
 }
 
+function getYearlyReturnMap(data: YearlyReturn[]) {
+  return new Map(data.map((entry) => [entry.year, entry]));
+}
+
 function heatmapColor(value: number | null) {
   if (value === null) return "#f7f4ef";
   const capped = Math.min(Math.abs(value), 12);
   const intensity = 0.14 + (capped / 12) * 0.68;
+  const alpha = Number(intensity.toFixed(2));
+  if (value > 0) return `rgba(31, 58, 51, ${alpha})`;
+  if (value < 0) return `rgba(165, 95, 69, ${alpha})`;
+  return "#eee7dc";
+}
+
+function annualCellColor(value: number | null) {
+  if (value === null) return "#f7f4ef";
+  const capped = Math.min(Math.abs(value), 35);
+  const intensity = 0.16 + (capped / 35) * 0.66;
   const alpha = Number(intensity.toFixed(2));
   if (value > 0) return `rgba(31, 58, 51, ${alpha})`;
   if (value < 0) return `rgba(165, 95, 69, ${alpha})`;
@@ -244,6 +259,111 @@ export function MonthlyPerformanceChart({
                 ))}
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BacktestReturnMatrix({
+  monthlyData,
+  yearlyData,
+  benchmark
+}: {
+  monthlyData: MonthlyReturn[];
+  yearlyData: YearlyReturn[];
+  benchmark: string;
+}) {
+  const heatmapYears = getHeatmapYears(monthlyData);
+  const yearlyReturns = getYearlyReturnMap(yearlyData);
+  const monthlyCells = heatmapYears.flatMap((year) => year.months).filter((cell): cell is HeatmapCell => Boolean(cell));
+  const summary = getMonthlySummary(monthlyCells);
+
+  return (
+    <div className="w-full overflow-hidden rounded border border-line bg-white p-3 sm:p-4">
+      <div className="mb-4 flex flex-col gap-3 border-b border-line pb-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h3 className="text-lg font-semibold">Backtest return matrix</h3>
+          <p className="mt-1 text-sm leading-6 text-ink/58">
+            Monthly cells and the annual total sit in one view. Hover or press a cell to compare the strategy with {benchmark}.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-2 lg:min-w-[360px]">
+          {summary.map((item) => (
+            <div className="rounded border border-line bg-paper px-2 py-2 sm:px-3" key={item.label}>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-ink/48 sm:text-[11px] sm:tracking-[0.12em]">{item.label}</p>
+              <p className="mt-1 text-sm font-semibold tabular-nums text-ink sm:text-lg">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-ink/58 sm:gap-3 sm:text-xs">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded bg-clay" aria-hidden="true" />
+            Negative
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded bg-pine" aria-hidden="true" />
+            Positive
+          </span>
+          <span className="rounded border border-gold/30 bg-gold/10 px-2 py-1 font-medium text-ink/64">
+            FY = calendar-year total
+          </span>
+        </div>
+      </div>
+
+      <div className="-mx-1 overflow-x-auto px-1 pb-1">
+        <div className="min-w-[760px]">
+          <div className="grid grid-cols-[58px_repeat(12,minmax(42px,1fr))_76px] gap-1 text-[10px] font-semibold text-ink/54 sm:grid-cols-[72px_repeat(12,minmax(48px,1fr))_88px] sm:text-xs">
+            <span>Year</span>
+            {monthLabels.map((month) => (
+              <span className="text-center" key={month}>{month}</span>
+            ))}
+            <span className="text-center">FY</span>
+          </div>
+          <div className="mt-1 grid gap-1">
+            {heatmapYears.map((year) => {
+              const annual = yearlyReturns.get(year.year);
+              return (
+                <div className="grid grid-cols-[58px_repeat(12,minmax(42px,1fr))_76px] gap-1 sm:grid-cols-[72px_repeat(12,minmax(48px,1fr))_88px]" key={year.year}>
+                  <div className="flex items-center text-[10px] font-semibold text-ink/62 sm:text-xs">{year.year}</div>
+                  {year.months.map((cell, index) => (
+                    <div
+                      className="flex h-8 items-center justify-center rounded border border-line/70 text-[10px] font-semibold tabular-nums transition duration-180 hover:scale-[1.03] hover:shadow-sm sm:h-9 sm:text-[11px]"
+                      key={`${year.year}-${index}`}
+                      style={{
+                        backgroundColor: heatmapColor(cell?.strategy ?? null),
+                        color: heatmapTextColor(cell?.strategy ?? null)
+                      }}
+                      title={
+                        cell
+                          ? `${cell.label}: Strategy ${formatPercent(cell.strategy)} | ${benchmark} ${formatPercent(cell.benchmark)}`
+                          : `${year.year} ${monthLabels[index]}: no data`
+                      }
+                    >
+                      {cell ? formatPercent(cell.strategy) : "-"}
+                    </div>
+                  ))}
+                  <div
+                    className="flex h-8 items-center justify-center rounded border border-gold/30 text-[10px] font-bold tabular-nums sm:h-9 sm:text-[11px]"
+                    style={{
+                      backgroundColor: annualCellColor(annual?.strategy ?? null),
+                      color: heatmapTextColor(annual?.strategy ?? null)
+                    }}
+                    title={
+                      annual
+                        ? `${year.year}: Strategy ${formatPercent(annual.strategy)} | ${benchmark} ${formatPercent(annual.benchmark)}`
+                        : `${year.year}: annual return not available`
+                    }
+                  >
+                    {annual ? formatPercent(annual.strategy) : "-"}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

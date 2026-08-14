@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { MonthlyPerformanceChart, YearlyReturnChart } from "@/components/performance-chart";
+import { BacktestReturnMatrix } from "@/components/performance-chart";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
 import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
@@ -56,15 +56,12 @@ export default async function StrategyPerformancePage({
         <section className="mt-2">
           <PeriodPerformanceView strategy={strategy} />
         </section>
-        <section className="mt-8 grid gap-6 lg:grid-cols-2">
-          <div className="min-w-0">
-            <h2 className="text-lg font-semibold sm:text-xl">Monthly Backtest Return Path</h2>
-            <div className="mt-4"><MonthlyPerformanceChart data={strategy.monthlyReturns} /></div>
-          </div>
-          <div className="min-w-0">
-            <h2 className="text-lg font-semibold sm:text-xl">Calendar Year Backtest Returns</h2>
-            <div className="mt-4"><YearlyReturnChart data={strategy.yearlyReturns} /></div>
-          </div>
+        <section className="mt-8">
+          <BacktestReturnMatrix
+            monthlyData={strategy.monthlyReturns}
+            yearlyData={strategy.yearlyReturns}
+            benchmark={strategy.benchmark}
+          />
         </section>
       </PerformanceDisclosureGate>
 

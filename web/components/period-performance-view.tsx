@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Line,
   LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -63,7 +64,7 @@ function PeriodTooltip({ active, payload, label }: TooltipProps<number, string>)
             />
             <span className="text-ink/62">{entry.dataKey === "strategy" ? "Strategy" : "Benchmark"}</span>
             <span className="ml-auto font-medium tabular-nums text-ink">
-              {typeof entry.value === "number" ? formatPercent(entry.value) : entry.value}
+              {typeof entry.value === "number" ? entry.value.toFixed(1) : entry.value}
             </span>
           </p>
         ))}
@@ -162,9 +163,9 @@ export function PeriodPerformanceView({
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className={compact ? "text-base font-semibold" : "text-lg font-semibold"}>
-              Cumulative Backtest Return
+              Indexed Backtest Growth
             </h3>
-            <p className="text-sm text-ink/58">Strategy vs {strategy.benchmark}</p>
+            <p className="text-sm text-ink/58">Strategy vs {strategy.benchmark}, indexed to 100 at start</p>
             {dateRange && (
               <p className="mt-1 text-xs font-medium text-ink/52">
                 {activePeriodLabel}: {dateRange}
@@ -202,7 +203,14 @@ export function PeriodPerformanceView({
                   axisLine={false}
                   tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
                 />
-                <YAxis width={isNarrow ? 32 : 44} tickLine={false} axisLine={false} tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }} />
+                <YAxis
+                  width={isNarrow ? 34 : 48}
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
+                  domain={["dataMin - 5", "dataMax + 5"]}
+                />
+                <ReferenceLine y={100} stroke="#c2b8a3" strokeDasharray="4 4" label={{ value: "Start index 100", fill: "#8a8170", fontSize: isNarrow ? 10 : 11 }} />
                 <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
                 <Line type="monotone" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
                 <Line type="monotone" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />

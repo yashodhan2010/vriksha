@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import type { BillingCycle } from "@/lib/pricing";
 
 const storageKey = "vriksha-strategy-basket";
@@ -34,6 +35,9 @@ export function StrategyBasketButton({
     window.localStorage.setItem(storageKey, JSON.stringify(nextBasket));
     window.localStorage.setItem("vriksha-billing-cycle", billingCycle);
     window.dispatchEvent(new Event("vriksha:basket-updated"));
+    trackEvent("strategy_added_to_basket", {
+      strategySlug: slug
+    });
     setAdded(true);
   }
 

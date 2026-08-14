@@ -14,3 +14,9 @@
  ✓ Compiled /strategies/[slug] in 2.6s (1979 modules)
  GET /strategies/bamboo-trunk/performance 200 in 4033ms
  GET /strategies/bamboo-trunk 200 in 4736ms
+ ✓ Compiled in 3.3s (876 modules)
+ ✓ Compiled in 351ms (876 modules)
+ ✓ Compiled in 189ms (876 modules)
+ ✓ Compiled in 285ms (876 modules)
+ ✓ Compiled in 229ms (876 modules)
+ ✓ Compiled in 260ms (876 modules)

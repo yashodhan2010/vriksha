@@ -51,6 +51,19 @@ python strategy_importer/package_contract.py path\to\strategy-package
 python strategy_importer/package_contract.py path\to\model-portfolio-update --kind update
 ```
 
+Import without changing the currently published model portfolio or rebalance dates:
+
+```powershell
+python strategy_importer/import_package.py path\to\strategy-package --preserve-published-dates
+python strategy_importer/import_package.py path\to\model-portfolio-update --kind update --preserve-published-dates
+```
+
+Bulk import with the same date preservation:
+
+```powershell
+python strategy_importer/import_all_packages.py path\to\packages-root --preserve-published-dates
+```
+
 ## Allowed Work In Vriksha
 
 Vriksha may:

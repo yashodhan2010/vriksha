@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from import_package import DEFAULT_OUTPUT, import_package
+from import_package import DEFAULT_OUTPUT, import_package, load_existing
 from package_contract import validate_strategy_package
 
 
@@ -27,8 +27,10 @@ def import_all_packages(
     packages_root: str | Path,
     output_path: str | Path = DEFAULT_OUTPUT,
     reset: bool = False,
+    preserve_dates: bool = False,
 ) -> list[tuple[Path, str]]:
     output = Path(output_path)
+    date_baseline = load_existing(output)
     if reset:
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps([], indent=2) + "\n", encoding="utf-8")
@@ -41,7 +43,13 @@ def import_all_packages(
             for error in result.errors:
                 print(f"  - {error}")
             continue
-        import_package(package_dir, package_kind, output)
+        import_package(
+            package_dir,
+            package_kind,
+            output,
+            preserve_dates=preserve_dates,
+            date_baseline=date_baseline,
+        )
         imported.append((package_dir, package_kind))
         print(f"Imported {package_kind}: {package_dir}")
     return imported
@@ -58,7 +66,17 @@ if __name__ == "__main__":
         action="store_true",
         help="Clear the current imported strategies JSON before importing discovered packages.",
     )
+    parser.add_argument(
+        "--preserve-published-dates",
+        action="store_true",
+        help="Keep existing rebalance/model portfolio dates for matching published strategy slugs.",
+    )
     args = parser.parse_args()
 
-    imported_items = import_all_packages(args.packages_root, args.output, args.reset)
+    imported_items = import_all_packages(
+        args.packages_root,
+        args.output,
+        args.reset,
+        preserve_dates=args.preserve_published_dates,
+    )
     print(f"Imported {len(imported_items)} package(s).")

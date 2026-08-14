@@ -78,8 +78,8 @@ def published_slug(manifest: dict[str, Any]) -> str:
 
 def display_names(manifest: dict[str, Any], slug: str) -> tuple[str, str]:
     public_name = (
-        manifest.get("public_name")
-        or PUBLISHED_NAME_ALIASES.get(slug)
+        PUBLISHED_NAME_ALIASES.get(slug)
+        or manifest.get("public_name")
         or manifest["name"]
     )
     internal_name = manifest.get("internal_name") or manifest["name"]
@@ -318,6 +318,26 @@ def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> l
     return existing
 
 
+def preserve_rebalance_dates(strategy: dict[str, Any], previous: dict[str, Any] | None) -> dict[str, Any]:
+    if not previous:
+        return strategy
+
+    previous_rebalances = previous.get("rebalances") or []
+    next_rebalances = strategy.get("rebalances") or []
+    for index, rebalance in enumerate(next_rebalances):
+        if index < len(previous_rebalances) and previous_rebalances[index].get("date"):
+            rebalance["date"] = previous_rebalances[index]["date"]
+    return strategy
+
+
+def preserve_published_dates(existing: list[dict[str, Any]], previous: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    previous_by_slug = {strategy.get("slug"): strategy for strategy in previous}
+    return [
+        preserve_rebalance_dates(strategy, previous_by_slug.get(strategy.get("slug")))
+        for strategy in existing
+    ]
+
+
 def load_existing(output_path: Path) -> list[dict[str, Any]]:
     if not output_path.exists():
         return []
@@ -325,26 +345,35 @@ def load_existing(output_path: Path) -> list[dict[str, Any]]:
     return data if isinstance(data, list) else []
 
 
-def import_package(package_dir: str | Path, package_kind: str, output_path: str | Path) -> Path:
+def import_package(
+    package_dir: str | Path,
+    package_kind: str,
+    output_path: str | Path,
+    preserve_dates: bool = False,
+    date_baseline: list[dict[str, Any]] | None = None,
+) -> Path:
     root = Path(package_dir)
     output = Path(output_path)
     result = validate_strategy_package(root, package_kind)
     if not result.ok:
         raise ValueError("\n".join(result.errors))
+    previous = load_existing(output)
     if package_kind == "full":
         strategy = build_strategy_from_full_package(root)
         source_slug = read_json(root / "manifest.json")["slug"]
         existing = [
             item
-            for item in load_existing(output)
+            for item in previous
             if item.get("slug") not in {strategy["slug"], source_slug}
         ]
         existing.append(strategy)
     else:
         source_slug = read_json(root / "manifest.json")["slug"]
-        existing = apply_update_package(root, load_existing(output))
+        existing = apply_update_package(root, previous)
         if source_slug != published_slug(read_json(root / "manifest.json")):
             existing = [item for item in existing if item.get("slug") != source_slug]
+    if preserve_dates:
+        existing = preserve_published_dates(existing, date_baseline or previous)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return output
@@ -357,7 +386,17 @@ if __name__ == "__main__":
     parser.add_argument("package_dir")
     parser.add_argument("--kind", choices=["full", "update"], default="full")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    parser.add_argument(
+        "--preserve-published-dates",
+        action="store_true",
+        help="Keep existing rebalance/model portfolio dates for matching published strategy slugs.",
+    )
     args = parser.parse_args()
 
-    written = import_package(args.package_dir, args.kind, args.output)
+    written = import_package(
+        args.package_dir,
+        args.kind,
+        args.output,
+        preserve_dates=args.preserve_published_dates,
+    )
     print(f"Imported package into {written}")

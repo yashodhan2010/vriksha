@@ -1,5 +1,6 @@
 import { getCurrentUser, hasStrategyAccess } from "./access";
 import { getStrategyPath, getStrategyPerformancePath, strategies } from "./data";
+import { buildRebalanceReviewModel, getReviewProgress } from "./rebalance-review";
 import { createSupabaseServerClient } from "./supabase/server";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "./strategy-taxonomy";
 import type { PortfolioHolding, Rebalance, Strategy } from "./types";
@@ -31,6 +32,14 @@ type PaymentRow = {
   created_at: string | null;
 };
 
+type RebalanceReviewRow = {
+  strategy_slug: string;
+  rebalance_date: string;
+  reviewed_change_ids: string[] | null;
+  visited_views: string[] | null;
+  reviewed_at: string | null;
+};
+
 export type DashboardStrategy = {
   strategy: Strategy;
   family: string;
@@ -44,6 +53,15 @@ export type DashboardStrategy = {
   nextExpectedRebalance: string | null;
   holdingsCount: number;
   unreadRebalance: boolean;
+  reviewedChangeIds: string[];
+  visitedViews: string[];
+  reviewedAt: string | null;
+  reviewProgress: {
+    reviewedCount: number;
+    totalCount: number;
+    complete: boolean;
+    percent: number;
+  };
   strategyPath: string;
   performancePath: string;
 };
@@ -83,6 +101,7 @@ export type DashboardData = {
   subscriptions: SubscriptionRow[];
   grants: GrantRow[];
   payments: PaymentRow[];
+  reviewRows: RebalanceReviewRow[];
   nearestRenewal: string | null;
 };
 
@@ -220,6 +239,7 @@ export async function getDashboardData(): Promise<DashboardData> {
     subscriptions: [],
     grants: [],
     payments: [],
+    reviewRows: [],
     nearestRenewal: null
   };
 
@@ -228,7 +248,7 @@ export async function getDashboardData(): Promise<DashboardData> {
   const email = user.email ?? "";
   const supabase = await createSupabaseServerClient();
 
-  const [profileResult, subscriptionsResult, grantsResult, kycResult, paymentsResult] = supabase
+  const [profileResult, subscriptionsResult, grantsResult, kycResult, paymentsResult, reviewsResult] = supabase
     ? await Promise.all([
       supabase.from("profiles").select("role, full_name").eq("id", user.id).maybeSingle(),
       supabase
@@ -256,13 +276,19 @@ export async function getDashboardData(): Promise<DashboardData> {
         .select("strategy_slug, amount_in_paise, currency, status, provider, created_at")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
-        .limit(20)
+        .limit(20),
+      supabase
+        .from("rebalance_reviews")
+        .select("strategy_slug, rebalance_date, reviewed_change_ids, visited_views, reviewed_at")
+        .eq("user_id", user.id)
+        .limit(100)
     ])
-    : [null, null, null, null, null];
+    : [null, null, null, null, null, null];
 
   const subscriptions = (subscriptionsResult?.data ?? []) as SubscriptionRow[];
   const grants = (grantsResult?.data ?? []) as GrantRow[];
   const payments = (paymentsResult?.data ?? []) as PaymentRow[];
+  const reviewRows = (reviewsResult?.data ?? []) as RebalanceReviewRow[];
   const profileRole = profileResult?.data?.role ?? "subscriber";
   const fullName = profileResult?.data?.full_name ?? null;
   const latestKyc = kycResult?.data ?? null;
@@ -290,6 +316,14 @@ export async function getDashboardData(): Promise<DashboardData> {
         const latestRebalance = strategy.rebalances[0] ?? null;
         const family = getStrategyFamily(strategy);
         const edition = getStrategyEdition(strategy);
+        const reviewRow = latestRebalance
+          ? reviewRows.find((row) => row.strategy_slug === strategy.slug && row.rebalance_date === latestRebalance.date)
+          : null;
+        const reviewModel = latestRebalance ? buildRebalanceReviewModel(strategy, latestRebalance) : null;
+        const reviewedChangeIds = reviewRow?.reviewed_change_ids ?? [];
+        const reviewProgress = reviewModel
+          ? getReviewProgress(reviewedChangeIds, reviewModel.changedItems)
+          : { reviewedCount: 0, totalCount: 0, complete: false, percent: 0 };
 
         return {
           strategy,
@@ -303,7 +337,11 @@ export async function getDashboardData(): Promise<DashboardData> {
           latestRebalance,
           nextExpectedRebalance: getNextExpectedRebalance(strategy, latestRebalance),
           holdingsCount: strategy.holdings.length,
-          unreadRebalance: Boolean(latestRebalance),
+          unreadRebalance: Boolean(latestRebalance && !reviewRow?.reviewed_at),
+          reviewedChangeIds,
+          visitedViews: reviewRow?.visited_views ?? [],
+          reviewedAt: reviewRow?.reviewed_at ?? null,
+          reviewProgress,
           strategyPath: getStrategyPath(strategy),
           performancePath: getStrategyPerformancePath(strategy)
         } satisfies DashboardStrategy;
@@ -398,6 +436,7 @@ export async function getDashboardData(): Promise<DashboardData> {
     subscriptions,
     grants,
     payments,
+    reviewRows,
     nearestRenewal: expiringAccess[0]?.item.endsAt ?? null
   };
 }

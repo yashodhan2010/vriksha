@@ -157,7 +157,7 @@ export function EmptyDashboardState() {
 export function AttentionPanel({ data }: { data: DashboardData }) {
   if (data.actions.length === 0) {
     return (
-      <section className="rounded border border-pine/18 bg-pine/7 p-5">
+    <section className="rounded border border-pine/20 bg-pine/10 p-5">
         <div className="flex items-start gap-3">
           <ShieldCheck className="mt-1 h-5 w-5 text-pine" aria-hidden="true" />
           <div>
@@ -230,7 +230,7 @@ export function StrategyWorkspaceCard({ item }: { item: DashboardStrategy }) {
       <div className="pointer-events-none absolute right-5 top-5 h-16 w-16 rounded-[100%_0_100%_0] border border-gold/25" />
       <div className="relative">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1 rounded-full border border-pine/18 bg-pine/8 px-3 py-1 text-xs font-semibold text-pine">
+          <span className="inline-flex items-center gap-1 rounded-full border border-pine/20 bg-pine/10 px-3 py-1 text-xs font-semibold text-pine">
             <Leaf className="h-3.5 w-3.5" aria-hidden="true" />
             {item.family} {item.edition}
           </span>
@@ -321,6 +321,12 @@ export function PortfolioPreview({ item }: { item: DashboardStrategy }) {
 
 export function RebalanceSummaryCard({ item }: { item: DashboardStrategy }) {
   const counts = getRebalanceCounts(item.latestRebalance);
+  const totalChanges = counts.additions + counts.exits + counts.increases + counts.reductions;
+  const actionLabel = item.reviewedAt
+    ? "View reviewed rebalance"
+    : totalChanges > 0
+      ? `Review ${totalChanges} portfolio changes`
+      : "View portfolio review";
   return (
     <section className="card p-5">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -331,8 +337,8 @@ export function RebalanceSummaryCard({ item }: { item: DashboardStrategy }) {
             {item.latestRebalance?.summary ?? "No recent rebalance log is available for this strategy."}
           </p>
         </div>
-        <Link href="/dashboard/rebalances" className="btn-secondary">
-          Rebalance centre
+        <Link href={`/dashboard/rebalances?strategy=${item.strategy.slug}&view=guided`} className="btn-secondary">
+          {actionLabel}
         </Link>
       </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -341,6 +347,17 @@ export function RebalanceSummaryCard({ item }: { item: DashboardStrategy }) {
         <InfoPill label="Increases" value={String(counts.increases)} />
         <InfoPill label="Reductions" value={String(counts.reductions)} />
         <InfoPill label="Exits" value={String(counts.exits)} />
+      </div>
+      <div className="mt-5 rounded border border-line bg-white p-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold">
+            {item.reviewProgress.reviewedCount} of {item.reviewProgress.totalCount} changes reviewed
+          </p>
+          <p className="text-sm text-ink/58">{item.reviewedAt ? "Rebalance reviewed" : "Review pending"}</p>
+        </div>
+        <div className="mt-3 h-2 rounded-full bg-line" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={item.reviewProgress.percent}>
+          <div className="h-2 rounded-full bg-pine" style={{ width: `${item.reviewProgress.percent}%` }} />
+        </div>
       </div>
     </section>
   );

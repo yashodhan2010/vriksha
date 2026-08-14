@@ -36,3 +36,21 @@
  GET /dashboard/account 200 in 2768ms
  GET /dashboard 200 in 3536ms
  ✓ Compiled in 649ms (881 modules)
+ ✓ Compiled in 2.5s (1052 modules)
+ ✓ Compiled in 259ms (881 modules)
+ ✓ Compiled in 788ms (881 modules)
+ ✓ Compiled in 441ms (881 modules)
+ ✓ Compiled in 489ms (881 modules)
+ ✓ Compiled in 827ms (881 modules)
+ ✓ Compiled in 368ms (881 modules)
+ ✓ Compiled in 414ms (881 modules)
+ ✓ Compiled in 222ms (867 modules)
+ ✓ Compiled in 463ms (881 modules)
+ ✓ Compiled in 460ms (881 modules)
+ ○ Compiling /api/rebalance-reviews ...
+ ✓ Compiled /api/rebalance-reviews in 2.9s (1468 modules)
+ GET /api/rebalance-reviews 405 in 3373ms
+ GET /dashboard/rebalances?view=guided 200 in 4293ms
+ GET /dashboard/rebalances?view=comparison 200 in 4306ms
+ GET /dashboard/rebalances?view=full 200 in 4321ms
+ PATCH /api/rebalance-reviews 401 in 58ms

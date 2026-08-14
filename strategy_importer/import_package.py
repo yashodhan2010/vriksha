@@ -11,6 +11,14 @@ from package_contract import validate_strategy_package
 
 DEFAULT_OUTPUT = Path("web/lib/imported-strategies.json")
 
+PUBLISHED_SLUG_ALIASES = {
+    "multi-asset-etf-dual-momentum": "conservative-dual-momentum",
+}
+
+PUBLISHED_NAME_ALIASES = {
+    "conservative-dual-momentum": "Bamboo Trunk",
+}
+
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -56,6 +64,26 @@ def read_markdown_sections(path: Path) -> list[dict[str, str]]:
     if current_title and current_lines:
         sections.append({"title": current_title, "body": " ".join(current_lines).strip()})
     return sections
+
+
+def published_slug(manifest: dict[str, Any]) -> str:
+    source_slug = manifest["slug"]
+    return (
+        manifest.get("published_slug")
+        or manifest.get("website_slug")
+        or PUBLISHED_SLUG_ALIASES.get(source_slug)
+        or source_slug
+    )
+
+
+def display_names(manifest: dict[str, Any], slug: str) -> tuple[str, str]:
+    public_name = (
+        manifest.get("public_name")
+        or PUBLISHED_NAME_ALIASES.get(slug)
+        or manifest["name"]
+    )
+    internal_name = manifest.get("internal_name") or manifest["name"]
+    return public_name, internal_name
 
 
 def decimal_percent(value: Any) -> float:
@@ -147,9 +175,8 @@ def build_strategy_from_full_package(package_dir: Path) -> dict[str, Any]:
         for row in read_csv(package_dir / "drawdowns.csv")
     ]
     methodology_path = package_dir / "methodology.md"
-    slug = manifest["slug"]
-    public_name = manifest.get("public_name") or manifest["name"]
-    internal_name = manifest.get("internal_name") or manifest["name"]
+    slug = published_slug(manifest)
+    public_name, internal_name = display_names(manifest, slug)
     exports = export_links(slug)
     return {
         "slug": slug,
@@ -247,15 +274,13 @@ def rebalances(package_dir: Path) -> list[dict[str, Any]]:
 
 def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> list[dict[str, Any]]:
     manifest = read_json(package_dir / "manifest.json")
-    slug = manifest["slug"]
-    public_name = manifest.get("public_name") or manifest.get("name", slug)
-    internal_name = manifest.get("internal_name") or manifest.get("name", slug)
+    slug = published_slug(manifest)
+    public_name, internal_name = display_names(manifest, slug)
     for strategy in existing:
         if strategy.get("slug") == slug:
-            if manifest.get("public_name"):
-                strategy["name"] = public_name
-                strategy["public_name"] = public_name
-                strategy["internal_name"] = internal_name
+            strategy["name"] = public_name
+            strategy["public_name"] = public_name
+            strategy["internal_name"] = internal_name
             strategy["holdings"] = holdings(package_dir)
             strategy["rebalances"] = rebalances(package_dir)
             strategy["exports"] = {
@@ -308,10 +333,18 @@ def import_package(package_dir: str | Path, package_kind: str, output_path: str 
         raise ValueError("\n".join(result.errors))
     if package_kind == "full":
         strategy = build_strategy_from_full_package(root)
-        existing = [item for item in load_existing(output) if item.get("slug") != strategy["slug"]]
+        source_slug = read_json(root / "manifest.json")["slug"]
+        existing = [
+            item
+            for item in load_existing(output)
+            if item.get("slug") not in {strategy["slug"], source_slug}
+        ]
         existing.append(strategy)
     else:
+        source_slug = read_json(root / "manifest.json")["slug"]
         existing = apply_update_package(root, load_existing(output))
+        if source_slug != published_slug(read_json(root / "manifest.json")):
+            existing = [item for item in existing if item.get("slug") != source_slug]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return output

@@ -41,6 +41,7 @@ export const strategyEditions: Array<{
 
 export function getStrategyFamily(strategy: Pick<Strategy, "name" | "labels">): StrategyFamily {
   const source = `${strategy.name} ${strategy.labels.join(" ")}`;
+  if (/bamboo/i.test(source)) return "Bamboo";
   if (/mahogany|asset allocation|multi asset|fixed allocation/i.test(source)) return "Mahogany";
   if (/banyan|robust/i.test(source)) return "Banyan";
   return "Bamboo";

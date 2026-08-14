@@ -8,50 +8,9 @@
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 2.4s
- ○ Compiling /middleware ...
- ✓ Compiled /middleware in 767ms (171 modules)
- ○ Compiling /blog/[slug] ...
- ✓ Compiled /blog/[slug] in 4.2s (807 modules)
- GET /blog 200 in 6455ms
- GET /blog/asia-weekly-market-note 200 in 6624ms
- GET /blog 200 in 344ms
- GET /blog?category=Strategy+Notes 200 in 77ms
- GET /blog?catego ✓ Compiled in 2.5s (878 modules)
- ✓ Compiled in 288ms (878 modules)
- ✓ Compiled in 260ms (878 modules)
- ✓ Compiled in 193ms (878 modules)
+ ✓ Ready in 2s
+ ✓ Compiled /middleware in 300ms (171 modules)
  ○ Compiling /strategies/[slug] ...
- ✓ Compiled /strategies/[slug]/performance in 1296ms (1982 modules)
- GET /strategies/bamboo-trunk/performance 200 in 2023ms
- GET /strategies/bamboo-trunk 200 in 3046ms
- ✓ Compiled in 910ms (879 modules)
- ✓ Compiled in 610ms (879 modules)
- ✓ Compiled in 1155ms (1050 modules)
- ○ Compiling /dashboard/portfolio ...
- ✓ Compiled /dashboard/account in 2.3s (1426 modules)
- GET /dashboard/portfolio 200 in 3274ms
- GET /dashboard/rebalances 200 in 2977ms
- GET /dashboard/research 200 in 2781ms
- GET /dashboard/account 200 in 2768ms
- GET /dashboard 200 in 3536ms
- ✓ Compiled in 649ms (881 modules)
- ✓ Compiled in 2.5s (1052 modules)
- ✓ Compiled in 259ms (881 modules)
- ✓ Compiled in 788ms (881 modules)
- ✓ Compiled in 441ms (881 modules)
- ✓ Compiled in 489ms (881 modules)
- ✓ Compiled in 827ms (881 modules)
- ✓ Compiled in 368ms (881 modules)
- ✓ Compiled in 414ms (881 modules)
- ✓ Compiled in 222ms (867 modules)
- ✓ Compiled in 463ms (881 modules)
- ✓ Compiled in 460ms (881 modules)
- ○ Compiling /api/rebalance-reviews ...
- ✓ Compiled /api/rebalance-reviews in 2.9s (1468 modules)
- GET /api/rebalance-reviews 405 in 3373ms
- GET /dashboard/rebalances?view=guided 200 in 4293ms
- GET /dashboard/rebalances?view=comparison 200 in 4306ms
- GET /dashboard/rebalances?view=full 200 in 4321ms
- PATCH /api/rebalance-reviews 401 in 58ms
- ✓ Compiled in 2s (891 modules)
+ ✓ Compiled /strategies/[slug] in 2.6s (1979 modules)
+ GET /strategies/bamboo-trunk/performance 200 in 4033ms
+ GET /strategies/bamboo-trunk 200 in 4736ms

@@ -50,7 +50,11 @@ function normalizeStrategy(strategy: Strategy): Strategy {
     }))
   };
 
-  if (["dual-momentum", "conservative-dual-momentum", "low-drawdown-dual-momentum"].includes(normalized.slug)) {
+  const usesEquityMomentumRiskLanguage =
+    ["dual-momentum", "conservative-dual-momentum", "low-drawdown-dual-momentum"].includes(normalized.slug)
+    && !/asset allocation|multi asset|etf|invit|reit/i.test(`${normalized.name} ${normalized.labels.join(" ")}`);
+
+  if (usesEquityMomentumRiskLanguage) {
     normalized.keyRisks = momentumKeyRisks;
   }
 

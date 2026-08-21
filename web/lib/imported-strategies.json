@@ -12641,12 +12641,6 @@
       {
         "changes": [
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ABB"
-          },
-          {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
@@ -12671,16 +12665,10 @@
             "symbol": "APARINDS"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ATHERENERG"
-          },
-          {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "AUBANK"
+            "symbol": "AUROPHARMA"
           },
           {
             "action": "Added",
@@ -12689,28 +12677,10 @@
             "symbol": "BELRISE"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "BSE"
-          },
-          {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
             "symbol": "CARBORUNIV"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "CHENNPETRO"
           },
           {
             "action": "Removed",
@@ -12737,12 +12707,6 @@
             "symbol": "GESHIP"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "GLAND"
-          },
-          {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
@@ -12755,10 +12719,100 @@
             "symbol": "HSCL"
           },
           {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "KEI"
+          },
+          {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
             "symbol": "MCX"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NLCINDIA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NYKAA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "OFSS"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "RADICO"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "SAIL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SCHNEIDER"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SYRMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "TATASTEEL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "TORNTPHARM"
+          }
+        ],
+        "date": "2026-07-20",
+        "summary": "24 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "APARINDS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "CCL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "DELHIVERY"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "GLAND"
           },
           {
             "action": "Removed",
@@ -12770,7 +12824,7 @@
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "NYKAA"
+            "symbol": "OFSS"
           },
           {
             "action": "Removed",
@@ -12788,41 +12842,17 @@
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "RADICO"
+            "symbol": "SAIL"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "STARHEALTH"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "SYRMA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "TITAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "TORNTPHARM"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "VIJAYA"
+            "symbol": "SAILIFE"
           }
         ],
-        "date": "2026-07-20",
-        "summary": "30 portfolio changes."
+        "date": "2026-07-16",
+        "summary": "10 portfolio changes."
       },
       {
         "changes": [
@@ -12830,7 +12860,13 @@
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "APLAPOLLO"
+            "symbol": "ABB"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "ACMESOLAR"
           },
           {
             "action": "Added",
@@ -12839,46 +12875,28 @@
             "symbol": "ASTERDM"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "BEL"
-          },
-          {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "COALINDIA"
+            "symbol": "ATHERENERG"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "DELHIVERY"
+            "symbol": "AUBANK"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "FORCEMOT"
+            "symbol": "CHENNPETRO"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
             "symbol": "GRANULES"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "HONASA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "INDIANB"
           },
           {
             "action": "Removed",
@@ -12890,13 +12908,7 @@
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "KEI"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "NETWEB"
+            "symbol": "NLCINDIA"
           },
           {
             "action": "Added",
@@ -12905,104 +12917,20 @@
             "symbol": "RRKABEL"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "SAILIFE"
-          },
-          {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "SBIN"
+            "symbol": "TITAN"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "SCHNEIDER"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "SHRIRAMFIN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "UNIONBANK"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "VEDL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "WELCORP"
+            "symbol": "VIJAYA"
           }
         ],
-        "date": "2026-05-18",
-        "summary": "20 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ABB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ABCAPITAL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ABSLAMC"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ADANIPOWER"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ASTERDM"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "COALINDIA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "OIL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "THERMAX"
-          }
-        ],
-        "date": "2026-05-04",
-        "summary": "8 portfolio changes."
+        "date": "2026-07-01",
+        "summary": "12 portfolio changes."
       }
     ],
     "sebiRegistration": "INH000027788",
@@ -23535,6 +23463,14 @@
     },
     "holdings": [
       {
+        "company": "LIQUIDBEES",
+        "marketcap": "Unclassified",
+        "note": "Residual safe-asset/cash allocation.",
+        "sector": "SAFE_ASSET",
+        "symbol": "LIQUIDBEES",
+        "weight": 0.325
+      },
+      {
         "company": "Anand Rathi Wealth Ltd.",
         "marketcap": "Unclassified",
         "note": "Selected by model rank 1.",
@@ -25256,6 +25192,12 @@
             "symbol": "LAURUSLABS"
           },
           {
+            "action": "Added",
+            "newWeight": 0.325,
+            "oldWeight": 0.0,
+            "symbol": "LIQUIDBEES"
+          },
+          {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.0083333333,
@@ -25347,7 +25289,7 @@
           }
         ],
         "date": "2026-08-21",
-        "summary": "30 portfolio changes."
+        "summary": "31 portfolio changes."
       },
       {
         "changes": [
@@ -25636,44 +25578,98 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "ABB"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "ABSLAMC"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "ACMESOLAR"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "ACUTAAS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "ADANIPOWER"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "AIAENG"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "ANANDRATHI"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "ANURAS"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "APARINDS"
           },
           {
-            "action": "Added",
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "ATHERENERG"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "AUBANK"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "BAJAJ-AUTO"
           },
           {
             "action": "Added",
@@ -25682,9 +25678,21 @@
             "symbol": "BELRISE"
           },
           {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "BHARATFORG"
+          },
+          {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "BSE"
           },
           {
@@ -25696,19 +25704,19 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "CCL"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "CHENNPETRO"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "COALINDIA"
           },
           {
@@ -25718,28 +25726,64 @@
             "symbol": "CRAFTSMAN"
           },
           {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "CUMMINSIND"
+          },
+          {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "DATAPATTNS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "EMCURE"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "GESHIP"
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "FEDERALBNK"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "GLAND"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "GLENMARK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "GVT&D"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "HINDALCO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "HONASA"
           },
           {
             "action": "Added",
@@ -25748,16 +25792,76 @@
             "symbol": "HSCL"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "MCX"
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "KEI"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "KIRLOSENG"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "LAURUSLABS"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "NATIONALUM"
+            "oldWeight": 0.0166666667,
+            "symbol": "LUPIN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "MAHABANK"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "MARICO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "NAVINFLUOR"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "NESTLEIND"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "NETWEB"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "NLCINDIA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "NMDC"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "NTPC"
           },
           {
             "action": "Added",
@@ -25768,146 +25872,44 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ONGC"
+            "oldWeight": 0.0166666667,
+            "symbol": "OFSS"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "POLYCAB"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "POWERINDIA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "RADICO"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "STARHEALTH"
+            "oldWeight": 0.0166666667,
+            "symbol": "RBLBANK"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "SYRMA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "TITAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "TORNTPHARM"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "VIJAYA"
-          }
-        ],
-        "date": "2026-07-20",
-        "summary": "30 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "APLAPOLLO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ASTERDM"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "BEL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "COALINDIA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "DELHIVERY"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "FORCEMOT"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "GRANULES"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "HONASA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "INDIANB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "KARURVYSYA"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "KEI"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "NETWEB"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "RRKABEL"
           },
           {
-            "action": "Added",
+            "action": "Weight changed",
             "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "SAILIFE"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "SBIN"
           },
           {
             "action": "Added",
@@ -25918,84 +25920,252 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "SHRIRAMFIN"
+            "oldWeight": 0.0166666667,
+            "symbol": "SOLARINDS"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "UNIONBANK"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "VEDL"
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "STARHEALTH"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
+            "symbol": "SYRMA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "THERMAX"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "TIMKEN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "VIJAYA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "VTL"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0166666667,
             "symbol": "WELCORP"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "WOCKPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "ZYDUSLIFE"
           }
         ],
-        "date": "2026-05-18",
-        "summary": "20 portfolio changes."
+        "date": "2026-07-20",
+        "summary": "68 portfolio changes."
       },
       {
         "changes": [
           {
             "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0166666667,
             "oldWeight": 0.0,
-            "symbol": "ABB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ABCAPITAL"
+            "symbol": "AIAENG"
           },
           {
             "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0166666667,
             "oldWeight": 0.0,
-            "symbol": "ABSLAMC"
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "BEL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "DELHIVERY"
           },
           {
             "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0166666667,
             "oldWeight": 0.0,
-            "symbol": "ADANIPOWER"
+            "symbol": "GLAND"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ASTERDM"
+            "oldWeight": 0.0166666667,
+            "symbol": "HINDALCO"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "COALINDIA"
+            "oldWeight": 0.0166666667,
+            "symbol": "JINDALSTEL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "NLCINDIA"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0166666667,
+            "symbol": "NYKAA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "OFSS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "SAIL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "TATASTEEL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "WOCKPHARMA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "ZYDUSLIFE"
+          }
+        ],
+        "date": "2026-07-16",
+        "summary": "14 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "AIAENG"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "ATHERENERG"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "BAJAJ-AUTO"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "GESHIP"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "MFSL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "NATIONALUM"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
             "symbol": "OIL"
           },
           {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "ONGC"
+          },
+          {
             "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0166666667,
             "oldWeight": 0.0,
-            "symbol": "THERMAX"
+            "symbol": "POLYCAB"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "RADICO"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "SOLARINDS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0166666667,
+            "symbol": "TITAN"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0166666667,
+            "oldWeight": 0.0,
+            "symbol": "VIJAYA"
           }
         ],
-        "date": "2026-05-04",
-        "summary": "8 portfolio changes."
+        "date": "2026-07-01",
+        "summary": "14 portfolio changes."
       }
     ],
     "sebiRegistration": "INH000027788",

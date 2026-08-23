@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getStrategy } from "@/lib/data";
-import { getExecutionUser, hasActiveExecutionSubscription } from "@/lib/execution-auth";
+import {
+  executionScopes,
+  getExecutionAuthorizedUserId,
+  hasActiveExecutionSubscription
+} from "@/lib/execution-auth";
 import { buildLatestModelPortfolioCsv } from "@/lib/execution-exports";
 
 function csvResponse(filename: string, body: string) {
@@ -13,12 +17,12 @@ function csvResponse(filename: string, body: string) {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ strategy_id: string }> }
 ) {
   const { strategy_id: strategyId } = await params;
-  const user = await getExecutionUser();
-  if (!user) {
+  const userId = await getExecutionAuthorizedUserId(request, executionScopes.latestModelPortfolio);
+  if (!userId) {
     return NextResponse.json({ error: "Authentication required" }, { status: 401 });
   }
 
@@ -27,10 +31,9 @@ export async function GET(
     return NextResponse.json({ error: "Export not found" }, { status: 404 });
   }
 
-  if (!(await hasActiveExecutionSubscription(user.id, strategy.slug))) {
+  if (!(await hasActiveExecutionSubscription(userId, strategy.slug))) {
     return NextResponse.json({ error: "Active subscription required" }, { status: 403 });
   }
 
   return csvResponse(`${strategy.slug}-latest-model-portfolio.csv`, buildLatestModelPortfolioCsv(strategy));
 }
-

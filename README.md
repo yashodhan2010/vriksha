@@ -279,6 +279,26 @@ The local Vriksha Execution app can use the authenticated research export API af
 to Vriksha. These endpoints expose only model portfolio and rebalance research data; Vriksha still
 does not place orders, connect to brokers, or execute trades.
 
+Start a local execution-app connection with:
+
+```text
+GET /execution/connect?redirect_uri=http://127.0.0.1:5173
+```
+
+If the user is not logged in, Vriksha sends them through the existing login flow and then resumes
+the connection. After login, Vriksha redirects back to the local app:
+
+```text
+http://127.0.0.1:5173?vriksha_token={token}&vriksha_base_url=https%3A%2F%2Fwww.vriksha-capital.com
+```
+
+The execution token is short-lived, currently 12 hours, and is scoped only to the execution export
+endpoints below. Store it locally in the execution app and send it as:
+
+```text
+Authorization: Bearer {token}
+```
+
 `GET /api/execution/subscriptions`
 
 Returns active strategy subscriptions for the current session:

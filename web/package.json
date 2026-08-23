@@ -7,7 +7,7 @@
     "build": "next build",
     "blogs:sync": "node scripts/sync-blogs.mjs",
     "start": "next start",
-    "test": "node scripts/test-rebalance-review.mjs",
+    "test": "node scripts/test-rebalance-review.mjs && node scripts/test-execution-exports.mjs",
     "db:apply": "node scripts/apply-supabase-migrations.mjs",
     "db:audit-security": "node scripts/audit-supabase-security.mjs",
     "lint": "next lint",

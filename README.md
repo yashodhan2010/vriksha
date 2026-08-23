@@ -272,3 +272,45 @@ placeholder pricing, Razorpay order/webhook, and SEBI guardrail design.
 All paywalled portfolio access must be checked server-side using active subscription status, manual
 access grants, or admin role. Calculation inside Vriksha is limited to display transforms such as
 CSV parsing, chart-series building, formatting returns, sorting rows, and validating package shape.
+
+## Execution Export API
+
+The local Vriksha Execution app can use the authenticated research export API after the user logs in
+to Vriksha. These endpoints expose only model portfolio and rebalance research data; Vriksha still
+does not place orders, connect to brokers, or execute trades.
+
+`GET /api/execution/subscriptions`
+
+Returns active strategy subscriptions for the current session:
+
+```json
+[
+  {
+    "strategy_id": "low-drawdown-dual-momentum",
+    "strategy_name": "Low Drawdown Dual Momentum",
+    "status": "active",
+    "latest_model_as_of": "YYYY-MM-DD",
+    "latest_rebalance_date": "YYYY-MM-DD"
+  }
+]
+```
+
+`GET /api/execution/strategies/{strategy_id}/latest-model-portfolio.csv`
+
+CSV columns:
+
+```csv
+symbol,company,sector,marketcap,weight,note
+```
+
+`GET /api/execution/strategies/{strategy_id}/rebalance-history.csv`
+
+CSV columns:
+
+```csv
+date,symbol,action,old_weight,new_weight,summary
+```
+
+All execution export endpoints require the existing Supabase login session. Anonymous requests return
+`401`, logged-in users without an active subscription for the requested strategy return `403`, and
+missing strategies or missing exports return `404`.

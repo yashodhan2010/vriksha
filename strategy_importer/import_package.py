@@ -12,7 +12,7 @@ from package_contract import validate_strategy_package
 DEFAULT_OUTPUT = Path("web/lib/imported-strategies.json")
 
 PUBLISHED_SLUG_ALIASES = {
-    "multi-asset-etf-dual-momentum": "conservative-dual-momentum",
+    "multi-asset-etf-dual-momentum": "low-drawdown-dual-momentum",
 }
 
 PUBLISHED_NAME_ALIASES = {

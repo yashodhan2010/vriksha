@@ -11,7 +11,7 @@ const config: Config = {
         moss: "#476252",
         pine: "#1f3a33",
         clay: "#a55f45",
-        gold: "#c39b43",
+        gold: "#d9b36a",
         sky: "#dbe8ef"
       },
       fontFamily: {

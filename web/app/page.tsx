@@ -1,9 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowDown,
   ArrowRight,
+  Linkedin,
   LockKeyhole,
-  ShieldCheck
+  ShieldCheck,
+  X
 } from "lucide-react";
 import { GrowthMotif } from "@/components/growth-motif";
 import { HowItWorksRoadmap } from "@/components/how-it-works-roadmap";
@@ -165,6 +168,70 @@ export default function HomePage() {
       <div id="portfolio-needs">
         <PortfolioNeedSelector />
       </div>
+
+      <section className="bg-paper py-10 sm:py-12">
+        <div className="container-page">
+          <article className="relative mx-auto max-w-6xl overflow-hidden rounded-lg bg-[#b7dddd] px-5 py-7 text-pine shadow-sm sm:px-8 sm:py-9 lg:px-10">
+            <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-white/16 [clip-path:polygon(44%_0,100%_0,100%_100%,0_100%)] sm:block" aria-hidden="true" />
+            <div className="absolute bottom-0 left-0 h-20 w-36 rounded-tr-full bg-white/10" aria-hidden="true" />
+            <div className="relative grid gap-7 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start lg:gap-9">
+              <div>
+                <p className="inline-flex rounded-full bg-[#fffaf4] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/78">
+                  SEBI-registered Research Analyst
+                </p>
+                <h2 className="mt-6 text-3xl font-medium tracking-normal text-pine sm:text-4xl lg:text-5xl">
+                  Know Your RA
+                </h2>
+
+                <div className="mt-5 flex items-center gap-3">
+                  <Link
+                    href="/contact"
+                    aria-label="Connect with Prathmesh on LinkedIn"
+                    className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
+                  >
+                    <Linkedin size={16} aria-hidden="true" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    aria-label="Connect with Prathmesh on X"
+                    className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
+                  >
+                    <X size={16} aria-hidden="true" />
+                  </Link>
+                </div>
+
+                <div className="mt-6 space-y-5 text-base leading-7 text-ink/84 sm:text-lg sm:leading-8">
+                  <p>
+                    {raProfile.brandName} Capital is led by Prathmesh Jaiprakash Gupta, a
+                    SEBI-registered Research Analyst focused on evidence-based equity research,
+                    fundamental analysis, valuation frameworks, portfolio strategy, risk management,
+                    and long-term investment research. His work is guided by a simple belief:
+                    disciplined investing begins with structured analysis, not market noise.
+                  </p>
+                  <p>
+                    Prathmesh holds an MA in Economics from the University of Michigan, Ann Arbor,
+                    one of the top public universities in the world, and a BE in Mechanical
+                    Engineering from the University of Mumbai. His academic and project work spans
+                    econometrics, quantitative research, financial modelling, data visualization,
+                    market research, stakeholder analysis, and policy research.
+                  </p>
+                </div>
+              </div>
+
+              <div className="overflow-hidden rounded-md border border-white/40 bg-white/18 p-2 shadow-sm sm:max-w-xs lg:sticky lg:top-24 lg:mt-[54px]">
+                <Image
+                  src="/prathmesh-gupta.jpeg"
+                  alt="Prathmesh Jaiprakash Gupta"
+                  width={1200}
+                  height={1200}
+                  className="aspect-[4/5] w-full rounded object-cover object-center"
+                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 384px, calc(100vw - 80px)"
+                />
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
     </main>
   );
 }

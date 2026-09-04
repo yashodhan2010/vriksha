@@ -1,8 +1,19 @@
 # Vriksha Capital Design System
 
-This folder is an editable handoff pack for Vriksha Capital. It translates the design brief into tokens, component rules, screen layouts, presentation masters, and a browser-viewable design board.
+This folder is an editable handoff pack for Vriksha Capital. It translates the brand book into tokens, component rules, screen layouts, presentation masters, and a browser-viewable design board.
 
-Open `design-board.html` in a browser to inspect the visual system. Use `tokens.json` as the source of truth for implementation.
+Use `brand-book.pdf` as the canonical visual reference. Open `design-board.html` in a browser to inspect the working UI translation, and use `tokens.json` as the implementation source of truth.
+
+## Brand Book
+
+The Pomelli brand book defines the core identity:
+
+- Positioning: SEBI-registered Research Analyst firm providing research-led model portfolios and systematic investment insights.
+- Line: "Invest with a system. Not a hunch."
+- Typography: Fraunces for primary display/headings and Inter for body/UI.
+- Palette: Onyx Black `#1F3A33`, Pure White `#FFFFFF`, Chalk White `#F7F4EF`, and Fawn Brown `#D9B36A`.
+- Voice: research-led, disciplined, transparent, risk-aware, professional, analytical, unbiased, and empowering.
+- Aesthetic: botanical sophistication, academic earthiness, forest-toned minimalism, systematic refinement, and rooted intellectualism.
 
 ## Core Principle
 
@@ -12,7 +23,6 @@ Credibility before persuasion. The interface should feel like a careful research
 
 - No performance figures in public design surfaces.
 - No superlatives, testimonials, urgency mechanics, trust badges, customer faces, or regulatory logos.
-- No founder photo.
 - Use text attribution for SEBI, BSE Administration & Supervision Ltd. and RAASB.
 - The legal footer block appears on every screen.
 - The prescribed market-risk sentence must be set exactly and at 10pt minimum:

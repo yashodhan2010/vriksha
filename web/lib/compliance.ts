@@ -1,5 +1,5 @@
 export const standardMarketRiskWarning =
-  "Investment in securities market are subject to market risks. Read all the related documents carefully before investing.";
+  "Investment in securities market is subject to market risks. Read all the related documents carefully before investing.";
 
 export const standardSebiDisclaimer =
   "Registration granted by SEBI, enlistment with BSE and certification from NISM in no way guarantee performance of the intermediary or provide any assurance of returns to investors.";
@@ -57,32 +57,33 @@ export const sebiContacts = {
 };
 
 export const grievanceSteps = [
-  "If a client is not satisfied with the services and wants to lodge a complaint, the client should first contact the Research Analyst representative or consultant by telephone or email.",
+  "If a client is not satisfied with the services and wishes to lodge a complaint, the client should first contact the relationship representative or consultant by telephone or email.",
   "Complaints may be raised by phone at +91 9930521527 or by email at gupta.prathmesh@yahoo.in.",
-  "The Research Analyst will try to resolve the complaint within 21 days of receipt of the grievance.",
-  "If the client is still not satisfied, the client may escalate to Prathmesh Jaiprakash Gupta, Principal Officer, at gupta.prathmesh@yahoo.in with complete details.",
-  "If the grievance remains unresolved, the investor may lodge the grievance with SEBI through SCORES 2.0.",
-  "If the investor is not satisfied with the resolution provided through the support or SCORES platform, the investor may access the SMART ODR platform for online conciliation or arbitration."
+  "The Research Analyst shall endeavour to resolve the grievance within 7 business working days from receipt, or within such timeline as may be prescribed by SEBI from time to time.",
+  "If the client is not satisfied with the resolution, or if the grievance remains unresolved within the above timeline, the client may escalate directly to Prathmesh Jaiprakash Gupta, Research Analyst, Principal Officer and Compliance Officer.",
+  "If the grievance remains unresolved, the investor may lodge the complaint through SEBI SCORES 2.0.",
+  "If the investor is not satisfied with the resolution through the support or SCORES mechanism, the investor may access SMART ODR for online conciliation or arbitration.",
+  "Investors may also send physical complaints to the Office of Investor Assistance and Education, Securities and Exchange Board of India."
 ];
 
 export const escalationMatrix = [
   {
     level: "Level 1",
-    owner: "Customer Care - Prathmesh Jaiprakash Gupta",
+    owner: "Representative / Consultant",
     contact: `${raProfile.registeredOffice.telephone} / ${raProfile.registeredOffice.email}`,
-    timeline: "Mon-Fri, 09:00 AM - 05:00 PM"
+    timeline: "Initial grievance support"
   },
   {
     level: "Level 2",
     owner: "Compliance Officer - Prathmesh Jaiprakash Gupta",
     contact: `${raProfile.complianceOfficer.telephone} / ${raProfile.complianceOfficer.email}`,
-    timeline: "Formal grievance review within 21 working days"
+    timeline: "Mon-Fri, 09:00 AM - 05:00 PM"
   },
   {
     level: "Level 3",
     owner: "Principal Officer - Prathmesh Jaiprakash Gupta",
     contact: `${raProfile.registeredOffice.telephone} / ${raProfile.registeredOffice.email}`,
-    timeline: "Principal officer escalation"
+    timeline: "Mon-Fri, 09:00 AM - 05:00 PM"
   },
   {
     level: "Level 4",
@@ -94,13 +95,13 @@ export const escalationMatrix = [
 
 export const complaintsDisclosure = [
   {
-    month: "July 2026",
+    month: "Month ending 31 July 2026",
     received: 0,
     resolved: 0,
     pending: 0,
     scoresReceived: 0,
     scoresResolved: 0,
-    lastUpdated: "To be updated by 2026-08-07"
+    lastUpdated: "As per Annexure B"
   }
 ];
 

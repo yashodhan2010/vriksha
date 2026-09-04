@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { Download } from "lucide-react";
+import { disclosureDocuments } from "@/lib/disclosure-documents";
 import {
   complaintsDisclosure,
-  escalationMatrix,
   generalDisclosures,
   grievanceSteps,
   raProfile,
@@ -19,6 +20,51 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+const escalationMatrixRows = [
+  {
+    designation: "Customer Care",
+    contactPerson: "--",
+    address: "--",
+    contactNo: "--",
+    email: "--",
+    workingHours: "--"
+  },
+  {
+    designation: "Head of Customer Care",
+    contactPerson: "--",
+    address: "--",
+    contactNo: "--",
+    email: "--",
+    workingHours: "--"
+  },
+  {
+    designation: "Compliance Officer",
+    contactPerson: "Prathmesh Jaiprakash Gupta",
+    address:
+      "701 & 702, Floor-7, Sunset (Padmavati) CHS, Eknath Buwa Hatiskar Marg, Hatiskarwadi NR Tel Exchange, Prabhadevi, Mumbai Maharashtra, 400025",
+    contactNo: "+91 9930521527",
+    email: "gupta.prathmesh@yahoo.in",
+    workingHours: "Mon-Fri | 09AM - 05 PM"
+  },
+  {
+    designation: "CEO",
+    contactPerson: "--",
+    address: "--",
+    contactNo: "--",
+    email: "--",
+    workingHours: "--"
+  },
+  {
+    designation: "Principal Officer",
+    contactPerson: "Prathmesh Jaiprakash Gupta",
+    address:
+      "701 & 702, Floor-7, Sunset (Padmavati) CHS, Eknath Buwa Hatiskar Marg, Hatiskarwadi NR Tel Exchange, Prabhadevi, Mumbai Maharashtra, 400025",
+    contactNo: "+91 9930521527",
+    email: "gupta.prathmesh@yahoo.in",
+    workingHours: "Mon-Fri | 09AM - 05 PM"
+  }
+];
+
 export default function CompliancePage() {
   const latestComplaint = complaintsDisclosure[0];
 
@@ -35,6 +81,35 @@ export default function CompliancePage() {
       <section className="mt-8 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Standard Warning</h2>
         <p className="mt-3 text-[13px] font-semibold leading-6 text-ink">{standardMarketRiskWarning}</p>
+      </section>
+
+      <section className="mt-6 card-accent-pine p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Mandatory Disclosure Library</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/68">
+              The following public documents are available for download. Website disclaimers,
+              required website matters, grievance process, and escalation details are displayed in
+              the relevant sections below.
+            </p>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          {disclosureDocuments.map((document) => (
+            <article key={document.href} className="rounded border border-line bg-[#fffaf4] p-4">
+              <h3 className="text-base font-semibold text-ink">{document.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-ink/66">{document.description}</p>
+              <a
+                href={document.href}
+                download
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-pine underline-offset-4 hover:underline"
+              >
+                <Download size={15} aria-hidden="true" />
+                Download
+              </a>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -64,32 +139,73 @@ export default function CompliancePage() {
       </section>
 
       <section className="mt-6 card-accent-pine p-6">
-        <h2 className="text-xl font-semibold">Grievance Redressal Process</h2>
+        <h2 className="text-xl font-semibold">Grievance Redressal / Escalation Matrix</h2>
+        <p className="mt-3 text-sm leading-6 text-ink/68">
+          If you have a grievance, you can reach out to our Support Team for assistance.
+        </p>
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6 text-ink/70">
           {grievanceSteps.map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
-      </section>
-
-      <section className="mt-6 card-accent-pine p-6">
-        <h2 className="text-xl font-semibold">Escalation Matrix</h2>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[760px] text-left text-sm">
+          <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="text-ink/54">
-              <tr><th className="py-2">Level</th><th>Owner</th><th>Contact</th><th>Purpose</th></tr>
+              <tr>
+                <th className="py-2 pr-4">Details of designation</th>
+                <th className="pr-4">Contact Person Name</th>
+                <th className="pr-4">Address where the physical address location</th>
+                <th className="pr-4">Contact No.</th>
+                <th className="pr-4">Email-ID</th>
+                <th>Working hours when complainant can call</th>
+              </tr>
             </thead>
             <tbody>
-              {escalationMatrix.map((row) => (
-                <tr className="border-t border-line" key={row.level}>
-                  <td className="py-3 font-semibold">{row.level}</td>
-                  <td>{row.owner}</td>
-                  <td>{row.contact}</td>
-                  <td>{row.timeline}</td>
+              {escalationMatrixRows.map((row) => (
+                <tr className="border-t border-line align-top" key={row.designation}>
+                  <td className="py-3 pr-4 font-semibold text-ink">{row.designation}</td>
+                  <td className="py-3 pr-4">{row.contactPerson}</td>
+                  <td className="py-3 pr-4">{row.address}</td>
+                  <td className="py-3 pr-4">{row.contactNo}</td>
+                  <td className="py-3 pr-4">{row.email}</td>
+                  <td className="py-3">{row.workingHours}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="mt-5 space-y-3 text-sm leading-6 text-ink/70">
+          <p>
+            The abovementioned details would facilitate the complainants to approach the concerned
+            RA before filing complaint to SEBI. For more details go to:{" "}
+            <a className="font-medium text-pine" href="https://www.bseindia.com/markets/MarketInfo/DispNewNoticesCirculars.aspx?page=20241209-41">
+              BSE notice circular
+            </a>
+            .
+          </p>
+          <p>We aim to resolve all grievances within 21 working days from the date of receipt.</p>
+          <p>
+            If your grievance is not resolved within this timeframe, you can escalate it to SEBI&apos;s
+            SCORES Platform (SEBI Complaints Redress System).
+          </p>
+          <p>
+            SCORES Portal:{" "}
+            <a className="font-medium text-pine" href="https://scores.sebi.gov.in/">
+              scores.sebi.gov.in
+            </a>
+            .
+          </p>
+          <p>
+            In case you are unsatisfied with the resolution provided through our support or the
+            SCORES platform, you can access the Online Dispute Resolution (ODR) Portal.
+          </p>
+          <p>
+            ODR Portal:{" "}
+            <a className="font-medium text-pine" href="https://smartodr.in/">
+              smartodr.in
+            </a>
+            .
+          </p>
         </div>
       </section>
 

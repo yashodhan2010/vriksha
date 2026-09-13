@@ -10489,11 +10489,11 @@
         "weight": 0.0285714286
       },
       {
-        "company": "Federal Bank Ltd.",
+        "company": "Gland Pharma Ltd.",
         "marketcap": "Unclassified",
         "note": "Selected by model rank 4.",
-        "sector": "Financial Services",
-        "symbol": "FEDERALBNK",
+        "sector": "Healthcare",
+        "symbol": "GLAND",
         "weight": 0.0285714286
       },
       {
@@ -10505,11 +10505,11 @@
         "weight": 0.0285714286
       },
       {
-        "company": "Torrent Pharmaceuticals Ltd.",
+        "company": "Radico Khaitan Ltd",
         "marketcap": "Unclassified",
         "note": "Selected by model rank 6.",
-        "sector": "Healthcare",
-        "symbol": "TORNTPHARM",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "RADICO",
         "weight": 0.0285714286
       },
       {
@@ -10521,228 +10521,228 @@
         "weight": 0.0285714286
       },
       {
-        "company": "Acutaas Chemicals Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 8.",
-        "sector": "Healthcare",
-        "symbol": "ACUTAAS",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Radico Khaitan Ltd",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 9.",
-        "sector": "Fast Moving Consumer Goods",
-        "symbol": "RADICO",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Gujarat Fluorochemicals Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 10.",
-        "sector": "Chemicals",
-        "symbol": "FLUOROCHEM",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "R R Kabel Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 11.",
-        "sector": "Capital Goods",
-        "symbol": "RRKABEL",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Welspun Corp Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 12.",
-        "sector": "Capital Goods",
-        "symbol": "WELCORP",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Chennai Petroleum Corporation Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 13.",
-        "sector": "Oil Gas & Consumable Fuels",
-        "symbol": "CHENNPETRO",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "ACME Solar Holdings Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 14.",
-        "sector": "Power",
-        "symbol": "ACMESOLAR",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Bharat Forge Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 15.",
-        "sector": "Automobile and Auto Components",
-        "symbol": "BHARATFORG",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Oracle Financial Services Software Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 16.",
-        "sector": "Information Technology",
-        "symbol": "OFSS",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Gland Pharma Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 17.",
-        "sector": "Healthcare",
-        "symbol": "GLAND",
-        "weight": 0.0285714286
-      },
-      {
         "company": "Sai Life Sciences Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 18.",
+        "note": "Selected by model rank 8.",
         "sector": "Healthcare",
         "symbol": "SAILIFE",
         "weight": 0.0285714286
       },
       {
-        "company": "Sona BLW Precision Forgings Ltd.",
+        "company": "Federal Bank Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 19.",
-        "sector": "Automobile and Auto Components",
-        "symbol": "SONACOMS",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Star Health and Allied Insurance Company Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 20.",
+        "note": "Selected by model rank 9.",
         "sector": "Financial Services",
-        "symbol": "STARHEALTH",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "FSN E-Commerce Ventures Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 21.",
-        "sector": "Consumer Services",
-        "symbol": "NYKAA",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Hitachi Energy India Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 22.",
-        "sector": "Capital Goods",
-        "symbol": "POWERINDIA",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Ajanta Pharmaceuticals Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 23.",
-        "sector": "Healthcare",
-        "symbol": "AJANTPHARM",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Aster DM Healthcare Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 24.",
-        "sector": "Healthcare",
-        "symbol": "ASTERDM",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Vijaya Diagnostic Centre Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 25.",
-        "sector": "Healthcare",
-        "symbol": "VIJAYA",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Navin Fluorine International Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 26.",
-        "sector": "Chemicals",
-        "symbol": "NAVINFLUOR",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "Syrma SGS Technology Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 27.",
-        "sector": "Capital Goods",
-        "symbol": "SYRMA",
+        "symbol": "FEDERALBNK",
         "weight": 0.0285714286
       },
       {
         "company": "Aurobindo Pharma Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 28.",
+        "note": "Selected by model rank 10.",
         "sector": "Healthcare",
         "symbol": "AUROPHARMA",
         "weight": 0.0285714286
       },
       {
-        "company": "Caplin Point Laboratories Ltd.",
+        "company": "Aster DM Healthcare Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 30.",
+        "note": "Selected by model rank 11.",
         "sector": "Healthcare",
-        "symbol": "CAPLIPOINT",
+        "symbol": "ASTERDM",
         "weight": 0.0285714286
       },
       {
-        "company": "Vardhman Textiles Ltd.",
+        "company": "Chennai Petroleum Corporation Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 36.",
-        "sector": "Textiles",
-        "symbol": "VTL",
+        "note": "Selected by model rank 12.",
+        "sector": "Oil Gas & Consumable Fuels",
+        "symbol": "CHENNPETRO",
         "weight": 0.0285714286
       },
       {
-        "company": "Apollo Hospitals Enterprise Ltd.",
+        "company": "Welspun Corp Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 44.",
+        "note": "Selected by model rank 13.",
+        "sector": "Capital Goods",
+        "symbol": "WELCORP",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Acutaas Chemicals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 14.",
         "sector": "Healthcare",
-        "symbol": "APOLLOHOSP",
+        "symbol": "ACUTAAS",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Neuland Laboratories Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 15.",
+        "sector": "Healthcare",
+        "symbol": "NEULANDLAB",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Sona BLW Precision Forgings Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 16.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "SONACOMS",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "ACME Solar Holdings Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 17.",
+        "sector": "Power",
+        "symbol": "ACMESOLAR",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Divi's Laboratories Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 18.",
+        "sector": "Healthcare",
+        "symbol": "DIVISLAB",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Vijaya Diagnostic Centre Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 19.",
+        "sector": "Healthcare",
+        "symbol": "VIJAYA",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "FSN E-Commerce Ventures Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 20.",
+        "sector": "Consumer Services",
+        "symbol": "NYKAA",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Oracle Financial Services Software Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 21.",
+        "sector": "Information Technology",
+        "symbol": "OFSS",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Titan Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 22.",
+        "sector": "Consumer Durables",
+        "symbol": "TITAN",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Solar Industries India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 23.",
+        "sector": "Chemicals",
+        "symbol": "SOLARINDS",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Gujarat Fluorochemicals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 24.",
+        "sector": "Chemicals",
+        "symbol": "FLUOROCHEM",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "ABB India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 25.",
+        "sector": "Capital Goods",
+        "symbol": "ABB",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Netweb Technologies India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 26.",
+        "sector": "Information Technology",
+        "symbol": "NETWEB",
         "weight": 0.0285714286
       },
       {
         "company": "Emcure Pharmaceuticals Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 45.",
+        "note": "Selected by model rank 27.",
         "sector": "Healthcare",
         "symbol": "EMCURE",
         "weight": 0.0285714286
       },
       {
+        "company": "Navin Fluorine International Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 32.",
+        "sector": "Chemicals",
+        "symbol": "NAVINFLUOR",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Ajanta Pharmaceuticals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 33.",
+        "sector": "Healthcare",
+        "symbol": "AJANTPHARM",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Syrma SGS Technology Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 34.",
+        "sector": "Capital Goods",
+        "symbol": "SYRMA",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Bharat Forge Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 35.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "BHARATFORG",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Star Health and Allied Insurance Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 36.",
+        "sector": "Financial Services",
+        "symbol": "STARHEALTH",
+        "weight": 0.0285714286
+      },
+      {
+        "company": "Torrent Pharmaceuticals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 39.",
+        "sector": "Healthcare",
+        "symbol": "TORNTPHARM",
+        "weight": 0.0285714286
+      },
+      {
         "company": "Zydus Lifesciences Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 46.",
+        "note": "Selected by model rank 43.",
         "sector": "Healthcare",
         "symbol": "ZYDUSLIFE",
         "weight": 0.0285714286
       },
       {
-        "company": "CCL Products (I) Ltd.",
+        "company": "Caplin Point Laboratories Ltd.",
         "marketcap": "Unclassified",
-        "note": "Selected by model rank 47.",
-        "sector": "Fast Moving Consumer Goods",
-        "symbol": "CCL",
-        "weight": 0.0285714286
-      },
-      {
-        "company": "AIA Engineering Ltd.",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 48.",
-        "sector": "Capital Goods",
-        "symbol": "AIAENG",
-        "weight": 0.0285714286
+        "note": "Selected by model rank 49.",
+        "sector": "Healthcare",
+        "symbol": "CAPLIPOINT",
+        "weight": 0.0285714276
       }
     ],
     "internal_name": "Dual Momentum",
@@ -12095,100 +12095,118 @@
       {
         "changes": [
           {
-            "action": "Weight changed",
+            "action": "Added",
             "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "ACMESOLAR"
+            "oldWeight": 0.0,
+            "symbol": "ABB"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "ACUTAAS"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
             "symbol": "AIAENG"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "AJANTPHARM"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "ANANDRATHI"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
             "symbol": "APOLLOHOSP"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "ASTERDM"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "ATHERENERG"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "AUROPHARMA"
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "CCL"
           },
           {
             "action": "Added",
             "newWeight": 0.0285714286,
             "oldWeight": 0.0,
-            "symbol": "BHARATFORG"
+            "symbol": "DIVISLAB"
           },
           {
-            "action": "Weight changed",
+            "action": "Added",
             "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "CAPLIPOINT"
+            "oldWeight": 0.0,
+            "symbol": "NETWEB"
           },
           {
-            "action": "Weight changed",
+            "action": "Added",
             "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "CHENNPETRO"
+            "oldWeight": 0.0,
+            "symbol": "NEULANDLAB"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0285714286,
+            "symbol": "POWERINDIA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "RRKABEL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.0,
+            "symbol": "SOLARINDS"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.0,
+            "symbol": "TITAN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "VTL"
+          }
+        ],
+        "date": "2026-09-11",
+        "summary": "12 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Added",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.0,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.0,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "BELRISE"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.0,
+            "symbol": "CCL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
             "symbol": "CUMMINSIND"
           },
           {
-            "action": "Weight changed",
+            "action": "Added",
             "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
+            "oldWeight": 0.0,
             "symbol": "EMCURE"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "FEDERALBNK"
           },
           {
             "action": "Added",
@@ -12197,106 +12215,34 @@
             "symbol": "FLUOROCHEM"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "GLAND"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "GRANULES"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "HONASA"
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "HSCL"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.0083333333,
+            "oldWeight": 0.0285714286,
             "symbol": "IPCALAB"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.0083333333,
-            "symbol": "LALPATHLAB"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "LAURUSLABS"
+            "oldWeight": 0.0285714286,
+            "symbol": "NETWEB"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.0083333333,
-            "symbol": "LUPIN"
+            "oldWeight": 0.0285714286,
+            "symbol": "RBLBANK"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "MARICO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "NAVINFLUOR"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "NESTLEIND"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "NIVABUPA"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "NYKAA"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "OFSS"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "POWERINDIA"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "RADICO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "RRKABEL"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "SAILIFE"
+            "oldWeight": 0.0285714286,
+            "symbol": "SCHNEIDER"
           },
           {
             "action": "Added",
@@ -12305,56 +12251,14 @@
             "symbol": "SONACOMS"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "STARHEALTH"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0083333333,
-            "symbol": "SUNPHARMA"
-          },
-          {
             "action": "Added",
             "newWeight": 0.0285714286,
             "oldWeight": 0.0,
-            "symbol": "SYRMA"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "TORNTPHARM"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
-            "symbol": "VIJAYA"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.025,
-            "symbol": "VTL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "WELCORP"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0083333333,
             "symbol": "ZYDUSLIFE"
           }
         ],
         "date": "2026-08-21",
-        "summary": "43 portfolio changes."
+        "summary": "14 portfolio changes."
       },
       {
         "changes": [
@@ -12366,7 +12270,13 @@
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "ACMESOLAR"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "ACUTAAS"
           },
@@ -12377,10 +12287,16 @@
             "symbol": "ADANIPOWER"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "AJANTPHARM"
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "AIAENG"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "ANANDRATHI"
           },
           {
             "action": "Removed",
@@ -12389,38 +12305,38 @@
             "symbol": "APARINDS"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "APOLLOHOSP"
-          },
-          {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "ASTERDM"
           },
           {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "ATHERENERG"
+          },
+          {
             "action": "Added",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "AUROPHARMA"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "BELRISE"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "BHARATFORG"
           },
           {
             "action": "Added",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "CAPLIPOINT"
           },
@@ -12432,13 +12348,7 @@
           },
           {
             "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "CHENNPETRO"
           },
@@ -12449,20 +12359,26 @@
             "symbol": "CRAFTSMAN"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "EMCURE"
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "CUMMINSIND"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "FEDERALBNK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "GLAND"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "GRANULES"
           },
@@ -12479,14 +12395,20 @@
             "symbol": "HINDALCO"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "HONASA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "HSCL"
           },
           {
             "action": "Added",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "IPCALAB"
           },
@@ -12503,56 +12425,32 @@
             "symbol": "KIRLOSENG"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "LALPATHLAB"
-          },
-          {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "LAURUSLABS"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "LUPIN"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "MARICO"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "NAVINFLUOR"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "NESTLEIND"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "NETWEB"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "NIVABUPA"
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "NYKAA"
           },
           {
             "action": "Added",
-            "newWeight": 0.025,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "OFSS"
           },
@@ -12563,44 +12461,50 @@
             "symbol": "POLYCAB"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "POWERINDIA"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "RADICO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "RBLBANK"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "RRKABEL"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "SAILIFE"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "SCHNEIDER"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "SUNPHARMA"
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "STARHEALTH"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "SYRMA"
           },
@@ -12612,27 +12516,27 @@
           },
           {
             "action": "Added",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "TORNTPHARM"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.0083333333,
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
             "symbol": "VIJAYA"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
             "oldWeight": 0.025,
-            "symbol": "WELCORP"
+            "symbol": "VTL"
           },
           {
-            "action": "Added",
-            "newWeight": 0.0083333333,
-            "oldWeight": 0.0,
-            "symbol": "ZYDUSLIFE"
+            "action": "Weight changed",
+            "newWeight": 0.0285714286,
+            "oldWeight": 0.025,
+            "symbol": "WELCORP"
           }
         ],
         "date": "2026-08-11",
@@ -12644,13 +12548,31 @@
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
+            "symbol": "ABSLAMC"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
             "symbol": "ACMESOLAR"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "AIAENG"
+            "symbol": "ACUTAAS"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "ADANIPOWER"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0107142857,
+            "symbol": "AJANTPHARM"
           },
           {
             "action": "Removed",
@@ -12667,8 +12589,26 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0107142857,
             "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "BAJAJ-AUTO"
           },
           {
             "action": "Added",
@@ -12677,10 +12617,22 @@
             "symbol": "BELRISE"
           },
           {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0107142857,
+            "symbol": "BIOCON"
+          },
+          {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
             "symbol": "CARBORUNIV"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "CCL"
           },
           {
             "action": "Removed",
@@ -12697,20 +12649,38 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0107142857,
             "symbol": "EMCURE"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "GESHIP"
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "GLAND"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0107142857,
             "symbol": "GLENMARK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "GVT&D"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "HINDALCO"
           },
           {
             "action": "Added",
@@ -12725,16 +12695,52 @@
             "symbol": "KEI"
           },
           {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "KIRLOSENG"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "LAURUSLABS"
+          },
+          {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "MCX"
+            "oldWeight": 0.325,
+            "symbol": "LIQUIDBEES"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0107142857,
+            "symbol": "LUPIN"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "NLCINDIA"
+            "symbol": "MARICO"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NESTLEIND"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NETWEB"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NTPC"
           },
           {
             "action": "Added",
@@ -12752,13 +12758,25 @@
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
+            "symbol": "POLYCAB"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
             "symbol": "RADICO"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "SAIL"
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "RRKABEL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SAILIFE"
           },
           {
             "action": "Added",
@@ -12775,50 +12793,116 @@
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "TATASTEEL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
+            "oldWeight": 0.0107142857,
             "symbol": "TORNTPHARM"
-          }
-        ],
-        "date": "2026-07-20",
-        "summary": "24 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "APARINDS"
           },
           {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "DELHIVERY"
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0107142857,
+            "symbol": "VIJAYA"
           },
           {
             "action": "Added",
             "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "GLAND"
+            "symbol": "WELCORP"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0107142857,
+            "symbol": "ZYDUSLIFE"
+          }
+        ],
+        "date": "2026-07-20",
+        "summary": "45 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "AUROPHARMA"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "NATIONALUM"
+            "symbol": "BEL"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "EMCURE"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "GLAND"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "GLENMARK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "HINDALCO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "LAURUSLABS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.325,
+            "oldWeight": 0.275,
+            "symbol": "LIQUIDBEES"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "LUPIN"
           },
           {
             "action": "Added",
@@ -12830,107 +12914,29 @@
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.025,
-            "symbol": "ONGC"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "POLYCAB"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "SAIL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "SAILIFE"
-          }
-        ],
-        "date": "2026-07-16",
-        "summary": "10 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ABB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "ACMESOLAR"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ASTERDM"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "ATHERENERG"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "AUBANK"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "CHENNPETRO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "GRANULES"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
-            "symbol": "KARURVYSYA"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "NLCINDIA"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
-            "symbol": "RRKABEL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.025,
             "symbol": "TITAN"
           },
           {
-            "action": "Added",
-            "newWeight": 0.025,
-            "oldWeight": 0.0,
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0125,
             "symbol": "VIJAYA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "ZYDUSLIFE"
           }
         ],
-        "date": "2026-07-01",
-        "summary": "12 portfolio changes."
+        "date": "2026-07-16",
+        "summary": "19 portfolio changes."
       }
     ],
     "sebiRegistration": "INH000027788",
@@ -36220,31 +36226,327 @@
     },
     "holdings": [
       {
-        "company": "Commerical Office",
-        "marketcap": "Unclassified",
-        "note": "Selected by model rank 2.",
-        "sector": "REIT",
-        "symbol": "EMBASSY",
-        "weight": 0.3333333333
-      },
-      {
-        "company": "Power Transmission and Generation",
+        "company": "Anand Rathi Wealth Ltd.",
         "marketcap": "Unclassified",
         "note": "Selected by model rank 1.",
-        "sector": "INVIT",
-        "symbol": "INDIGRID",
-        "weight": 0.3333333333
+        "sector": "Financial Services",
+        "symbol": "ANANDRATHI",
+        "weight": 0.025
       },
       {
-        "company": "Commerical Retail",
+        "company": "Aurobindo Pharma Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 2.",
+        "sector": "Healthcare",
+        "symbol": "AUROPHARMA",
+        "weight": 0.025
+      },
+      {
+        "company": "Aster DM Healthcare Ltd.",
         "marketcap": "Unclassified",
         "note": "Selected by model rank 3.",
-        "sector": "REIT",
-        "symbol": "NXST",
-        "weight": 0.3333333334
+        "sector": "Healthcare",
+        "symbol": "ASTERDM",
+        "weight": 0.025
+      },
+      {
+        "company": "Torrent Pharmaceuticals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 4.",
+        "sector": "Healthcare",
+        "symbol": "TORNTPHARM",
+        "weight": 0.025
+      },
+      {
+        "company": "Star Health and Allied Insurance Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 5.",
+        "sector": "Financial Services",
+        "symbol": "STARHEALTH",
+        "weight": 0.025
+      },
+      {
+        "company": "Federal Bank Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 7.",
+        "sector": "Financial Services",
+        "symbol": "FEDERALBNK",
+        "weight": 0.025
+      },
+      {
+        "company": "Ajanta Pharmaceuticals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 8.",
+        "sector": "Healthcare",
+        "symbol": "AJANTPHARM",
+        "weight": 0.025
+      },
+      {
+        "company": "Granules India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 9.",
+        "sector": "Healthcare",
+        "symbol": "GRANULES",
+        "weight": 0.025
+      },
+      {
+        "company": "Honasa Consumer Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 10.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "HONASA",
+        "weight": 0.025
+      },
+      {
+        "company": "Laurus Labs Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 12.",
+        "sector": "Healthcare",
+        "symbol": "LAURUSLABS",
+        "weight": 0.025
+      },
+      {
+        "company": "Titan Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 13.",
+        "sector": "Consumer Durables",
+        "symbol": "TITAN",
+        "weight": 0.025
+      },
+      {
+        "company": "Zydus Lifesciences Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 15.",
+        "sector": "Healthcare",
+        "symbol": "ZYDUSLIFE",
+        "weight": 0.025
+      },
+      {
+        "company": "Radico Khaitan Ltd",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 16.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "RADICO",
+        "weight": 0.025
+      },
+      {
+        "company": "Bajaj Auto Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 18.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "BAJAJ-AUTO",
+        "weight": 0.025
+      },
+      {
+        "company": "Travel Food Services Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 19.",
+        "sector": "Consumer Services",
+        "symbol": "TRAVELFOOD",
+        "weight": 0.025
+      },
+      {
+        "company": "FSN E-Commerce Ventures Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 20.",
+        "sector": "Consumer Services",
+        "symbol": "NYKAA",
+        "weight": 0.025
+      },
+      {
+        "company": "Gujarat Fluorochemicals Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 21.",
+        "sector": "Chemicals",
+        "symbol": "FLUOROCHEM",
+        "weight": 0.025
+      },
+      {
+        "company": "Nestle India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 23.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "NESTLEIND",
+        "weight": 0.025
+      },
+      {
+        "company": "Apollo Hospitals Enterprise Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 24.",
+        "sector": "Healthcare",
+        "symbol": "APOLLOHOSP",
+        "weight": 0.025
+      },
+      {
+        "company": "Marico Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 25.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "MARICO",
+        "weight": 0.025
+      },
+      {
+        "company": "ACME Solar Holdings Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 28.",
+        "sector": "Power",
+        "symbol": "ACMESOLAR",
+        "weight": 0.025
+      },
+      {
+        "company": "Oracle Financial Services Software Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 30.",
+        "sector": "Information Technology",
+        "symbol": "OFSS",
+        "weight": 0.025
+      },
+      {
+        "company": "ABB India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 31.",
+        "sector": "Capital Goods",
+        "symbol": "ABB",
+        "weight": 0.025
+      },
+      {
+        "company": "Chennai Petroleum Corporation Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 32.",
+        "sector": "Oil Gas & Consumable Fuels",
+        "symbol": "CHENNPETRO",
+        "weight": 0.025
+      },
+      {
+        "company": "Ather Energy Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 33.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "ATHERENERG",
+        "weight": 0.025
+      },
+      {
+        "company": "Solar Industries India Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 35.",
+        "sector": "Chemicals",
+        "symbol": "SOLARINDS",
+        "weight": 0.025
+      },
+      {
+        "company": "Info Edge (India) Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 36.",
+        "sector": "Consumer Services",
+        "symbol": "NAUKRI",
+        "weight": 0.025
+      },
+      {
+        "company": "Sona BLW Precision Forgings Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 37.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "SONACOMS",
+        "weight": 0.025
+      },
+      {
+        "company": "Navin Fluorine International Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 38.",
+        "sector": "Chemicals",
+        "symbol": "NAVINFLUOR",
+        "weight": 0.025
+      },
+      {
+        "company": "Hindalco Industries Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 40.",
+        "sector": "Metals & Mining",
+        "symbol": "HINDALCO",
+        "weight": 0.025
+      },
+      {
+        "company": "Tech Mahindra Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 41.",
+        "sector": "Information Technology",
+        "symbol": "TECHM",
+        "weight": 0.025
+      },
+      {
+        "company": "United Spirits Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 42.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "UNITDSPR",
+        "weight": 0.025
+      },
+      {
+        "company": "TVS Motor Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 43.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "TVSMOTOR",
+        "weight": 0.025
+      },
+      {
+        "company": "Pidilite Industries Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 44.",
+        "sector": "Chemicals",
+        "symbol": "PIDILITIND",
+        "weight": 0.025
+      },
+      {
+        "company": "RBL Bank Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 45.",
+        "sector": "Financial Services",
+        "symbol": "RBLBANK",
+        "weight": 0.025
+      },
+      {
+        "company": "Niva Bupa Health Insurance Company Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 49.",
+        "sector": "Financial Services",
+        "symbol": "NIVABUPA",
+        "weight": 0.025
+      },
+      {
+        "company": "Bharat Forge Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 51.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "BHARATFORG",
+        "weight": 0.025
+      },
+      {
+        "company": "Welspun Corp Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 53.",
+        "sector": "Capital Goods",
+        "symbol": "WELCORP",
+        "weight": 0.025
+      },
+      {
+        "company": "Craftsman Automation Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 56.",
+        "sector": "Automobile and Auto Components",
+        "symbol": "CRAFTSMAN",
+        "weight": 0.025
+      },
+      {
+        "company": "CCL Products (I) Ltd.",
+        "marketcap": "Unclassified",
+        "note": "Selected by model rank 61.",
+        "sector": "Fast Moving Consumer Goods",
+        "symbol": "CCL",
+        "weight": 0.025
       }
     ],
-    "internal_name": "Multi Asset ETF Dual Momentum",
+    "internal_name": "Low Drawdown Dual Momentum",
     "labels": [
       "Momentum",
       "Asset Allocation",
@@ -36893,167 +37195,887 @@
         "strategy": 1.1626
       }
     ],
-    "name": "Bamboo Root - ETF Edition",
+    "name": "Bamboo Root",
     "price": "Subscription required",
-    "public_name": "Bamboo Root - ETF Edition",
+    "public_name": "Bamboo Root",
     "raName": "Prathmesh Gupta",
     "rebalanceFrequency": "Monthly",
     "rebalances": [
       {
         "changes": [
           {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "AIAENG"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "BALRAMCHIN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "CGCL"
+          },
+          {
             "action": "Added",
-            "newWeight": 0.3333333333,
+            "newWeight": 0.025,
             "oldWeight": 0.0,
-            "symbol": "EMBASSY"
+            "symbol": "HINDALCO"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.3333333333,
-            "oldWeight": 0.25,
-            "symbol": "INDIGRID"
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NAUKRI"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NIVABUPA"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.25,
-            "symbol": "JUNIORBEES"
+            "oldWeight": 0.025,
+            "symbol": "POLYCAB"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.25,
-            "symbol": "MID150BEES"
+            "oldWeight": 0.025,
+            "symbol": "POWERINDIA"
           },
           {
-            "action": "Weight changed",
-            "newWeight": 0.3333333333,
-            "oldWeight": 0.25,
-            "symbol": "NXST"
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "RBLBANK"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "RRKABEL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "SHYAMMETL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "TECHM"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "TRAVELFOOD"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "TVSMOTOR"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "UNITDSPR"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "VTL"
           }
         ],
-        "date": "2026-08-17",
-        "summary": "5 portfolio changes."
+        "date": "2026-09-11",
+        "summary": "16 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "ABB"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "ACUTAAS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "BAJAJ-AUTO"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "BALRAMCHIN"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "BHARATFORG"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "CAPLIPOINT"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "CGCL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "CRAFTSMAN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "CUMMINSIND"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "EMCURE"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "FLUOROCHEM"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "GLAND"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "IPCALAB"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "LALPATHLAB"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "LAURUSLABS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "LUPIN"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NAVINFLUOR"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NIVABUPA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "PIDILITIND"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "POLYCAB"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "POWERINDIA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "RRKABEL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "SAILIFE"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SHYAMMETL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SOLARINDS"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "SONACOMS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "SUNPHARMA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "TITAN"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0083333333,
+            "symbol": "VIJAYA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "WELCORP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0083333333,
+            "symbol": "ZYDUSLIFE"
+          }
+        ],
+        "date": "2026-08-21",
+        "summary": "37 portfolio changes."
+      },
+      {
+        "changes": [
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "ACMESOLAR"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.0,
+            "symbol": "ACUTAAS"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "AIAENG"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "ANURAS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "BAJAJ-AUTO"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "BHARATFORG"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.009375,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.0,
+            "symbol": "CAPLIPOINT"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "CHENNPETRO"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "COALINDIA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.009375,
+            "symbol": "DRREDDY"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "EMCURE"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "GLAND"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.009375,
+            "symbol": "GLENMARK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.0,
+            "symbol": "IPCALAB"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.0,
+            "symbol": "LALPATHLAB"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "LAURUSLABS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.375,
+            "symbol": "LIQUIDBEES"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "LUPIN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NAVINFLUOR"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NIVABUPA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "NTPC"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "NYKAA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "OFSS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "POWERINDIA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "RADICO"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.0,
+            "symbol": "SAILIFE"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "SUNPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "THERMAX"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "TIMKEN"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "VIJAYA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0083333333,
+            "oldWeight": 0.009375,
+            "symbol": "ZYDUSLIFE"
+          }
+        ],
+        "date": "2026-08-11",
+        "summary": "38 portfolio changes."
       },
       {
         "changes": [
           {
             "action": "Weight changed",
-            "newWeight": 0.25,
-            "oldWeight": 0.5,
-            "symbol": "INDIGRID"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.25,
-            "oldWeight": 0.0,
-            "symbol": "JUNIORBEES"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.25,
-            "oldWeight": 0.0,
-            "symbol": "MID150BEES"
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "AJANTPHARM"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.25,
-            "oldWeight": 0.5,
-            "symbol": "NXST"
-          }
-        ],
-        "date": "2026-08-03",
-        "summary": "4 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.3333333333,
-            "symbol": "EMBASSY"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.3333333333,
-            "symbol": "GILT5YBEES"
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "APOLLOHOSP"
           },
           {
             "action": "Weight changed",
-            "newWeight": 0.5,
-            "oldWeight": 0.3333333333,
-            "symbol": "INDIGRID"
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "DRREDDY"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "EMCURE"
           },
           {
             "action": "Added",
-            "newWeight": 0.5,
+            "newWeight": 0.009375,
             "oldWeight": 0.0,
-            "symbol": "NXST"
+            "symbol": "GLAND"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "GLENMARK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "HINDALCO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "LAURUSLABS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.375,
+            "oldWeight": 0.325,
+            "symbol": "LIQUIDBEES"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "LUPIN"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "SUNPHARMA"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "TATASTEEL"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0107142857,
+            "symbol": "VIJAYA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.009375,
+            "oldWeight": 0.0,
+            "symbol": "ZYDUSLIFE"
           }
         ],
         "date": "2026-07-16",
-        "summary": "4 portfolio changes."
+        "summary": "19 portfolio changes."
       },
       {
         "changes": [
           {
-            "action": "Weight changed",
-            "newWeight": 0.3333333333,
-            "oldWeight": 0.25,
-            "symbol": "EMBASSY"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.3333333333,
-            "oldWeight": 0.25,
-            "symbol": "GILT5YBEES"
-          },
-          {
-            "action": "Weight changed",
-            "newWeight": 0.3333333333,
-            "oldWeight": 0.25,
-            "symbol": "INDIGRID"
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0214285714,
+            "symbol": "ABB"
           },
           {
             "action": "Removed",
             "newWeight": 0.0,
-            "oldWeight": 0.25,
-            "symbol": "NXST"
+            "oldWeight": 0.0214285714,
+            "symbol": "AIAENG"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "AJANTPHARM"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "APOLLOHOSP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "ASTERDM"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "ATHERENERG"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "AUBANK"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "AUROPHARMA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "BAJAJ-AUTO"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0214285714,
+            "symbol": "BEL"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "BIOCON"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "CHENNPETRO"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0214285714,
+            "symbol": "CUMMINSIND"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "DRREDDY"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "EMCURE"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "GESHIP"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "GLENMARK"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "GRANULES"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.025,
+            "oldWeight": 0.0,
+            "symbol": "HONASA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "LAURUSLABS"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.325,
+            "oldWeight": 0.2,
+            "symbol": "LIQUIDBEES"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "LUPIN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "OIL"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "ONGC"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0214285714,
+            "symbol": "POWERINDIA"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "SUNPHARMA"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0214285714,
+            "symbol": "THERMAX"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.025,
+            "oldWeight": 0.0214285714,
+            "symbol": "TIMKEN"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.025,
+            "symbol": "TITAN"
+          },
+          {
+            "action": "Weight changed",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.01875,
+            "symbol": "TORNTPHARM"
+          },
+          {
+            "action": "Added",
+            "newWeight": 0.0107142857,
+            "oldWeight": 0.0,
+            "symbol": "VIJAYA"
           }
         ],
         "date": "2026-07-01",
-        "summary": "4 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Added",
-            "newWeight": 0.25,
-            "oldWeight": 0.0,
-            "symbol": "EMBASSY"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.25,
-            "oldWeight": 0.0,
-            "symbol": "GILT5YBEES"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.25,
-            "symbol": "GOLDBEES"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.25,
-            "symbol": "SILVERBEES"
-          }
-        ],
-        "date": "2026-06-16",
-        "summary": "4 portfolio changes."
+        "summary": "31 portfolio changes."
       }
     ],
     "sebiRegistration": "INH000027788",

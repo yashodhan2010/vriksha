@@ -15,6 +15,7 @@ import {
   normalizePincode,
   type KycDocumentType
 } from "@/lib/kyc";
+import { encryptKycPayload, getKycValidationMode } from "@/lib/kyc-sensitive";
 import { triggerKycWorker } from "@/lib/kyc-worker-trigger";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -95,6 +96,7 @@ export async function POST(request: Request) {
   if (!isValidPan(pan)) {
     return NextResponse.json({ error: "Please enter a valid PAN format." }, { status: 400 });
   }
+  const validationMode = getKycValidationMode();
 
   const pincode = normalizePincode(parsed.data.pincode);
   if (pincode.length !== 6) {
@@ -236,16 +238,47 @@ export async function POST(request: Request) {
     }
   });
 
-  await supabase.from("kyc_validation_jobs").insert(
-    documentIds.map((documentId) => ({
-      kyc_profile_id: profile.id,
-      document_id: documentId,
-      source: "ocr",
-      status: "pending"
-    }))
-  );
+  if (validationMode === "kra") {
+    let encryptedPayload;
+    try {
+      encryptedPayload = encryptKycPayload({
+        pan,
+        dob: parsed.data.dob,
+        full_name: fullName,
+        mobile: parsed.data.mobile.trim(),
+        email: parsed.data.email.trim().toLowerCase()
+      });
+    } catch (error) {
+      return NextResponse.json(
+        {
+          error: "KRA validation encryption is not configured.",
+          detail: process.env.NODE_ENV !== "production" && error instanceof Error ? error.message : undefined
+        },
+        { status: 500 }
+      );
+    }
 
-  const workerTrigger = await triggerKycWorker(documentIds.length);
+    await supabase.from("kyc_validation_jobs").insert({
+      kyc_profile_id: profile.id,
+      source: "kra",
+      status: "pending",
+      result: {
+        encrypted_payload: encryptedPayload,
+        document_ids: documentIds
+      }
+    });
+  } else {
+    await supabase.from("kyc_validation_jobs").insert(
+      documentIds.map((documentId) => ({
+        kyc_profile_id: profile.id,
+        document_id: documentId,
+        source: "ocr",
+        status: "pending"
+      }))
+    );
+  }
+
+  const workerTrigger = await triggerKycWorker(validationMode === "kra" ? 1 : documentIds.length);
 
   return NextResponse.json({
     ok: true,

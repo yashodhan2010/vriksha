@@ -9,12 +9,22 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any
 
 import numpy as np
 import requests
 from PIL import Image
 from rapidocr_onnxruntime import RapidOCR
+
+from cvl_kra import call_cvl_kra_status, classify_kra_status, decrypt_kyc_payload
+
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(Path(__file__).with_name(".env"))
+except ModuleNotFoundError:
+    pass
 
 
 PAN_RE = re.compile(r"\b[A-Z]{5}[0-9]{4}[A-Z]\b")
@@ -470,6 +480,90 @@ def process_job(db: SupabaseRest, engine: RapidOCR, job: dict[str, Any]) -> None
         raise
 
 
+def process_kra_job(db: SupabaseRest, job: dict[str, Any]) -> None:
+    job_id = job["id"]
+    db.patch(
+        "kyc_validation_jobs",
+        {"id": f"eq.{job_id}", "status": "eq.pending"},
+        {
+            "status": "processing",
+            "locked_at": utc_now(),
+            "locked_by": db.config.worker_id,
+            "attempts": job.get("attempts", 0) + 1,
+        },
+    )
+    try:
+        profiles = db.get(
+            "kyc_profiles",
+            {"select": "*", "id": f"eq.{job['kyc_profile_id']}", "limit": "1"},
+        )
+        if not profiles:
+            raise RuntimeError("Missing KYC profile.")
+        profile = profiles[0]
+        result = job.get("result") or {}
+        encrypted_payload = result.get("encrypted_payload")
+        if not isinstance(encrypted_payload, dict):
+            raise RuntimeError("Missing encrypted KRA job payload.")
+
+        sensitive_payload = decrypt_kyc_payload(encrypted_payload)
+        kra_result = call_cvl_kra_status(sensitive_payload)
+        status, review_reason = classify_kra_status(kra_result["status"])
+        verified_at = utc_now() if status == "auto_verified" else None
+        profile_payload: dict[str, Any] = {
+            "status": status,
+            "source": "kra",
+            "kra_status": kra_result["status"],
+            "updated_at": utc_now(),
+            "review_note": review_reason,
+        }
+        if verified_at:
+            profile_payload["verified_at"] = verified_at
+
+        db.patch("kyc_profiles", {"id": f"eq.{profile['id']}"}, profile_payload)
+        db.patch(
+            "kyc_validation_jobs",
+            {"id": f"eq.{job_id}"},
+            {
+                "status": "completed",
+                "result": {
+                    "source": "cvl_kra",
+                    "kra_status": kra_result["status"],
+                    "response": kra_result["response"],
+                    "decision": status,
+                    "review_reason": review_reason,
+                    "document_ids": result.get("document_ids", []),
+                },
+                "updated_at": utc_now(),
+            },
+        )
+        db.post(
+            "kyc_audit_events",
+            {
+                "user_id": profile["user_id"],
+                "kyc_profile_id": profile["id"],
+                "event_type": "kyc_kra_processed" if status == "auto_verified" else "kyc_kra_review_required",
+                "metadata": {
+                    "source": "cvl_kra",
+                    "kra_status": kra_result["status"],
+                    "decision": status,
+                    "review_reason": review_reason,
+                },
+            },
+        )
+        notify_kyc_status(profile, status)
+    except Exception as exc:
+        db.patch(
+            "kyc_validation_jobs",
+            {"id": f"eq.{job_id}"},
+            {
+                "status": "failed",
+                "error_message": str(exc),
+                "updated_at": utc_now(),
+            },
+        )
+        raise
+
+
 def load_config() -> SupabaseConfig:
     url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
     service_role_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -488,13 +582,16 @@ def poll_once(db: SupabaseRest, engine: RapidOCR, limit: int) -> int:
         {
             "select": "*",
             "status": "eq.pending",
-            "source": "eq.ocr",
+            "source": "in.(kra,ocr)",
             "order": "created_at.asc",
             "limit": str(limit),
         },
     )
     for job in jobs:
-        process_job(db, engine, job)
+        if job.get("source") == "kra":
+            process_kra_job(db, job)
+        else:
+            process_job(db, engine, job)
     return len(jobs)
 
 

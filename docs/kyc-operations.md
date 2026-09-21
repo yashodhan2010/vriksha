@@ -25,6 +25,8 @@ CONTACT_FROM_EMAIL=Vriksha Capital <enquiry@vriksha-capital.com>
 CONTACT_TO_EMAIL=enquiry@vriksha-capital.com
 KYC_WORKER_TRIGGER_URL=https://your-worker-domain.example.com/jobs/process
 KYC_WORKER_SECRET=long-random-worker-trigger-secret
+KYC_VALIDATION_MODE=ocr
+KYC_FIELD_ENCRYPTION_KEY=long-random-field-encryption-secret
 ```
 
 The OCR worker needs:
@@ -37,9 +39,40 @@ KYC_ADMIN_EMAIL=enquiry@vriksha-capital.com
 RESEND_API_KEY=
 CONTACT_FROM_EMAIL=Vriksha Capital <enquiry@vriksha-capital.com>
 KYC_WORKER_SECRET=long-random-worker-trigger-secret
+KYC_FIELD_ENCRYPTION_KEY=long-random-field-encryption-secret
 ```
 
 Do not expose `SUPABASE_SERVICE_ROLE_KEY` in browser code or client-visible settings.
+
+## CVL KRA Validation Mode
+
+Set the website to create KRA jobs instead of OCR jobs:
+
+```text
+KYC_VALIDATION_MODE=kra
+KYC_FIELD_ENCRYPTION_KEY=long-random-field-encryption-secret
+```
+
+`KYC_FIELD_ENCRYPTION_KEY` must be identical in Vercel and the worker environment. It is used to
+encrypt the PAN into the private validation job payload so the worker can query CVL without storing
+plain PAN in `kyc_profiles`.
+
+Put CVL credentials only in the worker environment:
+
+```text
+CVL_KRA_ENV=production
+CVL_KRA_STATUS_URL=https://www.cvlkra.com/PanInquiry.asmx/GetPanStatus
+CVL_KRA_LOGIN_CODE=
+CVL_KRA_POS_CODE=
+CVL_KRA_PASSWORD=
+CVL_KRA_PASS_KEY=
+CVL_KRA_TIMEOUT_SECONDS=30
+```
+
+Keep the actual `CVL_KRA_LOGIN_CODE`, `CVL_KRA_POS_CODE`, and `CVL_KRA_PASSWORD` out of chat,
+`CVL_KRA_PASS_KEY` out of chat, source control, frontend code, and screenshots. CVL's public
+PANInquiry docs show `GetPanStatus` as an HTTP form POST using `panNo`, `userName`, `PosCode`,
+`password`, and `PassKey`.
 
 ## Admin Access
 

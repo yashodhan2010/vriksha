@@ -1,3 +1,4 @@
+import { withPerformancePreview } from "@/lib/performance-preview";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -10,10 +11,9 @@ import {
   Info,
   LockKeyhole,
 } from "lucide-react";
+import { BenchmarkPerformancePanel } from "@/components/benchmark-performance-panel";
 import { Paywall } from "@/components/paywall";
-import { BacktestReturnMatrix } from "@/components/performance-chart";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
-import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { PortfolioAllocationPlanner } from "@/components/portfolio-allocation-planner";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { StrategyBacktestLink } from "@/components/strategy-backtest-link";
@@ -207,7 +207,7 @@ export default async function StrategyDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const strategy = getStrategy(slug);
+  const strategy = withPerformancePreview(getStrategy(slug));
   if (!strategy) notFound();
 
   const canViewPortfolio = await hasStrategyAccess(strategy.slug);
@@ -342,15 +342,8 @@ export default async function StrategyDetailPage({
               unlockFocusId="backtest"
             >
               <div className="mt-2">
-                <PeriodPerformanceView strategy={strategy} />
+                <BenchmarkPerformancePanel strategy={strategy} />
               </div>
-              <section className="mt-8">
-                <BacktestReturnMatrix
-                  monthlyData={strategy.monthlyReturns}
-                  yearlyData={strategy.yearlyReturns}
-                  benchmark={strategy.benchmark}
-                />
-              </section>
             </PerformanceDisclosureGate>
           </section>
 

@@ -2,18 +2,20 @@ from __future__ import annotations
 
 import csv
 import json
+import os
+import tempfile
 from collections import defaultdict
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
 from package_contract import validate_strategy_package
+from performance import import_performance
 
 
 DEFAULT_OUTPUT = Path("web/lib/imported-strategies.json")
 
-PUBLISHED_SLUG_ALIASES = {
-    "multi-asset-etf-dual-momentum": "low-drawdown-dual-momentum",
-}
+PUBLISHED_SLUG_ALIASES = {}
 
 PUBLISHED_NAME_ALIASES = {
     "conservative-dual-momentum": "Bamboo Trunk",
@@ -351,6 +353,7 @@ def import_package(
     output_path: str | Path,
     preserve_dates: bool = False,
     date_baseline: list[dict[str, Any]] | None = None,
+    performance_only: bool = False,
 ) -> Path:
     root = Path(package_dir)
     output = Path(output_path)
@@ -358,6 +361,13 @@ def import_package(
     if not result.ok:
         raise ValueError("\n".join(result.errors))
     previous = load_existing(output)
+    manifest = read_json(root / "manifest.json")
+    slug = published_slug(manifest)
+    prior = next((item for item in previous if item.get("slug") == slug), None)
+    previous_performance = prior if (performance_only or package_kind != "full") else None
+    performance, preview = import_performance(root, manifest, previous_performance, package_kind == "full")
+    if performance_only and not prior:
+        raise ValueError("Performance-only import requires an existing strategy")
     if package_kind == "full":
         strategy = build_strategy_from_full_package(root)
         source_slug = read_json(root / "manifest.json")["slug"]
@@ -369,14 +379,39 @@ def import_package(
         existing.append(strategy)
     else:
         source_slug = read_json(root / "manifest.json")["slug"]
-        existing = apply_update_package(root, previous)
+        existing = apply_update_package(root, deepcopy(previous))
         if source_slug != published_slug(read_json(root / "manifest.json")):
             existing = [item for item in existing if item.get("slug") != source_slug]
     if preserve_dates:
         existing = preserve_published_dates(existing, date_baseline or previous)
+    target = next(item for item in existing if item["slug"] == slug)
+    if performance_only:
+        # Restore the complete prior record before applying only performance fields.
+        target = deepcopy(prior)
+        existing = [target if item["slug"] == slug else item for item in existing]
+    target.update(performance)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    preview_path = output.with_suffix(".preview.json")
+    previews = [item for item in load_existing(preview_path) if item.get("slug") != slug]
+    if preview:
+        previews.append({**preview, "slug": slug})
+    # Validate and serialize both before replacing either last-valid file.
+    public_text = json.dumps(existing, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    preview_text = json.dumps(previews, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    atomic_write(preview_path, preview_text)
+    atomic_write(output, public_text)
     return output
+
+
+def atomic_write(path: Path, text: str) -> None:
+    descriptor, temporary = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(text)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
 
 
 if __name__ == "__main__":
@@ -386,6 +421,7 @@ if __name__ == "__main__":
     parser.add_argument("package_dir")
     parser.add_argument("--kind", choices=["full", "update"], default="full")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    parser.add_argument("--performance-only", action="store_true", help="Preserve all portfolio and strategy publication fields.")
     parser.add_argument(
         "--preserve-published-dates",
         action="store_true",
@@ -398,5 +434,6 @@ if __name__ == "__main__":
         args.kind,
         args.output,
         preserve_dates=args.preserve_published_dates,
+        performance_only=args.performance_only,
     )
     print(f"Imported package into {written}")

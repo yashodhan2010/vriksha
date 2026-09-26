@@ -13,6 +13,8 @@ import {
   YAxis
 } from "recharts";
 import type { TooltipProps } from "recharts";
+import { PerformanceStatus } from "./performance-status";
+import { MetricGrid } from "./metric-grid";
 import { cn } from "@/lib/cn";
 import {
   formatPercent,
@@ -23,10 +25,10 @@ import {
 } from "@/lib/performance-periods";
 import type { Strategy } from "@/lib/types";
 
-function getChartTicks(series: Array<{ label: string }>, periodKey: PerformancePeriodKey) {
+function getChartTicks(series: Array<{ label: string }>) {
   if (series.length <= 12) return series.map((item) => item.label);
 
-  const step = periodKey === "max" || periodKey === "5y" ? 12 : 3;
+  const step = Math.max(1, Math.ceil(series.length / 8));
   const ticks = series
     .filter((_item, index) => index === 0 || index === series.length - 1 || index % step === 0)
     .map((item) => item.label);
@@ -53,7 +55,7 @@ function PeriodTooltip({ active, payload, label }: TooltipProps<number, string>)
 
   return (
     <div className="rounded-md border border-line bg-white px-3 py-2 text-xs shadow-sm">
-      <p className="font-semibold text-ink">{label}</p>
+      <p className="font-semibold text-ink">{label} {payload[0]?.payload?.segment}</p>
       <div className="mt-1.5 space-y-1">
         {payload.map((entry) => (
           <p className="flex min-w-36 items-center gap-2" key={entry.dataKey}>
@@ -93,13 +95,15 @@ export function PeriodPerformanceView({
     ? `${series[0].label} to ${series[series.length - 1].label}`
     : "";
   const chartTicks = useMemo(() => {
-    const ticks = getChartTicks(series, activePeriod);
+    const ticks = getChartTicks(series);
     if (!isNarrow || ticks.length <= 3) return ticks;
     return ticks.filter((_tick, index) => index === 0 || index === ticks.length - 1 || index === Math.floor(ticks.length / 2));
-  }, [series, activePeriod, isNarrow]);
+  }, [series, isNarrow]);
 
   return (
     <div className="space-y-4 sm:space-y-5">
+      <PerformanceStatus strategy={strategy} />
+      {strategy.dailyReturns && <MetricGrid metrics={strategy.metrics} />}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-5">
         {periodReturns.map((period) => {
           const direction = period.strategy === null || period.strategy === 0
@@ -141,7 +145,7 @@ export function PeriodPerformanceView({
         {activePeriodReturn && (
           <div className="mb-4 grid grid-cols-3 gap-2 border-b border-line pb-4 sm:gap-3">
             <div>
-              <p className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">Backtest return</p>
+              <p className="text-[10px] uppercase tracking-wide text-ink/52 sm:text-xs">{strategy.transitionDate ? "Composite return" : "Backtest return"}</p>
               <p className="mt-1 text-base font-semibold tabular-nums text-moss sm:text-lg">
                 {formatPercent(activePeriodReturn.strategy)}
               </p>
@@ -163,7 +167,7 @@ export function PeriodPerformanceView({
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className={compact ? "text-base font-semibold" : "text-lg font-semibold"}>
-              Indexed Backtest Growth
+              Indexed {strategy.transitionDate ? "Composite" : "Backtest"} Growth
             </h3>
             <p className="text-sm text-ink/58">Strategy vs {strategy.benchmark}, indexed to 100 at start</p>
             {dateRange && (
@@ -210,10 +214,11 @@ export function PeriodPerformanceView({
                   tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
                   domain={["dataMin - 5", "dataMax + 5"]}
                 />
+                {strategy.transitionDate && series.some((point) => point.label === strategy.transitionDate) && <ReferenceLine x={strategy.transitionDate} stroke="#a55f45" strokeDasharray="4 4" label="Live inception" />}
                 <ReferenceLine y={100} stroke="#c2b8a3" strokeDasharray="4 4" label={{ value: "Start index 100", fill: "#8a8170", fontSize: isNarrow ? 10 : 11 }} />
                 <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
-                <Line type="monotone" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
-                <Line type="monotone" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                <Line type="linear" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                <Line type="linear" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

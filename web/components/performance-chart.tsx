@@ -269,11 +269,15 @@ export function MonthlyPerformanceChart({
 export function BacktestReturnMatrix({
   monthlyData,
   yearlyData,
-  benchmark
+  benchmark,
+  transitionDate,
+  updatedThrough
 }: {
   monthlyData: MonthlyReturn[];
   yearlyData: YearlyReturn[];
   benchmark: string;
+  transitionDate?: string | null;
+  updatedThrough?: string;
 }) {
   const heatmapYears = getHeatmapYears(monthlyData);
   const yearlyReturns = getYearlyReturnMap(yearlyData);
@@ -284,7 +288,9 @@ export function BacktestReturnMatrix({
     <div className="w-full overflow-hidden rounded border border-line bg-white p-3 sm:p-4">
       <div className="mb-4 flex flex-col gap-3 border-b border-line pb-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h3 className="text-lg font-semibold">Backtest return matrix</h3>
+          <h3 className="text-lg font-semibold">{transitionDate ? "Composite" : "Backtest"} return matrix</h3>
+          {updatedThrough && <p className="text-xs">Updated through {updatedThrough}. Current month is month-to-date (MTD).</p>}
+          {transitionDate && <p className="text-xs">B: Backtest | L: Live model | B/L: Transition month, compounded across both periods. Live inception {transitionDate}.</p>}
           <p className="mt-1 text-sm leading-6 text-ink/58">
             Monthly cells and the annual total sit in one view. Hover or press a cell to compare the strategy with {benchmark}.
           </p>
@@ -344,7 +350,10 @@ export function BacktestReturnMatrix({
                           : `${year.year} ${monthLabels[index]}: no data`
                       }
                     >
-                      {cell ? formatPercent(cell.strategy) : "-"}
+                      {cell ? <span className="flex flex-col items-center">
+                        <span>{formatPercent(cell.strategy)}</span>
+                        <span className="text-[8px] leading-3">{cell.key === new Date().toISOString().slice(0, 7) ? "MTD " : ""}{transitionDate ? (cell.key < transitionDate.slice(0, 7) ? "B" : cell.key === transitionDate.slice(0, 7) ? "B/L" : "L") : ""}</span>
+                      </span> : "-"}
                     </div>
                   ))}
                   <div

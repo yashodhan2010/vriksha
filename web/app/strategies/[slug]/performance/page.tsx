@@ -1,9 +1,9 @@
+import { withPerformancePreview } from "@/lib/performance-preview";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { BacktestReturnMatrix } from "@/components/performance-chart";
+import { BenchmarkPerformancePanel } from "@/components/benchmark-performance-panel";
 import { PerformanceDisclosureGate } from "@/components/performance-disclosure-gate";
-import { PeriodPerformanceView } from "@/components/period-performance-view";
 import { RegistrationDisclosureBlock } from "@/components/registration-disclosure-block";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy, getStrategyPath, getSubscribePath } from "@/lib/data";
@@ -15,7 +15,7 @@ export default async function StrategyPerformancePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const strategy = getStrategy(slug);
+  const strategy = withPerformancePreview(getStrategy(slug));
   if (!strategy) notFound();
 
   return (
@@ -38,7 +38,7 @@ export default async function StrategyPerformancePage({
         </Link>
       </div>
       <p className="mt-5 text-xs uppercase tracking-[0.18em] text-clay sm:mt-6 sm:text-sm">Backtests</p>
-      <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">{strategy.name} Backtest Performance</h1>
+      <h1 className="mt-2 text-2xl font-semibold sm:text-3xl">{strategy.name} Performance</h1>
       <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:flex sm:flex-wrap">
         <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
         <Link
@@ -54,14 +54,7 @@ export default async function StrategyPerformancePage({
         className="mt-6 sm:mt-8"
       >
         <section className="mt-2">
-          <PeriodPerformanceView strategy={strategy} />
-        </section>
-        <section className="mt-8">
-          <BacktestReturnMatrix
-            monthlyData={strategy.monthlyReturns}
-            yearlyData={strategy.yearlyReturns}
-            benchmark={strategy.benchmark}
-          />
+          <BenchmarkPerformancePanel strategy={strategy} />
         </section>
       </PerformanceDisclosureGate>
 

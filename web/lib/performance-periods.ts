@@ -22,6 +22,7 @@ export type PeriodPerformancePoint = {
   label: string;
   strategy: number;
   benchmark: number;
+  segment?: string;
 };
 
 type NormalizedPoint = {
@@ -36,7 +37,7 @@ export const performancePeriods: PerformancePeriod[] = [
   { key: "6m", label: "6M", months: 6 },
   { key: "1y", label: "1Y", months: 12 },
   { key: "5y", label: "5Y", months: 60 },
-  { key: "max", label: "Max (10Y)", months: 120 }
+  { key: "max", label: "Max", months: 120 }
 ];
 
 function compoundReturn(values: number[]) {
@@ -139,6 +140,21 @@ function getMaxDrawdown(strategy: Strategy, startMonth: string | null) {
 }
 
 export function getPeriodReturns(strategy: Strategy): PeriodReturn[] {
+  if (strategy.dailyReturns) return performancePeriods.map((period) => {
+    const data = dailyWindow(strategy, period);
+    const first = data[0], last = data.at(-1);
+    if (!first || !last) return { key: period.key, label: period.label, strategy: null, benchmark: null, cagr: null, maxDrawdown: null, monthsUsed: 0 };
+    const total = (last.strategy / first.strategy - 1) * 100;
+    const days = (Date.parse(last.date) - Date.parse(first.date.slice(0, 10))) / 86400000;
+    let peak = first.strategy, maxDrawdown = 0;
+    for (const point of data) {
+      peak = Math.max(peak, point.strategy);
+      maxDrawdown = Math.min(maxDrawdown, (point.strategy / peak - 1) * 100);
+    }
+    return { key: period.key, label: period.label, strategy: total, benchmark: (last.benchmark / first.benchmark - 1) * 100,
+      cagr: days >= 365 ? (Math.pow(1 + total / 100, 365.25 / days) - 1) * 100 : null,
+      maxDrawdown, monthsUsed: days / (365.25 / 12) };
+  });
   return performancePeriods.map((period) => {
     const data = getWindow(strategy.monthlyReturns, period);
     const startMonth = getWindowStartMonth(strategy.monthlyReturns, period);
@@ -165,6 +181,10 @@ export function getPeriodPerformanceSeries(
   periodKey: PerformancePeriodKey
 ): PeriodPerformancePoint[] {
   const period = performancePeriods.find((item) => item.key === periodKey) ?? performancePeriods[0];
+  if (strategy.dailyReturns) {
+    const points = dailyWindow(strategy, period);
+    return points.map((item) => ({ label: item.date, strategy: item.strategy / points[0].strategy * 100, benchmark: item.benchmark / points[0].benchmark * 100, segment: item.segment }));
+  }
   const data = getWindow(strategy.monthlyReturns, period);
   let strategyCurve = 1;
   let benchmarkCurve = 1;
@@ -179,6 +199,24 @@ export function getPeriodPerformanceSeries(
       benchmark: benchmarkCurve * 100
     };
   });
+}
+
+function dailyWindow(strategy: Strategy, period: PerformancePeriod) {
+  const points = strategy.dailyReturns ?? [];
+  if (points.length < 2) return [];
+  if (period.key === "max") {
+    // Include the first observed return by reconstructing its pre-return value.
+    const first = points[0];
+    return [{ ...first, date: first.date + " (start)", strategy: first.strategy / (1 + first.strategyReturn), benchmark: first.benchmark / (1 + first.benchmarkReturn) }, ...points];
+  }
+  const latest = new Date(points[points.length - 1].date + "T00:00:00Z");
+  const cutoff = new Date(Date.UTC(latest.getUTCFullYear(), latest.getUTCMonth() - period.months, 1));
+  const lastDay = new Date(Date.UTC(cutoff.getUTCFullYear(), cutoff.getUTCMonth() + 1, 0)).getUTCDate();
+  cutoff.setUTCDate(Math.min(latest.getUTCDate(), lastDay));
+  const key = cutoff.toISOString().slice(0, 10);
+  let baseline = -1;
+  points.forEach((item, index) => { if (item.date <= key) baseline = index; });
+  return baseline < 0 ? [] : points.slice(baseline);
 }
 
 export function formatPercent(value: number | null) {

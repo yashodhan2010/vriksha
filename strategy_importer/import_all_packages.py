@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from pathlib import Path
 
-from import_package import DEFAULT_OUTPUT, import_package, load_existing
-from package_contract import validate_strategy_package
+from import_package import DEFAULT_OUTPUT, atomic_write, import_package, load_existing
 
 
 def discover_packages(packages_root: str | Path) -> list[tuple[Path, str]]:
@@ -31,26 +31,26 @@ def import_all_packages(
 ) -> list[tuple[Path, str]]:
     output = Path(output_path)
     date_baseline = load_existing(output)
-    if reset:
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps([], indent=2) + "\n", encoding="utf-8")
-
+    # Stage the entire batch: even --reset must preserve the last valid version on failure.
+    output.parent.mkdir(parents=True, exist_ok=True)
     imported: list[tuple[Path, str]] = []
-    for package_dir, package_kind in discover_packages(packages_root):
-        result = validate_strategy_package(package_dir, package_kind)
-        if not result.ok:
-            print(f"Skipped invalid {package_kind} package: {package_dir}")
-            for error in result.errors:
-                print(f"  - {error}")
-            continue
-        import_package(
-            package_dir,
-            package_kind,
-            output,
-            preserve_dates=preserve_dates,
-            date_baseline=date_baseline,
-        )
-        imported.append((package_dir, package_kind))
+    with tempfile.TemporaryDirectory(dir=output.parent) as staging:
+        staged = Path(staging) / output.name
+        staged.write_text(json.dumps([] if reset else date_baseline), encoding="utf-8")
+        preview = output.with_suffix(".preview.json")
+        staged_preview = staged.with_suffix(".preview.json")
+        staged_preview.write_text(json.dumps([] if reset else load_existing(preview)), encoding="utf-8")
+        for package_dir, package_kind in discover_packages(packages_root):
+            try:
+                import_package(package_dir, package_kind, staged, preserve_dates=preserve_dates,
+                               date_baseline=date_baseline)
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                raise ValueError(f"Batch unchanged; invalid {package_kind} package {package_dir}: {exc}") from exc
+            imported.append((package_dir, package_kind))
+        if imported:
+            atomic_write(preview, staged_preview.read_text(encoding="utf-8"))
+            atomic_write(output, staged.read_text(encoding="utf-8"))
+    for package_dir, package_kind in imported:
         print(f"Imported {package_kind}: {package_dir}")
     return imported
 

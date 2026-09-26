@@ -1,3 +1,5 @@
+import { withPerformancePreview } from "@/lib/performance-preview";
+import { PerformanceStatus } from "@/components/performance-status";
 import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";
 import { PortfolioNeedFilterBar } from "@/components/portfolio-need-selector";
@@ -61,7 +63,7 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
   const activeNeed = getPortfolioNeed(params?.need);
   const activeFamily = activeNeed?.family ?? (isFamily(params?.family) ? params.family : undefined);
 
-  const filteredStrategies = strategies.filter((strategy) => {
+  const filteredStrategies = strategies.map(withPerformancePreview).filter((strategy) => {
     const family = getStrategyFamily(strategy);
     return !activeFamily || family === activeFamily;
   });
@@ -181,7 +183,8 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
                       strategyFamily={strategyFamily.label}
                     >
                       <div>
-                        <p className="font-semibold text-pine">Historical performance available</p>
+                        <p className="font-semibold text-pine">Performance available</p>
+                        <PerformanceStatus strategy={strategy} />
                         <p className="mt-1 text-ink/60">
                           Review growth, drawdowns, risk metrics and benchmark comparison after acknowledging the backtest limitations.
                         </p>

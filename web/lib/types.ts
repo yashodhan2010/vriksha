@@ -27,6 +27,12 @@ export type Rebalance = {
 };
 
 export type Strategy = {
+  sourceStrategyId?: string;
+  dailyReturns?: DailyPerformancePoint[];
+  benchmarkComparisons?: BenchmarkComparison[];
+  updatedThrough?: string;
+  transitionDate?: string | null;
+  performanceStatus?: "backtest" | "internal_preview" | "unavailable";
   slug: string;
   name: string;
   public_name?: string;
@@ -58,4 +64,30 @@ export type Strategy = {
     latestModelPortfolioCsv?: string;
     rebalanceHistoryCsv?: string;
   };
+};
+
+export type DailyPerformancePoint = {
+  date: string;
+  strategy: number;
+  benchmark: number;
+  strategyReturn: number;
+  benchmarkReturn: number;
+  segment: "Backtest" | "Live model";
+};
+
+export type BenchmarkComparison = {
+  label: string;
+  dailyReturns?: Array<{
+    date: string;
+    return: number;
+    equityCurve: number;
+  }>;
+  monthlyReturns?: Array<{
+    month: string;
+    benchmark: number;
+  }>;
+  yearlyReturns?: Array<{
+    year: string;
+    benchmark: number;
+  }>;
 };

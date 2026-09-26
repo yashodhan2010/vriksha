@@ -77,3 +77,7 @@ Vriksha may:
 - select the last five rebalances
 
 Vriksha may not calculate signals, lookbacks, ranks, backtests, or model portfolios.
+
+## Composite performance
+
+See [composite performance import commands and blockers](../docs/composite-performance-import.md). Use `--performance-only` when updating performance without publishing portfolio changes. Internal live artifacts remain local previews and are never approved by import.

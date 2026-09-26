@@ -62,10 +62,22 @@ export function getSelectedBenchmarkLabel(strategy: Strategy, requestedLabel?: s
   return preferred ?? strategy.benchmark;
 }
 
-function dailyDatesMatch(strategy: Strategy, comparison: BenchmarkComparison) {
-  if (!strategy.dailyReturns || !comparison.dailyReturns) return false;
-  if (strategy.dailyReturns.length !== comparison.dailyReturns.length) return false;
-  return strategy.dailyReturns.every((point, index) => point.date === comparison.dailyReturns?.[index]?.date);
+function alignDailyReturns(strategy: Strategy, comparison: BenchmarkComparison) {
+  if (!strategy.dailyReturns || !comparison.dailyReturns) return strategy.dailyReturns;
+  const benchmarkByDate = new Map(comparison.dailyReturns.map((point) => [point.date, point]));
+  const aligned = strategy.dailyReturns
+    .map((point) => {
+      const benchmark = benchmarkByDate.get(point.date);
+      if (!benchmark) return null;
+      return {
+        ...point,
+        benchmark: benchmark.equityCurve,
+        benchmarkReturn: benchmark.return
+      };
+    })
+    .filter((point): point is NonNullable<typeof point> => point !== null);
+
+  return aligned.length >= 2 ? aligned : strategy.dailyReturns;
 }
 
 export function applyBenchmarkComparison(strategy: Strategy, label: string): Strategy {
@@ -78,16 +90,7 @@ export function applyBenchmarkComparison(strategy: Strategy, label: string): Str
   return {
     ...strategy,
     benchmark: comparison.label,
-    dailyReturns: dailyDatesMatch(strategy, comparison)
-      ? strategy.dailyReturns?.map((point, index) => {
-          const benchmark = comparison.dailyReturns![index];
-          return {
-            ...point,
-            benchmark: benchmark.equityCurve,
-            benchmarkReturn: benchmark.return
-          };
-        })
-      : strategy.dailyReturns,
+    dailyReturns: alignDailyReturns(strategy, comparison),
     monthlyReturns: strategy.monthlyReturns.map((point) => ({
       ...point,
       benchmark: monthlyByMonth.get(point.month) ?? point.benchmark

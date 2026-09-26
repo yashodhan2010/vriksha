@@ -14,7 +14,22 @@ export function withPerformancePreview<T extends Strategy | undefined>(strategy:
     const { dailyReturns, updatedThrough, transitionDate, performanceStatus, metrics, monthlyReturns, yearlyReturns, drawdowns, benchmarkComparisons } = preview;
     if (performanceStatus === "unavailable") return { ...strategy, performanceStatus };
     if (performanceStatus !== "internal_preview" || !dailyReturns?.length) return strategy;
-    return { ...strategy, dailyReturns, updatedThrough, transitionDate, performanceStatus, metrics, monthlyReturns, yearlyReturns, drawdowns, benchmarkComparisons } as T;
+
+    const comparisonsByLabel = new Map((strategy.benchmarkComparisons ?? []).map((comparison) => [comparison.label, comparison]));
+    for (const comparison of benchmarkComparisons ?? []) comparisonsByLabel.set(comparison.label, comparison);
+
+    return {
+      ...strategy,
+      dailyReturns,
+      updatedThrough,
+      transitionDate,
+      performanceStatus,
+      metrics,
+      monthlyReturns,
+      yearlyReturns,
+      drawdowns,
+      benchmarkComparisons: Array.from(comparisonsByLabel.values())
+    } as T;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") console.error("Could not load performance preview", error);
     return strategy;

@@ -320,6 +320,85 @@ def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> l
     return existing
 
 
+def _comparison_rows(comparison: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = comparison.get("dailyReturns") or []
+    return rows if isinstance(rows, list) else []
+
+
+def _comparison_monthly_yearly(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    monthly: dict[str, list[float]] = defaultdict(list)
+    yearly: dict[str, list[float]] = defaultdict(list)
+    for row in rows:
+        date = row.get("date", "")
+        value = row.get("return")
+        if not isinstance(date, str) or not isinstance(value, (int, float)):
+            continue
+        if len(date) >= 7:
+            monthly[date[:7]].append(float(value))
+        if len(date) >= 4:
+            yearly[date[:4]].append(float(value))
+    return (
+        [{"month": key, "benchmark": decimal_percent(_compound(values))} for key, values in sorted(monthly.items())],
+        [{"year": key, "benchmark": decimal_percent(_compound(values))} for key, values in sorted(yearly.items())],
+    )
+
+
+def _aligned_comparison(strategy: dict[str, Any], source: dict[str, Any]) -> dict[str, Any] | None:
+    label = source.get("label")
+    strategy_rows = strategy.get("dailyReturns") or []
+    source_rows = _comparison_rows(source)
+    if not label or not source_rows:
+        return None
+    if not strategy_rows:
+        return source
+    source_by_date = {row.get("date"): row for row in source_rows}
+    aligned_rows = [
+        source_by_date[row.get("date")]
+        for row in strategy_rows
+        if row.get("date") in source_by_date
+    ]
+    if len(aligned_rows) < 2:
+        return None
+    monthly, yearly = _comparison_monthly_yearly(aligned_rows)
+    return {
+        "label": label,
+        "dailyReturns": aligned_rows,
+        "monthlyReturns": monthly,
+        "yearlyReturns": yearly,
+    }
+
+
+def apply_common_benchmark_bundle(strategies: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Make every imported benchmark available to every strategy where dates overlap."""
+    common_by_label: dict[str, dict[str, Any]] = {}
+    for strategy in strategies:
+        for comparison in strategy.get("benchmarkComparisons") or []:
+            label = comparison.get("label")
+            if not label:
+                continue
+            current = common_by_label.get(label)
+            rows = _comparison_rows(comparison)
+            current_rows = _comparison_rows(current or {})
+            if (
+                current is None
+                or len(rows) > len(current_rows)
+                or (rows and current_rows and rows[-1].get("date", "") > current_rows[-1].get("date", ""))
+            ):
+                common_by_label[label] = comparison
+    if not common_by_label:
+        return strategies
+
+    for strategy in strategies:
+        comparisons = []
+        for label, source in common_by_label.items():
+            aligned = _aligned_comparison(strategy, source)
+            if aligned:
+                comparisons.append(aligned)
+        if comparisons:
+            strategy["benchmarkComparisons"] = comparisons
+    return strategies
+
+
 def preserve_rebalance_dates(strategy: dict[str, Any], previous: dict[str, Any] | None) -> dict[str, Any]:
     if not previous:
         return strategy
@@ -390,6 +469,7 @@ def import_package(
         target = deepcopy(prior)
         existing = [target if item["slug"] == slug else item for item in existing]
     target.update(performance)
+    existing = apply_common_benchmark_bundle(existing)
     output.parent.mkdir(parents=True, exist_ok=True)
     preview_path = output.with_suffix(".preview.json")
     previews = [item for item in load_existing(preview_path) if item.get("slug") != slug]

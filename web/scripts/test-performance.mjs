@@ -11,7 +11,7 @@ function load(name, require = () => { throw new Error("Unexpected dependency"); 
   return sandbox.exports;
 }
 const { getPeriodReturns, getPeriodPerformanceSeries } = load("performance-periods");
-const { applyBenchmarkComparison, findBenchmarkComparison } = load("benchmark-selection");
+const { applyBenchmarkComparison, findBenchmarkComparison, getBenchmarkOptionLabels } = load("benchmark-selection");
 const dailyReturns = [
   { date: "2024-01-01", strategy: 1, benchmark: 1, strategyReturn: 0, benchmarkReturn: 0, segment: "Backtest" },
   { date: "2024-01-02", strategy: 1.1, benchmark: 1.2, strategyReturn: .1, benchmarkReturn: .2, segment: "Backtest" },
@@ -48,6 +48,18 @@ assert.equal(gold.dailyReturns.at(-1).benchmark, 1.15);
 assert.equal(gold.monthlyReturns[0].benchmark, 7);
 assert.equal(gold.yearlyReturns[0].benchmark, 7);
 assert.equal(applyBenchmarkComparison(selectableStrategy, "NIFTY 50"), selectableStrategy);
+assert.ok(getBenchmarkOptionLabels(selectableStrategy).includes("Gold"));
+
+const importedStrategies = JSON.parse(fs.readFileSync("lib/imported-strategies.json", "utf8"));
+const multiAsset = importedStrategies.find((item) => item.slug === "multi-asset-etf-dual-momentum");
+assert.ok(findBenchmarkComparison(multiAsset, "NIFTY Gsec Composite"), "Multi-asset Gsec benchmark must be selectable");
+assert.ok(findBenchmarkComparison(multiAsset, "Gold"), "Multi-asset Gold benchmark must be selectable");
+assert.equal(applyBenchmarkComparison(multiAsset, "NIFTY Gsec Composite").benchmark, "NIFTY Gsec Composite");
+assert.equal(applyBenchmarkComparison(multiAsset, "Gold").benchmark, "Gold");
+const dualMomentum = importedStrategies.find((item) => item.slug === "dual-momentum");
+assert.ok(findBenchmarkComparison(dualMomentum, "NIFTY Gsec Composite"), "Common bundle must make Gsec selectable for every strategy");
+assert.ok(findBenchmarkComparison(dualMomentum, "Gold"), "Common bundle must make Gold selectable for every strategy");
+assert.equal(applyBenchmarkComparison(dualMomentum, "Gold").benchmark, "Gold");
 
 const windowed = { ...strategy, dailyReturns: [
   { ...dailyReturns[0], date: "2023-12-01", strategy: 3 },
@@ -61,7 +73,7 @@ assert.ok(Math.abs(month.strategy - 20) < 1e-8);
 assert.ok(Math.abs(month.maxDrawdown + 10) < 1e-8, "period drawdown resets peak at period start");
 
 const portfolio = { ...strategy, holdings: [{ symbol: "AAA" }], rebalances: [{ date: "2024-01-01" }] };
-const preview = { ...strategy, performanceStatus: "internal_preview", holdings: [], rebalances: [] };
+const preview = { ...strategy, performanceStatus: "internal_preview", holdings: [], rebalances: [], benchmarkComparisons: [{ label: "NIFTY 500", dailyReturns: [] }] };
 for (const [mode, enabled, expectedReads] of [["production", "1", 0], ["development", undefined, 0], ["development", "1", 1]]) {
   let reads = 0;
   const { withPerformancePreview } = load("performance-preview", (id) => {
@@ -76,4 +88,14 @@ for (const [mode, enabled, expectedReads] of [["production", "1", 0], ["developm
   assert.equal(result.rebalances, portfolio.rebalances);
   assert.equal(result.performanceStatus, expectedReads ? "internal_preview" : undefined);
 }
+
+const { withPerformancePreview } = load("performance-preview", (id) => {
+  if (id === "server-only") return {};
+  if (id === "node:path") return { join: (...parts) => parts.join("/") };
+  if (id === "node:fs") return { readFileSync: () => JSON.stringify([preview]) };
+  throw new Error(id);
+}, { process: { cwd: () => "/web", env: { NODE_ENV: "development", VRIKSHA_PERFORMANCE_PREVIEW: "1" } } });
+const mergedPreview = withPerformancePreview(selectableStrategy);
+assert.ok(findBenchmarkComparison(mergedPreview, "Gold"), "Live preview must preserve historical benchmark choices");
+assert.ok(findBenchmarkComparison(mergedPreview, "NIFTY 500"), "Live preview must add live benchmark choices");
 console.log("Daily performance and preview isolation tests passed.");

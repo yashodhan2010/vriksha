@@ -36,6 +36,10 @@ function getChartTicks(series: Array<{ label: string }>) {
   return [...new Set(ticks)];
 }
 
+function formatAxisValue(value: number) {
+  return value.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+}
+
 function useNarrowViewport() {
   const [isNarrow, setIsNarrow] = useState(false);
 
@@ -75,6 +79,11 @@ function PeriodTooltip({ active, payload, label }: TooltipProps<number, string>)
   );
 }
 
+function sliderReturn(start: number | undefined, end: number | undefined) {
+  if (!start || !end) return null;
+  return (end / start - 1) * 100;
+}
+
 export function PeriodPerformanceView({
   strategy,
   compact = false
@@ -83,6 +92,7 @@ export function PeriodPerformanceView({
   compact?: boolean;
 }) {
   const [activePeriod, setActivePeriod] = useState<PerformancePeriodKey>("1y");
+  const [sliderIndex, setSliderIndex] = useState(0);
   const isNarrow = useNarrowViewport();
   const periodReturns = useMemo(() => getPeriodReturns(strategy), [strategy]);
   const series = useMemo(
@@ -99,6 +109,15 @@ export function PeriodPerformanceView({
     if (!isNarrow || ticks.length <= 3) return ticks;
     return ticks.filter((_tick, index) => index === 0 || index === ticks.length - 1 || index === Math.floor(ticks.length / 2));
   }, [series, isNarrow]);
+  const selectedIndex = Math.min(sliderIndex, Math.max(series.length - 1, 0));
+  const selectedPoint = series[selectedIndex];
+  const latestPoint = series.at(-1);
+  const selectedStrategyReturn = sliderReturn(selectedPoint?.strategy, latestPoint?.strategy);
+  const selectedBenchmarkReturn = sliderReturn(selectedPoint?.benchmark, latestPoint?.benchmark);
+
+  useEffect(() => {
+    setSliderIndex(0);
+  }, [activePeriod, strategy.benchmark, series.length]);
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -194,34 +213,81 @@ export function PeriodPerformanceView({
         </div>
 
         {series.length > 0 ? (
-          <div className="h-56 w-full sm:h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={series} margin={{ top: 8, right: isNarrow ? 4 : 16, bottom: 0, left: isNarrow ? -24 : 0 }}>
-                <CartesianGrid stroke="#eee7dc" />
-                <XAxis
-                  dataKey="label"
-                  ticks={chartTicks}
-                  interval={0}
-                  minTickGap={isNarrow ? 28 : 16}
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
-                />
-                <YAxis
-                  width={isNarrow ? 34 : 48}
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
-                  domain={["dataMin - 5", "dataMax + 5"]}
-                />
-                {strategy.transitionDate && series.some((point) => point.label === strategy.transitionDate) && <ReferenceLine x={strategy.transitionDate} stroke="#a55f45" strokeDasharray="4 4" label="Live inception" />}
-                <ReferenceLine y={100} stroke="#c2b8a3" strokeDasharray="4 4" label={{ value: "Start index 100", fill: "#8a8170", fontSize: isNarrow ? 10 : 11 }} />
-                <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
-                <Line type="linear" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
-                <Line type="linear" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <>
+            <div className="h-56 w-full sm:h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={series} margin={{ top: 8, right: isNarrow ? 4 : 16, bottom: 0, left: isNarrow ? -24 : 0 }}>
+                  <CartesianGrid stroke="#eee7dc" />
+                  <XAxis
+                    dataKey="label"
+                    ticks={chartTicks}
+                    interval={0}
+                    minTickGap={isNarrow ? 28 : 16}
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
+                  />
+                  <YAxis
+                    width={isNarrow ? 40 : 56}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={formatAxisValue}
+                    tick={{ fill: "#18211f99", fontSize: isNarrow ? 10 : 12 }}
+                    domain={["dataMin - 5", "dataMax + 5"]}
+                  />
+                  {strategy.transitionDate && series.some((point) => point.label === strategy.transitionDate) && <ReferenceLine x={strategy.transitionDate} stroke="#a55f45" strokeDasharray="4 4" label="Live inception" />}
+                  {selectedPoint && <ReferenceLine x={selectedPoint.label} stroke="#1f3a33" strokeDasharray="3 3" />}
+                  <ReferenceLine y={100} stroke="#c2b8a3" strokeDasharray="4 4" label={{ value: "Start index 100", fill: "#8a8170", fontSize: isNarrow ? 10 : 11 }} />
+                  <Tooltip content={<PeriodTooltip />} cursor={{ stroke: "#1f3a33", strokeWidth: 1, strokeOpacity: 0.2 }} />
+                  <Line type="linear" dataKey="strategy" stroke="#1f3a33" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                  <Line type="linear" dataKey="benchmark" stroke="#a55f45" strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="mt-4 rounded border border-line bg-paper p-3 sm:p-4">
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_260px] sm:items-center">
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/52" htmlFor={`return-slider-${strategy.slug}-${activePeriod}`}>
+                    Return from selected date to latest
+                  </label>
+                  <input
+                    className="mt-3 h-2 w-full accent-pine"
+                    disabled={series.length < 2}
+                    id={`return-slider-${strategy.slug}-${activePeriod}`}
+                    max={Math.max(series.length - 1, 0)}
+                    min={0}
+                    onChange={(event) => setSliderIndex(Number(event.target.value))}
+                    step={1}
+                    type="range"
+                    value={selectedIndex}
+                  />
+                  <div className="mt-2 flex justify-between text-[11px] font-medium text-ink/52">
+                    <span>{series[0]?.label ?? "Start"}</span>
+                    <span>{latestPoint?.label ?? "Latest"}</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded border border-line bg-white p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/48">Strategy</p>
+                    <p className={cn("mt-1 text-lg font-semibold tabular-nums", (selectedStrategyReturn ?? 0) >= 0 ? "text-moss" : "text-clay")}>
+                      {formatPercent(selectedStrategyReturn)}
+                    </p>
+                  </div>
+                  <div className="rounded border border-line bg-white p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-ink/48">{strategy.benchmark}</p>
+                    <p className={cn("mt-1 text-lg font-semibold tabular-nums", (selectedBenchmarkReturn ?? 0) >= 0 ? "text-moss" : "text-clay")}>
+                      {formatPercent(selectedBenchmarkReturn)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {selectedPoint && latestPoint && (
+                <p className="mt-3 text-xs leading-5 text-ink/58">
+                  From {selectedPoint.label} to {latestPoint.label}. Values are based on the currently selected period and comparison benchmark.
+                </p>
+              )}
+            </div>
+          </>
         ) : (
           <div className="grid h-72 place-items-center rounded bg-paper text-sm text-ink/58">
             Not enough history for this period.

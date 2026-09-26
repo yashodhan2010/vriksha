@@ -1,0 +1,6 @@
+{
+  "/api/performance-access/route": "app/api/performance-access/route.js",
+  "/page": "app/page.js",
+  "/strategies/page": "app/strategies/page.js",
+  "/strategies/[slug]/page": "app/strategies/[slug]/page.js"
+}

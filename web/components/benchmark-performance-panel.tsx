@@ -6,8 +6,8 @@ import { PeriodPerformanceView } from "@/components/period-performance-view";
 import {
   applyBenchmarkComparison,
   findBenchmarkComparison,
+  getBenchmarkOptionLabels,
   getSelectedBenchmarkLabel,
-  selectableBenchmarks
 } from "@/lib/benchmark-selection";
 import type { Strategy } from "@/lib/types";
 
@@ -18,7 +18,8 @@ export function BenchmarkPerformancePanel({ strategy }: { strategy: Strategy }) 
     () => applyBenchmarkComparison(strategy, effectiveBenchmark),
     [strategy, effectiveBenchmark]
   );
-  const availableCount = selectableBenchmarks.filter((label) => findBenchmarkComparison(strategy, label)).length;
+  const benchmarkOptions = getBenchmarkOptionLabels(strategy);
+  const availableCount = benchmarkOptions.filter((label) => findBenchmarkComparison(strategy, label)).length;
 
   return (
     <div className="space-y-8">
@@ -34,7 +35,7 @@ export function BenchmarkPerformancePanel({ strategy }: { strategy: Strategy }) 
               value={effectiveBenchmark}
               onChange={(event) => setSelectedBenchmark(event.target.value)}
             >
-              {selectableBenchmarks.map((label) => {
+              {benchmarkOptions.map((label) => {
                 const comparison = findBenchmarkComparison(strategy, label);
                 return (
                   <option disabled={!comparison} key={label} value={label}>
@@ -62,4 +63,3 @@ export function BenchmarkPerformancePanel({ strategy }: { strategy: Strategy }) 
     </div>
   );
 }
-

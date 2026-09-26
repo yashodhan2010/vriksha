@@ -131,6 +131,98 @@ def benchmark_comparison(label, rows):
     }
 
 
+def rows_from_comparison(comparison):
+    return [
+        {"date": row["date"], "return": row["return"], "equity_curve": row["equityCurve"]}
+        for row in comparison.get("dailyReturns", [])
+    ]
+
+
+def comparison_from_series(label, rows):
+    monthly, yearly = defaultdict(lambda: 1.), defaultdict(lambda: 1.)
+    for row in rows:
+        monthly[row["date"][:7]] *= 1 + row["return"]
+        yearly[row["date"][:4]] *= 1 + row["return"]
+    return {
+        "label": label,
+        "dailyReturns": [
+            {"date": row["date"], "return": row["return"], "equityCurve": row["equity_curve"]}
+            for row in rows
+        ],
+        "monthlyReturns": [
+            {"month": key, "benchmark": (value - 1) * 100}
+            for key, value in sorted(monthly.items())
+        ],
+        "yearlyReturns": [
+            {"year": key, "benchmark": (value - 1) * 100}
+            for key, value in sorted(yearly.items())
+        ],
+    }
+
+
+def add_unique_comparison(items, comparison):
+    if comparison and not any(item.get("label") == comparison.get("label") for item in items):
+        items.append(comparison)
+
+
+def available_reference(reference, coverage_key, file_key):
+    coverage = reference.get(coverage_key) or {}
+    return coverage.get("status") == "available" and reference.get(file_key)
+
+
+def load_historical_benchmark_comparisons(root, manifest, history, previous):
+    comparisons = [benchmark_comparison(manifest.get("benchmark", ""), history)]
+    history_dates = [row["date"] for row in history]
+
+    for reference in manifest.get("benchmark_comparisons") or []:
+        if not available_reference(reference, "historical_coverage", "historical_file"):
+            continue
+        label = reference.get("label")
+        rows = read_series(root / reference["historical_file"], benchmark=label)
+        if [row["date"] for row in rows] != history_dates:
+            raise ValueError(f"{label}: benchmark comparison dates do not match strategy history")
+        add_unique_comparison(comparisons, comparison_from_series(label, rows))
+
+    for comparison in (previous or {}).get("benchmarkComparisons") or []:
+        add_unique_comparison(comparisons, comparison)
+
+    return comparisons
+
+
+def join_benchmark_comparison(history_rows, live_rows, transition, label):
+    anchor = next((row for row in history_rows if row["date"] == transition), None)
+    if not anchor or not live_rows or live_rows[0]["date"] != transition:
+        raise ValueError(f"{label}: missing historical/live benchmark coverage at live inception")
+    baseline = live_rows[0]
+    if not math.isclose(baseline["equity_curve"], 1, abs_tol=1e-8) or baseline["return"] != 0:
+        raise ValueError(f"{label}: live benchmark comparison must start at 1 with zero return")
+    known_dates = {row["date"] for row in history_rows if transition < row["date"] <= live_rows[-1]["date"]}
+    if not known_dates.issubset({row["date"] for row in live_rows}):
+        raise ValueError(f"{label}: gap in live benchmark comparison on a known historical trading date")
+    return [row for row in history_rows if row["date"] <= transition] + [
+        {**row, "equity_curve": anchor["equity_curve"] * row["equity_curve"]}
+        for row in live_rows[1:]
+    ]
+
+
+def load_live_benchmark_comparisons(root, manifest, historical_comparisons, transition):
+    by_label = {comparison.get("label"): comparison for comparison in historical_comparisons}
+    comparisons = []
+
+    for reference in manifest.get("benchmark_comparisons") or []:
+        if not available_reference(reference, "live_coverage", "live_file"):
+            continue
+        label = reference.get("label")
+        historical = by_label.get(label)
+        if not historical:
+            continue
+        live_rows = read_series(root / reference["live_file"], benchmark=label)
+        joined = join_benchmark_comparison(rows_from_comparison(historical), live_rows, transition, label)
+        add_unique_comparison(comparisons, comparison_from_series(label, joined))
+
+    return comparisons
+
+
 def finite_json(value):
     if isinstance(value, float):
         number(value)
@@ -155,7 +247,7 @@ def import_performance(root: Path, manifest, previous, full):
     public = {"sourceStrategyId": identity}
     if history:
         public.update(summarize(history))
-        public["benchmarkComparisons"] = [benchmark_comparison(manifest.get("benchmark", ""), history)]
+        public["benchmarkComparisons"] = load_historical_benchmark_comparisons(root, manifest, history, previous)
         public["historicalDaily"] = history
     elif full:
         raise ValueError("Full import requires historical daily data")
@@ -225,4 +317,6 @@ def import_performance(root: Path, manifest, previous, full):
     # There is deliberately no publication switch: the upstream method is not approved.
     composite = summarize(join(history, live, day(meta["live_inception_date"])), meta["live_inception_date"], "internal_preview")
     composite["benchmarkComparisons"] = [benchmark_comparison(meta.get("benchmark", ""), composite["dailyReturns"])]
+    for comparison in load_live_benchmark_comparisons(root, manifest, public.get("benchmarkComparisons", []), day(meta["live_inception_date"])):
+        add_unique_comparison(composite["benchmarkComparisons"], comparison)
     return public, {**composite, "slug": manifest["slug"], "liveMetadata": meta}

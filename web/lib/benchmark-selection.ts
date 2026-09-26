@@ -9,8 +9,8 @@ export const selectableBenchmarks = [
 ] as const;
 
 const benchmarkAliases: Record<string, string[]> = {
-  "NIFTY 50": ["NIFTY 50", "NIFTY 50 TRI"],
-  "NIFTY 500": ["NIFTY 500", "NIFTY 500 TRI"],
+  "NIFTY 50": ["NIFTY 50"],
+  "NIFTY 500": ["NIFTY 500"],
   "NIFTY 500 TRI": ["NIFTY 500 TRI"],
   "NIFTY Gsec Composite": ["NIFTY Gsec Composite", "NIFTY G-sec Composite", "NIFTY GSEC Composite", "NIFTY G-Sec Composite"],
   Gold: ["Gold", "GOLD"]
@@ -48,6 +48,12 @@ export function getBenchmarkComparisons(strategy: Strategy): BenchmarkComparison
 
 export function findBenchmarkComparison(strategy: Strategy, label: string) {
   return getBenchmarkComparisons(strategy).find((comparison) => sameBenchmark(label, comparison.label));
+}
+
+export function getBenchmarkOptionLabels(strategy: Strategy) {
+  const labels = new Set<string>(selectableBenchmarks);
+  getBenchmarkComparisons(strategy).forEach((comparison) => labels.add(comparison.label));
+  return Array.from(labels);
 }
 
 export function getSelectedBenchmarkLabel(strategy: Strategy, requestedLabel?: string) {

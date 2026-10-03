@@ -116,6 +116,7 @@ export async function POST(request: Request) {
       mode: "manual_confirmation",
       checkoutId: session.id,
       amountPaise: basket.totalPaise,
+      currency: basket.currency,
       razorpayOrderId: null
     });
   }
@@ -150,6 +151,7 @@ export async function POST(request: Request) {
     mode: "razorpay_order",
     checkoutId: session.id,
     amountPaise: basket.totalPaise,
+    currency: basket.currency,
     razorpayOrderId: order.id,
     razorpayKeyId: keyId
   });

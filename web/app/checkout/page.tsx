@@ -38,8 +38,8 @@ export default async function CheckoutPage() {
           <section className="card-accent-gold mb-6 p-6">
             <h2 className="text-xl font-semibold">Need help with subscription setup?</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/70">
-              Online payment module is being finalized. Until then, you can proceed through our
-              contact desk for assisted onboarding and subscription activation.
+              Online payments use Razorpay when gateway keys are configured. You can also proceed
+              through our contact desk for assisted onboarding and subscription activation.
             </p>
             <Link href="/contact" className="mt-4 inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine">
               Contact us

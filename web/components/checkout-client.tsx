@@ -15,6 +15,79 @@ import { getFamilyMeta, getStrategyFamily } from "@/lib/strategy-taxonomy";
 
 const basketStorageKey = "vriksha-strategy-basket";
 const cycleStorageKey = "vriksha-billing-cycle";
+const razorpayCheckoutScript = "https://checkout.razorpay.com/v1/checkout.js";
+
+type CheckoutStatus = "idle" | "creating" | "created" | "payment_open" | "payment_submitted" | "error";
+
+type RazorpaySuccessResponse = {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+};
+
+type RazorpayFailureResponse = {
+  error?: {
+    code?: string;
+    description?: string;
+    reason?: string;
+  };
+};
+
+type RazorpayOptions = {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpaySuccessResponse) => void;
+  notes?: Record<string, string>;
+  theme?: {
+    color?: string;
+  };
+  modal?: {
+    ondismiss?: () => void;
+  };
+};
+
+type RazorpayCheckout = {
+  open: () => void;
+  on: (event: "payment.failed", handler: (response: RazorpayFailureResponse) => void) => void;
+};
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => RazorpayCheckout;
+  }
+}
+
+function loadRazorpayCheckout() {
+  return new Promise<void>((resolve, reject) => {
+    if (window.Razorpay) {
+      resolve();
+      return;
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      `script[src="${razorpayCheckoutScript}"]`
+    );
+
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Could not load Razorpay Checkout.")), {
+        once: true
+      });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = razorpayCheckoutScript;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Could not load Razorpay Checkout."));
+    document.body.appendChild(script);
+  });
+}
 
 export function CheckoutClient() {
   const [basket, setBasket] = useState<string[]>([]);
@@ -22,7 +95,7 @@ export function CheckoutClient() {
   const [clientType, setClientType] = useState<ClientType>("individual");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [feeCapAcknowledged, setFeeCapAcknowledged] = useState(false);
-  const [status, setStatus] = useState<"idle" | "creating" | "created" | "error">("idle");
+  const [status, setStatus] = useState<CheckoutStatus>("idle");
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
@@ -69,7 +142,9 @@ export function CheckoutClient() {
     termsAccepted &&
     feeCapAcknowledged &&
     !exceedsFeeCap &&
-    status !== "creating";
+    status !== "creating" &&
+    status !== "payment_open" &&
+    status !== "payment_submitted";
 
   function remove(slug: string) {
     const nextBasket = basket.filter((item) => item !== slug);
@@ -101,7 +176,10 @@ export function CheckoutClient() {
     const payload = (await response.json().catch(() => null)) as {
       error?: string;
       checkoutId?: string;
+      amountPaise?: number;
+      currency?: string;
       razorpayOrderId?: string | null;
+      razorpayKeyId?: string;
       mode?: string;
     } | null;
 
@@ -111,12 +189,66 @@ export function CheckoutClient() {
       return;
     }
 
-    setStatus("created");
-    setNotice(
-      payload?.razorpayOrderId
-        ? "Payment session created. Continue to complete payment."
-        : "Checkout request received. We will confirm payment instructions shortly."
-    );
+    if (!payload?.razorpayOrderId || !payload.razorpayKeyId) {
+      setStatus("created");
+      setNotice("Checkout request received. Razorpay keys are not configured yet, so payment will be confirmed manually.");
+      return;
+    }
+
+    try {
+      await loadRazorpayCheckout();
+    } catch (error) {
+      setStatus("error");
+      setNotice(error instanceof Error ? error.message : "Could not load Razorpay Checkout.");
+      return;
+    }
+
+    if (!window.Razorpay) {
+      setStatus("error");
+      setNotice("Razorpay Checkout is unavailable. Please try again.");
+      return;
+    }
+
+    setStatus("payment_open");
+    setNotice("Opening secure Razorpay checkout.");
+
+    let paymentCompleted = false;
+    const razorpay = new window.Razorpay({
+      key: payload.razorpayKeyId,
+      amount: payload.amountPaise ?? basketDetails.totalPaise,
+      currency: payload.currency ?? basketDetails.currency,
+      name: "Vriksha Capital",
+      description: `${billingCycles.find((cycle) => cycle.id === billingCycle)?.label ?? "Strategy"} research subscription`,
+      order_id: payload.razorpayOrderId,
+      handler: () => {
+        paymentCompleted = true;
+        setStatus("payment_submitted");
+        setNotice("Payment submitted. Subscriber access will unlock after Razorpay confirms the payment.");
+        window.localStorage.removeItem(basketStorageKey);
+        setBasket([]);
+      },
+      notes: {
+        checkout_id: payload.checkoutId ?? "",
+        billing_cycle: billingCycle
+      },
+      theme: {
+        color: "#0f5d3a"
+      },
+      modal: {
+        ondismiss: () => {
+          if (paymentCompleted) return;
+          setStatus("created");
+          setNotice("Payment window closed. You can reopen checkout when ready.");
+        }
+      }
+    });
+
+    razorpay.on("payment.failed", (failure) => {
+      setStatus("error");
+      setNotice(failure.error?.description ?? "Payment failed. Please try again or use another payment method.");
+    });
+
+    razorpay.open();
   }
 
   return (
@@ -258,7 +390,7 @@ export function CheckoutClient() {
           onClick={createCheckout}
         >
           <ShieldCheck size={16} aria-hidden="true" />
-          {status === "creating" ? "Creating checkout" : "Create payment"}
+          {status === "creating" || status === "payment_open" ? "Opening payment" : "Pay with Razorpay"}
         </button>
         {notice && (
           <p className={`mt-3 text-sm leading-6 ${status === "error" ? "text-clay" : "text-pine"}`}>

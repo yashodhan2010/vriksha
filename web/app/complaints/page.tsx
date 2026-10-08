@@ -85,9 +85,15 @@ export default function ComplaintsPage() {
                 <tr><th className="py-2">Month</th><th>Carried Forward</th><th>Received</th><th>Resolved</th><th>Pending</th></tr>
               </thead>
               <tbody>
-                <tr className="border-t border-line">
-                  <td className="py-3 font-semibold">{latest.month}</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                </tr>
+                {complaintsDisclosure.map((item) => (
+                  <tr className="border-t border-line" key={item.month}>
+                    <td className="py-3 font-semibold">{item.month}</td>
+                    <td>{item.pending}</td>
+                    <td>{item.received + item.scoresReceived}</td>
+                    <td>{item.resolved + item.scoresResolved}</td>
+                    <td>{item.pending}</td>
+                  </tr>
+                ))}
                 <tr className="border-t border-line">
                   <td className="py-3 font-semibold">Grand Total</td><td>0</td><td>0</td><td>0</td><td>0</td>
                 </tr>

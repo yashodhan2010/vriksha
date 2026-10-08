@@ -95,6 +95,15 @@ export const escalationMatrix = [
 
 export const complaintsDisclosure = [
   {
+    month: "Month ending 30 September 2026",
+    received: 0,
+    resolved: 0,
+    pending: 0,
+    scoresReceived: 0,
+    scoresResolved: 0,
+    lastUpdated: "As per Annexure B"
+  },
+  {
     month: "Month ending 31 July 2026",
     received: 0,
     resolved: 0,

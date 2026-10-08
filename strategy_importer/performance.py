@@ -301,6 +301,8 @@ def import_performance(root: Path, manifest, previous, full):
         for row in nav + benchmark:
             if row["date"] != meta.get("live_inception_date") or row["return"] != 0 or not math.isclose(row["equity_curve"], 1, abs_tol=1e-8):
                 raise ValueError("Unavailable history must be empty or inception baseline only")
+        public["performanceStatus"] = "unavailable"
+        public["transitionDate"] = None
         return public, {"slug": manifest["slug"], "performanceStatus": "unavailable", "liveMetadata": meta}
     live = paired(nav, benchmark, "Live model")
     if meta.get("status") != "available" or len(live) < 2:
@@ -314,9 +316,9 @@ def import_performance(root: Path, manifest, previous, full):
         raise ValueError("Live quality warnings require resolution: " + "; ".join(warnings))
     if not history:
         raise ValueError("Import a full package to retain historical daily data before live updates")
-    # There is deliberately no publication switch: the upstream method is not approved.
     composite = summarize(join(history, live, day(meta["live_inception_date"])), meta["live_inception_date"], "internal_preview")
     composite["benchmarkComparisons"] = [benchmark_comparison(meta.get("benchmark", ""), composite["dailyReturns"])]
     for comparison in load_live_benchmark_comparisons(root, manifest, public.get("benchmarkComparisons", []), day(meta["live_inception_date"])):
         add_unique_comparison(composite["benchmarkComparisons"], comparison)
+    public.update({**composite, "performanceStatus": "live"})
     return public, {**composite, "slug": manifest["slug"], "liveMetadata": meta}

@@ -32,7 +32,7 @@ export type Strategy = {
   benchmarkComparisons?: BenchmarkComparison[];
   updatedThrough?: string;
   transitionDate?: string | null;
-  performanceStatus?: "backtest" | "internal_preview" | "unavailable";
+  performanceStatus?: "backtest" | "live" | "internal_preview" | "unavailable";
   slug: string;
   name: string;
   public_name?: string;

@@ -20,7 +20,7 @@ python strategy_importer/import_all_packages.py "C:\path\to\data\output\packages
 
 Batch imports stage all packages before writing; an invalid package aborts the batch, including with `--reset`. `--reset` deliberately clears prior history on a successful batch, so include full packages before updates. Individual invalid imports leave both published and preview files unchanged and report the failing check.
 
-Default public output: `web/lib/imported-strategies.json`. Private preview output: `web/lib/imported-strategies.preview.json` (gitignored). With `--output`, the preview file uses the same path with `.preview.json` in place of `.json`. Public output contains only the historical Backtest performance. Live manifests, quality metadata and the composite remain in the private preview file.
+Default public output: `web/lib/imported-strategies.json`. Private preview output: `web/lib/imported-strategies.preview.json` (gitignored). With `--output`, the preview file uses the same path with `.preview.json` in place of `.json`. Public output contains the validated Backtest + Live composite performance when live exports pass validation. Live manifest quality metadata remains in the private preview file.
 
 To view the composite using the existing strategy cards, disclosure flow, performance graphs, metric cards and monthly matrix:
 
@@ -30,7 +30,7 @@ $env:VRIKSHA_PERFORMANCE_PREVIEW = "1"
 npm run dev -- --hostname 127.0.0.1
 ```
 
-Restart the development server after importing to refresh cached pages. Preview files are read server-side only, and only when `NODE_ENV=development` and the flag is `1`. Production builds ignore the flag and do not read private data. No public approval switch is provided. The preview overlay allowlists performance fields and cannot alter portfolio exports, checkout or rebalance publication.
+Restart the development server after importing to refresh cached pages. Preview files are read server-side only, and only when `NODE_ENV=development` and the flag is `1`. Production builds ignore the flag and do not read private metadata. The public artifact carries only validated performance fields and cannot alter portfolio exports, checkout or rebalance publication.
 
 ## Calculation and validation
 

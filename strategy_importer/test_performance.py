@@ -73,7 +73,9 @@ class PerformanceImportTests(unittest.TestCase):
         self.assertEqual(p["metrics"][0]["value"], "NA")
         self.assertEqual(p["updatedThrough"], "2024-01-04")
         self.assertEqual(p["performanceStatus"], "internal_preview")
-        self.assertEqual(self.public()["performanceStatus"], "backtest")
+        self.assertEqual(self.public()["performanceStatus"], "live")
+        self.assertEqual(self.public()["transitionDate"], "2024-01-02")
+        self.assertAlmostEqual(self.public()["dailyReturns"][-1]["strategy"], 1.188)
         self.assertNotIn("liveMetadata", self.public())
 
     def test_repeated_imports_are_idempotent(self):
@@ -103,6 +105,8 @@ class PerformanceImportTests(unittest.TestCase):
         self.live(False)
         self.run_import("update")
         self.assertEqual(self.private()["performanceStatus"], "unavailable")
+        self.assertEqual(self.public()["performanceStatus"], "unavailable")
+        self.assertIsNone(self.public()["transitionDate"])
         self.assertNotIn("dailyReturns", self.private())
 
     def test_old_package_without_live_files(self):
@@ -130,6 +134,7 @@ class PerformanceImportTests(unittest.TestCase):
         self.run_import("update")
         self.assertEqual(len(self.private()["dailyReturns"]), 4)
         self.assertAlmostEqual(self.private()["dailyReturns"][-1]["strategy"], 1.155)
+        self.assertAlmostEqual(self.public()["dailyReturns"][-1]["strategy"], 1.155)
 
     def test_preserve_published_dates_still_works(self):
         self.run_import()

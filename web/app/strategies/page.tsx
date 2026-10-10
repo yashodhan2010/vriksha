@@ -2,7 +2,7 @@ import { withPerformancePreview } from "@/lib/performance-preview";
 import { PerformanceStatus } from "@/components/performance-status";
 import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";
-import { PortfolioNeedFilterBar } from "@/components/portfolio-need-selector";
+import { PortfolioNeedFilterBar, PortfolioNeedSelector } from "@/components/portfolio-need-selector";
 import { Reveal } from "@/components/reveal";
 import { StrategyBacktestLink } from "@/components/strategy-backtest-link";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
@@ -231,6 +231,10 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
               : "No strategy baskets match this selection."}
           </div>
         )}
+      </div>
+
+      <div id="portfolio-needs" className="mt-12">
+        <PortfolioNeedSelector contained={false} />
       </div>
     </main>
   );

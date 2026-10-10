@@ -10,7 +10,6 @@ import {
 import { ContactMailForm } from "@/components/contact-mail-form";
 import { GrowthMotif } from "@/components/growth-motif";
 import { LandingHeroSignal } from "@/components/landing-hero-signal";
-import { PortfolioNeedSelector } from "@/components/portfolio-need-selector";
 import { getStrategyPath, strategies } from "@/lib/data";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
@@ -87,18 +86,43 @@ export default function HomePage() {
               <p className="mt-3 text-sm leading-6 text-white/66">
                 You keep custody. Vriksha publishes the research, weights, and rebalance file.
               </p>
-              <div className="mt-5 grid gap-3">
-                {heroSteps.map(([step, title, text]) => (
-                  <div className="grid grid-cols-[44px_1fr] gap-3 rounded border border-white/12 bg-white/[0.06] p-3" key={step}>
-                    <span className="grid h-9 w-9 place-items-center rounded-full border border-white/18 text-xs font-semibold text-white/72">
-                      {step}
-                    </span>
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">{title}</h3>
-                      <p className="mt-1 text-xs leading-5 text-white/58">{text}</p>
+              <div className="hero-flow relative mt-6 overflow-hidden rounded border border-white/10 bg-white/[0.035] px-3 py-4 sm:px-4">
+                <svg
+                  className="pointer-events-none absolute inset-y-5 left-5 hidden h-[calc(100%-2.5rem)] w-16 sm:block"
+                  preserveAspectRatio="none"
+                  viewBox="0 0 64 260"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M34 2 C8 38 58 58 30 94 C6 128 58 146 31 184 C12 214 41 232 28 258"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.18)"
+                    strokeWidth="2"
+                  />
+                  <path
+                    className="hero-flow-path"
+                    d="M34 2 C8 38 58 58 30 94 C6 128 58 146 31 184 C12 214 41 232 28 258"
+                    fill="none"
+                    stroke="#d6b96a"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    pathLength="100"
+                  />
+                </svg>
+
+                <div className="space-y-4 sm:pl-14">
+                  {heroSteps.map(([step, title, text], index) => (
+                    <div className="hero-flow-step grid grid-cols-[42px_1fr] gap-3" key={step} style={{ animationDelay: `${160 + index * 120}ms` }}>
+                      <span className="relative z-10 grid h-9 w-9 place-items-center rounded-full border border-white/24 bg-pine text-xs font-semibold text-white shadow-[0_0_0_6px_rgba(255,255,255,0.04)]">
+                        {step}
+                      </span>
+                      <div className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
+                        <h3 className="text-sm font-semibold text-white">{title}</h3>
+                        <p className="mt-1 text-xs leading-5 text-white/58">{text}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <Link href="#live-baskets" className="group inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline">
@@ -138,8 +162,28 @@ export default function HomePage() {
           .landing-hero .hero-copy a { animation-delay: 320ms; }
           .landing-hero .hero-card { animation-delay: 360ms; }
 
+          .landing-hero .hero-flow-path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: hero-flow-draw 960ms ease-out 520ms forwards;
+          }
+
+          .landing-hero .hero-flow-step {
+            opacity: 0;
+            transform: translateY(8px);
+            animation: hero-flow-step 520ms ease-out forwards;
+          }
+
           @keyframes hero-enter {
             from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes hero-flow-draw {
+            to { stroke-dashoffset: 0; }
+          }
+
+          @keyframes hero-flow-step {
             to { opacity: 1; transform: translateY(0); }
           }
 
@@ -159,8 +203,13 @@ export default function HomePage() {
             .landing-hero .hero-copy h1,
             .landing-hero .hero-copy p,
             .landing-hero .hero-copy a,
-            .landing-hero .hero-card {
+            .landing-hero .hero-card,
+            .landing-hero .hero-flow-path,
+            .landing-hero .hero-flow-step {
               animation: none;
+              opacity: 1;
+              transform: none;
+              stroke-dashoffset: 0;
             }
           }
         `}</style>
@@ -190,13 +239,13 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.92fr)]">
-          <article className="rounded border border-pine/22 bg-pine p-5 text-white shadow-soft sm:p-6">
+          <article className="group rounded border border-pine/22 bg-[#fffaf4] p-5 text-ink shadow-xs transition duration-250 hover:-translate-y-0.5 hover:border-pine/40 hover:bg-pine hover:text-white hover:shadow-soft sm:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">Featured strategy</p>
-                <h3 className="mt-2 text-2xl font-semibold text-white">{featuredName}</h3>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clay transition-colors group-hover:text-white/58">Featured strategy</p>
+                <h3 className="mt-2 text-2xl font-semibold text-ink transition-colors group-hover:text-white">{featuredName}</h3>
                 {featuredLabels.length > 0 && (
-                  <p className="mt-2 text-sm text-white/66">
+                  <p className="mt-2 text-sm text-ink/62 transition-colors group-hover:text-white/66">
                     {featuredLabels.map((label, index) => (
                       <span key={label}>
                         {index > 0 && <span aria-hidden="true"> &bull; </span>}
@@ -206,7 +255,7 @@ export default function HomePage() {
                   </p>
                 )}
               </div>
-              <span className="inline-flex w-fit items-center rounded-full border border-white/18 px-3 py-1 text-xs font-semibold text-white/76">
+              <span className="inline-flex w-fit items-center rounded-full border border-pine/20 px-3 py-1 text-xs font-semibold text-pine transition-colors group-hover:border-white/18 group-hover:text-white/76">
                 {featured.status}
               </span>
             </div>
@@ -218,12 +267,12 @@ export default function HomePage() {
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Link
                 href={getStrategyPath(featured)}
-                className="group inline-flex w-fit items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline"
+                className="group/link inline-flex w-fit items-center gap-2 text-sm font-semibold text-pine underline-offset-4 transition-colors hover:underline group-hover:text-white"
               >
                 Explore methodology
-                <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={15} aria-hidden="true" />
+                <ArrowRight className="transition-transform duration-180 group-hover/link:translate-x-1" size={15} aria-hidden="true" />
               </Link>
-              <div className="flex max-w-xs items-start gap-2 text-xs leading-5 text-white/56">
+              <div className="flex max-w-xs items-start gap-2 text-xs leading-5 text-ink/54 transition-colors group-hover:text-white/56">
                 <LockKeyhole className="mt-0.5 shrink-0" size={14} aria-hidden="true" />
                 <p>Detailed backtest metrics are available after risk acknowledgement.</p>
               </div>
@@ -278,10 +327,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <div id="portfolio-needs">
-        <PortfolioNeedSelector />
-      </div>
 
       <section className="bg-[#f4f0e8] py-12 sm:py-16">
         <div className="container-page">

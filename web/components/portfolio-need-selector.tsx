@@ -32,13 +32,13 @@ const icons: Record<PortfolioNeedId, LucideIcon> = {
   income: Leaf
 };
 
-export function PortfolioNeedSelector() {
+export function PortfolioNeedSelector({ contained = true }: { contained?: boolean }) {
   return (
-    <section className="container-page section-tight">
+    <section className={`${contained ? "container-page " : ""}section-tight`}>
       <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-clay">Portfolio fit</p>
-          <h2 className="mt-2 text-3xl font-semibold">What does your portfolio need?</h2>
+          <p className="text-sm uppercase tracking-[0.18em] text-clay">Not sure?</p>
+          <h2 className="mt-2 text-3xl font-semibold">Let us help you</h2>
           <p className="mt-4 max-w-xl text-sm leading-6 text-ink/68">
             Start with the role you want a strategy to play. We will take you to the matching family in the strategy catalog.
           </p>

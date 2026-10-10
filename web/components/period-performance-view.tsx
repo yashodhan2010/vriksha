@@ -84,6 +84,16 @@ function sliderReturn(start: number | undefined, end: number | undefined) {
   return (end / start - 1) * 100;
 }
 
+function getLiveInceptionIndex(series: Array<{ label: string }>, transitionDate?: string | null) {
+  if (!transitionDate) return -1;
+
+  const transitionMonth = transitionDate.slice(0, 7);
+  const exactIndex = series.findIndex((point) => point.label === transitionDate || point.label === transitionMonth);
+  if (exactIndex >= 0) return exactIndex;
+
+  return series.findIndex((point) => point.label.replace(" (start)", "") >= transitionDate || point.label >= transitionMonth);
+}
+
 export function PeriodPerformanceView({
   strategy,
   compact = false
@@ -93,6 +103,7 @@ export function PeriodPerformanceView({
 }) {
   const [activePeriod, setActivePeriod] = useState<PerformancePeriodKey>("1y");
   const [sliderIndex, setSliderIndex] = useState(0);
+  const [pendingLiveInception, setPendingLiveInception] = useState(false);
   const isNarrow = useNarrowViewport();
   const periodReturns = useMemo(() => getPeriodReturns(strategy), [strategy]);
   const series = useMemo(
@@ -114,10 +125,45 @@ export function PeriodPerformanceView({
   const latestPoint = series.at(-1);
   const selectedStrategyReturn = sliderReturn(selectedPoint?.strategy, latestPoint?.strategy);
   const selectedBenchmarkReturn = sliderReturn(selectedPoint?.benchmark, latestPoint?.benchmark);
+  const liveInceptionIndex = getLiveInceptionIndex(series, strategy.transitionDate);
+  const hasLiveInceptionShortcut = Boolean(strategy.transitionDate) && liveInceptionIndex >= 0;
+  const isLiveInceptionSelected = hasLiveInceptionShortcut && selectedIndex === liveInceptionIndex;
 
   useEffect(() => {
     setSliderIndex(0);
   }, [activePeriod, strategy.benchmark, series.length]);
+
+  useEffect(() => {
+    setPendingLiveInception(false);
+  }, [strategy.slug]);
+
+  useEffect(() => {
+    if (!pendingLiveInception) return;
+    const index = getLiveInceptionIndex(series, strategy.transitionDate);
+    if (index >= 0) {
+      setSliderIndex(index);
+      setPendingLiveInception(false);
+    }
+  }, [pendingLiveInception, series, strategy.transitionDate]);
+
+  function toggleLiveInception() {
+    if (!strategy.transitionDate) return;
+
+    if (isLiveInceptionSelected) {
+      setPendingLiveInception(false);
+      setSliderIndex(0);
+      return;
+    }
+
+    const index = getLiveInceptionIndex(series, strategy.transitionDate);
+    if (index >= 0) {
+      setSliderIndex(index);
+      return;
+    }
+
+    setPendingLiveInception(true);
+    setActivePeriod("max");
+  }
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -247,9 +293,25 @@ export function PeriodPerformanceView({
             <div className="mt-4 rounded border border-line bg-paper p-3 sm:p-4">
               <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_260px] sm:items-center">
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/52" htmlFor={`return-slider-${strategy.slug}-${activePeriod}`}>
-                    Return from selected date to latest
-                  </label>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <label className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/52" htmlFor={`return-slider-${strategy.slug}-${activePeriod}`}>
+                      Return from selected date to latest
+                    </label>
+                    {strategy.transitionDate && (
+                      <button
+                        className={cn(
+                          "w-fit rounded-full border px-3 py-1 text-[11px] font-semibold transition duration-180",
+                          isLiveInceptionSelected
+                            ? "border-pine bg-pine text-white"
+                            : "border-pine/24 bg-white text-pine hover:border-pine/44 hover:bg-white/70"
+                        )}
+                        type="button"
+                        onClick={toggleLiveInception}
+                      >
+                        Live inception
+                      </button>
+                    )}
+                  </div>
                   <input
                     className="mt-3 h-2 w-full accent-pine"
                     disabled={series.length < 2}

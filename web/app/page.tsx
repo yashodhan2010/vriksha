@@ -336,7 +336,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="analyst" className="border-t border-line bg-paper py-12 sm:py-16">
+      <section id="analyst" className="border-y border-line bg-white py-12 sm:py-16">
         <div className="container-page">
           <div className="mb-7 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
@@ -398,7 +398,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="faq" className="border-t border-line bg-white py-10 sm:py-12">
+      <section id="faq" className="border-b border-line bg-paper py-10 sm:py-12">
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[minmax(260px,0.42fr)_minmax(0,1fr)] lg:items-start">
             <div>

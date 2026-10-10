@@ -58,7 +58,7 @@ export function ContactMailForm() {
   return (
     <form className="mt-8 grid gap-4 card p-6" onSubmit={submit}>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-name">
-        Name
+        Name <span className="text-clay" aria-hidden="true">*</span>
         <input
           className="rounded border border-line bg-white px-3 py-2 font-normal"
           id="contact-name"
@@ -69,7 +69,7 @@ export function ContactMailForm() {
         />
       </label>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-email">
-        Email
+        Email <span className="text-clay" aria-hidden="true">*</span>
         <input
           className="rounded border border-line bg-white px-3 py-2 font-normal"
           id="contact-email"
@@ -81,13 +81,13 @@ export function ContactMailForm() {
         />
       </label>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-phone">
-        Phone
+        Phone <span className="text-clay" aria-hidden="true">*</span>
         <input
           className="rounded border border-line bg-white px-3 py-2 font-normal"
           id="contact-phone"
           type="tel"
           value={phone}
-          onChange={(event) => setPhone(event.target.value)}
+          onChange={(event) => setPhone(event.target.value.replace(/\D/g, "").slice(0, 15))}
           autoComplete="tel"
           inputMode="numeric"
           pattern="[0-9]{7,15}"
@@ -105,7 +105,7 @@ export function ContactMailForm() {
         />
       </label>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-message">
-        Message
+        Message <span className="text-clay" aria-hidden="true">*</span>
         <textarea
           className="min-h-32 rounded border border-line bg-white px-3 py-2 font-normal"
           id="contact-message"

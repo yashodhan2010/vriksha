@@ -58,6 +58,11 @@ function getInvestmentHorizon(family: StrategyFamily) {
   return "3Y+";
 }
 
+function isPublicCatalogStrategy(strategy: { name: string; public_name?: string }) {
+  const displayName = strategy.public_name ?? strategy.name;
+  return !/^Bamboo\s+(Trunk|Root)\b/i.test(displayName);
+}
+
 export default async function StrategyCatalogPage({ searchParams }: StrategyCatalogPageProps) {
   const params = await searchParams;
   const activeNeed = getPortfolioNeed(params?.need);
@@ -65,7 +70,7 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
 
   const filteredStrategies = strategies.map(withPerformancePreview).filter((strategy) => {
     const family = getStrategyFamily(strategy);
-    return !activeFamily || family === activeFamily;
+    return isPublicCatalogStrategy(strategy) && (!activeFamily || family === activeFamily);
   });
 
   const groupedFamilies = strategyFamilies
@@ -103,7 +108,14 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
               href={filterHref(family.id)}
               key={family.id}
             >
-              <span className="block text-lg font-semibold">{family.label}</span>
+              <span className="flex items-center gap-2 text-lg font-semibold">
+                {family.label}
+                {family.id === "Banyan" && (
+                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${activeFamily === family.id ? "bg-white/18 text-white" : "bg-gold/20 text-clay"}`}>
+                    Coming soon
+                  </span>
+                )}
+              </span>
               <span className="mt-2 block text-xs leading-5 opacity-70">{family.summary}</span>
             </Link>
           ))}
@@ -213,7 +225,9 @@ export default async function StrategyCatalogPage({ searchParams }: StrategyCata
         ))}
         {groupedFamilies.length === 0 && (
           <div className="rounded border border-line bg-white p-6 text-sm text-ink/68">
-            No strategy baskets match this selection.
+            {activeFamily === "Banyan"
+              ? "Banyan research baskets are coming soon."
+              : "No strategy baskets match this selection."}
           </div>
         )}
       </div>

@@ -400,7 +400,7 @@ export default function HomePage() {
 
       <section id="faq" className="border-b border-line bg-paper py-10 sm:py-12">
         <div className="container-page">
-          <div className="grid gap-8 lg:grid-cols-[minmax(260px,0.42fr)_minmax(0,1fr)] lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">FAQs</p>
               <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Questions people ask</h2>
@@ -436,10 +436,9 @@ export default function HomePage() {
                 Use this form for subscriber support, institutional inquiries, compliance requests,
                 and strategy onboarding.
               </p>
-              <div className="mt-6 rounded border border-line bg-paper p-5 text-sm leading-6 text-ink/70">
-                <p className="font-semibold text-ink">Email</p>
-                <p className="mt-1 break-all">{raProfile.registeredOffice.email}</p>
-              </div>
+              <p className="mt-5 max-w-xl text-xs leading-5 text-ink/54">
+                Please do not share passwords, OTPs, account numbers, or broker login details.
+              </p>
             </div>
             <ContactMailForm />
           </div>

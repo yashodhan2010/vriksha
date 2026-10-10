@@ -56,7 +56,7 @@ export function ContactMailForm() {
   }
 
   return (
-    <form className="mt-8 grid gap-4 card p-6" onSubmit={submit}>
+    <form className="grid gap-4 card p-6" onSubmit={submit}>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-name">
         Name <span className="text-clay" aria-hidden="true">*</span>
         <input

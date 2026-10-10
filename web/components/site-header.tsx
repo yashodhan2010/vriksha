@@ -14,7 +14,7 @@ const navItems: Array<{ href: Route; label: string }> = [
   { href: "/strategies", label: "Strategies" },
   { href: "/blog", label: "Blog" },
   { href: "/compliance", label: "Compliance" },
-  { href: "/contact", label: "Contact" }
+  { href: "/#contact", label: "Contact" }
 ];
 
 function isActive(pathname: string, href: string) {

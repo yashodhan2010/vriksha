@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   X
 } from "lucide-react";
+import { ContactMailForm } from "@/components/contact-mail-form";
 import { GrowthMotif } from "@/components/growth-motif";
 import { HowItWorksRoadmap } from "@/components/how-it-works-roadmap";
 import { LandingHeroSignal } from "@/components/landing-hero-signal";
@@ -185,14 +186,14 @@ export default function HomePage() {
 
                 <div className="mt-5 flex items-center gap-3">
                   <Link
-                    href="/contact"
+                    href="#contact"
                     aria-label="Connect with Prathmesh on LinkedIn"
                     className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
                   >
                     <Linkedin size={16} aria-hidden="true" />
                   </Link>
                   <Link
-                    href="/contact"
+                    href="#contact"
                     aria-label="Connect with Prathmesh on X"
                     className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
                   >
@@ -230,6 +231,27 @@ export default function HomePage() {
               </div>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section id="contact" className="bg-white py-10 sm:py-12">
+        <div className="container-page">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">Contact</p>
+              <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Research Desk</h2>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-ink/68">
+                Use this form for subscriber support, institutional inquiries, compliance requests,
+                and strategy onboarding.
+              </p>
+              <div className="mt-6 rounded border border-line bg-paper p-5 text-sm leading-6 text-ink/70">
+                <p className="font-semibold text-ink">{raProfile.registeredOffice.telephone}</p>
+                <p className="mt-1 break-all">{raProfile.registeredOffice.email}</p>
+                <p className="mt-3">{raProfile.registeredOffice.address}</p>
+              </div>
+            </div>
+            <ContactMailForm />
+          </div>
         </div>
       </section>
     </main>

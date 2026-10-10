@@ -35,14 +35,14 @@ const usefulLinks = [
   { href: "/strategies", label: "Our Research Models" },
   { href: "/blog", label: "Where Alpha Hides" },
   { href: "/performance", label: "Alignment" },
-  { href: "/contact", label: "Contact Us" }
+  { href: "/#contact", label: "Contact Us" }
 ];
 
 const importantLinks = [
   { href: "/compliance", label: "Terms & Conditions" },
   { href: "/compliance", label: "Privacy Policies" },
   { href: "/compliance", label: "Disclaimer" },
-  { href: "/contact", label: "FAQs" }
+  { href: "/#contact", label: "FAQs" }
 ];
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -127,7 +127,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </div>
 
               <Link
-                href="/contact"
+                href="/#contact"
                 className="mt-8 inline-flex h-12 min-w-64 items-center justify-between rounded-full border border-white/45 bg-pine px-6 text-sm font-semibold text-white/88 shadow-[inset_-56px_0_0_rgba(0,0,0,0.07)] transition hover:border-[#b7dddd] hover:text-[#b7dddd]"
               >
                 <span>Book an appointment</span>
@@ -193,10 +193,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </div>
 
               <div className="mt-8 flex items-center gap-3">
-                <Link href="/contact" aria-label="Vriksha on X" className="grid h-8 w-8 place-items-center rounded-full bg-[#b7dddd] text-pine transition hover:bg-white">
+                <Link href="/#contact" aria-label="Vriksha on X" className="grid h-8 w-8 place-items-center rounded-full bg-[#b7dddd] text-pine transition hover:bg-white">
                   <X size={16} aria-hidden="true" />
                 </Link>
-                <Link href="/contact" aria-label="Vriksha on LinkedIn" className="grid h-8 w-8 place-items-center rounded-full bg-[#b7dddd] text-pine transition hover:bg-white">
+                <Link href="/#contact" aria-label="Vriksha on LinkedIn" className="grid h-8 w-8 place-items-center rounded-full bg-[#b7dddd] text-pine transition hover:bg-white">
                   <Linkedin size={16} aria-hidden="true" />
                 </Link>
               </div>

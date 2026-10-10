@@ -41,7 +41,7 @@ export default async function CheckoutPage() {
               Online payments use Cashfree when gateway keys are configured. You can also proceed
               through our contact desk for assisted onboarding and subscription activation.
             </p>
-            <Link href="/contact" className="mt-4 inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine">
+            <Link href="/#contact" className="mt-4 inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine">
               Contact us
             </Link>
           </section>

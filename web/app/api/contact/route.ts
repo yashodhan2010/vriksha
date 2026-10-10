@@ -7,7 +7,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 const enquirySchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(240),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
+  phone: z.string().trim().regex(/^[0-9]{7,15}$/),
   subject: z.string().trim().max(160).optional().or(z.literal("")),
   message: z.string().trim().min(10).max(5000),
   sourcePath: z.string().trim().max(240).optional()

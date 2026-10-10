@@ -85,9 +85,14 @@ export function ContactMailForm() {
         <input
           className="rounded border border-line bg-white px-3 py-2 font-normal"
           id="contact-phone"
+          type="tel"
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
           autoComplete="tel"
+          inputMode="numeric"
+          pattern="[0-9]{7,15}"
+          title="Enter 7 to 15 digits."
+          required
         />
       </label>
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-subject">

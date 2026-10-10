@@ -31,10 +31,9 @@ export const metadata: Metadata = {
 
 const usefulLinks = [
   { href: "/", label: "Home" },
-  { href: "/compliance", label: "Our Origin" },
+  { href: "/#analyst", label: "Our Origin" },
   { href: "/strategies", label: "Our Research Models" },
   { href: "/blog", label: "Where Alpha Hides" },
-  { href: "/performance", label: "Alignment" },
   { href: "/#contact", label: "Contact Us" }
 ];
 
@@ -42,7 +41,7 @@ const importantLinks = [
   { href: "/compliance", label: "Terms & Conditions" },
   { href: "/compliance", label: "Privacy Policies" },
   { href: "/compliance", label: "Disclaimer" },
-  { href: "/#contact", label: "FAQs" }
+  { href: "/#faq", label: "FAQs" }
 ];
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -101,6 +100,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   SEBI Registered Research Analyst having Registration No. -{" "}
                   {raProfile.sebiRegistrationNumber}
                 </p>
+                <p>GSTIN 27BOUPG0104E1ZA</p>
                 <p>
                   Compliance officer - {raProfile.complianceOfficer.name},{" "}
                   <a href={`tel:${raProfile.complianceOfficer.telephone.replace(/\s/g, "")}`} className="text-[#b7dddd] underline underline-offset-4">

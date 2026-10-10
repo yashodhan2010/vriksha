@@ -44,6 +44,45 @@ function getInvestmentHorizon(_family: StrategyFamily) {
   return "3Y+";
 }
 
+const homeFaqs = [
+  {
+    question: "Is this a mutual fund or a PMS?",
+    answer: "No. It is a research subscription. You keep your own demat and place your own trades. We never pool or manage your money."
+  },
+  {
+    question: "Are all your baskets evidence-based, or just some?",
+    answer: "All of them. Every basket follows published, rules-based logic drawn from long-documented market behaviour: momentum, disciplined multi-asset diversification, or both."
+  },
+  {
+    question: "What do I actually receive?",
+    answer: "On each basket's schedule: updated weights, a short note on what changed and why, and a broker-ready order file you can use with your broker."
+  },
+  {
+    question: "How much work is it for me?",
+    answer: "About 15 minutes on a rebalance day for most baskets. Import the file, place the orders in your own account, and verify the fills."
+  },
+  {
+    question: "Do you show past performance?",
+    answer: "Strategy pages include backtest and performance sections after risk acknowledgement. Backtested returns are illustrative and do not guarantee future returns."
+  },
+  {
+    question: "Do you ever hold my money or trade for me?",
+    answer: "Never. Your money stays in your own demat, and we never ask for your trading password or OTP. If anyone claiming to be us does, it is not us."
+  },
+  {
+    question: "What does it cost?",
+    answer: "A flat monthly fee based on the basket. No commission, no percentage of your money, and no exit load."
+  },
+  {
+    question: "Can I stop?",
+    answer: "Yes. You can cancel with one email and receive a pro-rata refund for the unexpired term, subject to the subscription terms."
+  },
+  {
+    question: "Where do I actually pay?",
+    answer: "On the Vriksha site after login and KYC. Payment is handled through the configured payment gateway when online checkout is available."
+  }
+];
+
 export default function HomePage() {
   const featured =
     strategies.find((strategy) => strategy.slug === "dual-momentum")
@@ -101,30 +140,7 @@ export default function HomePage() {
             <div className="rounded border border-white/12 bg-pine/28 p-4 sm:p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</p>
               <div className="hero-flow relative mt-4 overflow-hidden px-1 py-1">
-                <svg
-                  className="pointer-events-none absolute inset-y-4 left-5 hidden h-[calc(100%-2rem)] w-14 sm:block"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 64 260"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M34 2 C8 38 58 58 30 94 C6 128 58 146 31 184 C12 214 41 232 28 258"
-                    fill="none"
-                    stroke="rgba(214,185,106,0.28)"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    className="hero-flow-path"
-                    d="M34 2 C8 38 58 58 30 94 C6 128 58 146 31 184 C12 214 41 232 28 258"
-                    fill="none"
-                    stroke="#d6b96a"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    pathLength="100"
-                  />
-                </svg>
-
-                <div className="space-y-3 sm:pl-14">
+                <div className="space-y-3">
                   {heroSteps.map(([step, title, text], index) => (
                     <div className="hero-flow-step grid grid-cols-[38px_1fr] gap-3 rounded border border-white/10 bg-[#f7f4ef] p-3 text-pine shadow-sm" key={step} style={{ animationDelay: `${160 + index * 120}ms` }}>
                       <span className="relative z-10 grid h-8 w-8 place-items-center rounded-full border border-pine/20 bg-white text-[11px] font-semibold text-pine shadow-sm">
@@ -162,12 +178,6 @@ export default function HomePage() {
           .landing-hero .hero-copy a { animation-delay: 320ms; }
           .landing-hero .hero-card { animation-delay: 360ms; }
 
-          .landing-hero .hero-flow-path {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            animation: hero-flow-draw 960ms ease-out 520ms forwards;
-          }
-
           .landing-hero .hero-flow-step {
             opacity: 0;
             transform: translateY(8px);
@@ -177,10 +187,6 @@ export default function HomePage() {
           @keyframes hero-enter {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
-          }
-
-          @keyframes hero-flow-draw {
-            to { stroke-dashoffset: 0; }
           }
 
           @keyframes hero-flow-step {
@@ -204,12 +210,10 @@ export default function HomePage() {
             .landing-hero .hero-copy p,
             .landing-hero .hero-copy a,
             .landing-hero .hero-card,
-            .landing-hero .hero-flow-path,
             .landing-hero .hero-flow-step {
               animation: none;
               opacity: 1;
               transform: none;
-              stroke-dashoffset: 0;
             }
           }
         `}</style>
@@ -332,7 +336,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-line bg-paper py-12 sm:py-16">
+      <section id="analyst" className="border-t border-line bg-paper py-12 sm:py-16">
         <div className="container-page">
           <div className="mb-7 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
@@ -355,12 +359,16 @@ export default function HomePage() {
                   <br />
                   SEBI-Registered Research Analyst &middot; {raProfile.sebiRegistrationNumber}
                   <br />
+                  M.A Applied Economics, University of Michigan-Ann Arbor
+                  <br />
+                  GSTIN 27BOUPG0104E1ZA
+                  <br />
                   Registered 4 June 2026
                 </figcaption>
               </figure>
             </div>
 
-            <div className="max-w-3xl space-y-4 text-sm leading-7 text-ink/72">
+            <div className="max-w-3xl space-y-4 text-base leading-8 text-ink/72">
               <p>
                 I started Vriksha because I kept seeing the same thing. People bought good companies
                 and still lost money. They hadn&apos;t picked badly. They bought after the stock had run
@@ -390,6 +398,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section id="faq" className="border-t border-line bg-white py-10 sm:py-12">
+        <div className="container-page">
+          <div className="grid gap-8 lg:grid-cols-[minmax(260px,0.42fr)_minmax(0,1fr)] lg:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">FAQs</p>
+              <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Questions people ask</h2>
+              <p className="mt-4 max-w-md text-sm leading-6 text-ink/68">
+                Short answers on structure, custody, work involved, payment and exit.
+              </p>
+            </div>
+            <div className="grid gap-3">
+              {homeFaqs.map((item) => (
+                <details
+                  className="group rounded border border-line bg-[#fffaf4] p-4 shadow-xs transition duration-180 open:bg-white"
+                  key={item.question}
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-ink">
+                    {item.question}
+                    <ArrowDown className="shrink-0 text-pine transition-transform duration-180 group-open:rotate-180" size={15} aria-hidden="true" />
+                  </summary>
+                  <p className="mt-3 text-sm leading-6 text-ink/68">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="contact" className="bg-white py-10 sm:py-12">
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-start">
@@ -401,9 +437,8 @@ export default function HomePage() {
                 and strategy onboarding.
               </p>
               <div className="mt-6 rounded border border-line bg-paper p-5 text-sm leading-6 text-ink/70">
-                <p className="font-semibold text-ink">{raProfile.registeredOffice.telephone}</p>
+                <p className="font-semibold text-ink">Email</p>
                 <p className="mt-1 break-all">{raProfile.registeredOffice.email}</p>
-                <p className="mt-3">{raProfile.registeredOffice.address}</p>
               </div>
             </div>
             <ContactMailForm />

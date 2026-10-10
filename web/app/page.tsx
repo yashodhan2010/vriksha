@@ -9,10 +9,14 @@ import {
 } from "lucide-react";
 import { ContactMailForm } from "@/components/contact-mail-form";
 import { GrowthMotif } from "@/components/growth-motif";
-import { LandingHeroSignal } from "@/components/landing-hero-signal";
+import { PerformanceStatus } from "@/components/performance-status";
+import { StrategyBacktestLink } from "@/components/strategy-backtest-link";
+import { StrategyBasketButton } from "@/components/strategy-basket-button";
+import { StrategyCardLink } from "@/components/strategy-card-link";
 import { getStrategyPath, strategies } from "@/lib/data";
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
+import type { StrategyFamily } from "@/lib/strategy-taxonomy";
 import { raProfile } from "@/lib/compliance";
 
 function isHomeStrategy(strategy: { name: string; public_name?: string }) {
@@ -21,15 +25,30 @@ function isHomeStrategy(strategy: { name: string; public_name?: string }) {
     && !/^Bamboo\s+Root$/i.test(displayName);
 }
 
+function getMinimumCapitalLabel(value: string) {
+  const match = value.match(/(?:INR|Rs\.?|₹)?\s*([0-9,]+)(?:\s*lakh|\s*L)?/i);
+  if (!match) return value || "Not specified";
+
+  if (/lakh|L/i.test(value) && match[1] === "1") return "₹1,00,000";
+  return `₹${match[1]}`;
+}
+
+function getRiskLevel(family: StrategyFamily, editionLabel: string) {
+  if (family === "Mahogany") return "Moderate";
+  if (/Root/i.test(editionLabel)) return "High";
+  if (/Canopy/i.test(editionLabel)) return "High";
+  return "Moderate-high";
+}
+
+function getInvestmentHorizon(_family: StrategyFamily) {
+  return "3Y+";
+}
+
 export default function HomePage() {
   const featured =
     strategies.find((strategy) => strategy.slug === "dual-momentum")
     ?? strategies.find((strategy) => /Bamboo Canopy/i.test(strategy.public_name ?? strategy.name))
     ?? strategies[0];
-  const featuredName = featured.public_name ?? featured.name;
-  const featuredLabels = featured.labels
-    .filter((label) => !/model portfolio/i.test(label))
-    .slice(0, 3);
   const homeStrategies = strategies
     .filter(isHomeStrategy)
     .sort((a, b) => {
@@ -37,7 +56,6 @@ export default function HomePage() {
       if (b.slug === featured.slug) return 1;
       return 0;
     });
-  const secondaryStrategies = homeStrategies.filter((strategy) => strategy.slug !== featured.slug);
   const heroSteps = [
     ["01", "Pick a basket", "Choose a rules-based stock or ETF basket that fits the role you need."],
     ["02", "Complete KYC and subscribe", "Finish verification, accept disclosures, and pay the flat fee."],
@@ -82,13 +100,9 @@ export default function HomePage() {
           <aside className="hero-card relative self-center rounded border border-white/14 bg-white/[0.07] p-4 shadow-lift backdrop-blur-sm sm:p-5">
             <div className="rounded border border-white/12 bg-pine/28 p-4 sm:p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</p>
-              <h2 className="mt-2 text-2xl font-semibold text-white">From research rule to your demat</h2>
-              <p className="mt-3 text-sm leading-6 text-white/66">
-                You keep custody. Vriksha publishes the research, weights, and rebalance file.
-              </p>
-              <div className="hero-flow relative mt-6 overflow-hidden rounded border border-white/10 bg-white/[0.035] px-3 py-4 sm:px-4">
+              <div className="hero-flow relative mt-4 overflow-hidden px-1 py-1">
                 <svg
-                  className="pointer-events-none absolute inset-y-5 left-5 hidden h-[calc(100%-2.5rem)] w-16 sm:block"
+                  className="pointer-events-none absolute inset-y-4 left-5 hidden h-[calc(100%-2rem)] w-14 sm:block"
                   preserveAspectRatio="none"
                   viewBox="0 0 64 260"
                   aria-hidden="true"
@@ -96,8 +110,8 @@ export default function HomePage() {
                   <path
                     d="M34 2 C8 38 58 58 30 94 C6 128 58 146 31 184 C12 214 41 232 28 258"
                     fill="none"
-                    stroke="rgba(255,255,255,0.18)"
-                    strokeWidth="2"
+                    stroke="rgba(214,185,106,0.28)"
+                    strokeWidth="1.5"
                   />
                   <path
                     className="hero-flow-path"
@@ -110,15 +124,15 @@ export default function HomePage() {
                   />
                 </svg>
 
-                <div className="space-y-4 sm:pl-14">
+                <div className="space-y-3 sm:pl-14">
                   {heroSteps.map(([step, title, text], index) => (
-                    <div className="hero-flow-step grid grid-cols-[42px_1fr] gap-3" key={step} style={{ animationDelay: `${160 + index * 120}ms` }}>
-                      <span className="relative z-10 grid h-9 w-9 place-items-center rounded-full border border-white/24 bg-pine text-xs font-semibold text-white shadow-[0_0_0_6px_rgba(255,255,255,0.04)]">
+                    <div className="hero-flow-step grid grid-cols-[38px_1fr] gap-3 rounded border border-white/10 bg-[#f7f4ef] p-3 text-pine shadow-sm" key={step} style={{ animationDelay: `${160 + index * 120}ms` }}>
+                      <span className="relative z-10 grid h-8 w-8 place-items-center rounded-full border border-pine/20 bg-white text-[11px] font-semibold text-pine shadow-sm">
                         {step}
                       </span>
-                      <div className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
-                        <h3 className="text-sm font-semibold text-white">{title}</h3>
-                        <p className="mt-1 text-xs leading-5 text-white/58">{text}</p>
+                      <div>
+                        <h3 className="text-sm font-semibold text-ink">{title}</h3>
+                        <p className="mt-1 text-xs leading-5 text-ink/66">{text}</p>
                       </div>
                     </div>
                   ))}
@@ -129,10 +143,6 @@ export default function HomePage() {
                   See live baskets
                   <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={15} aria-hidden="true" />
                 </Link>
-                <span className="inline-flex items-start gap-2 text-xs leading-5 text-white/56">
-                  <LockKeyhole className="mt-0.5 shrink-0" size={14} aria-hidden="true" />
-                  No custody, no trade execution, no percentage fee.
-                </span>
               </div>
             </div>
           </aside>
@@ -228,116 +238,120 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.92fr)]">
-          <article className="group rounded border border-pine/22 bg-[#fffaf4] p-5 text-ink shadow-xs transition duration-250 hover:-translate-y-0.5 hover:border-pine/40 hover:bg-pine hover:text-white hover:shadow-soft sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clay transition-colors group-hover:text-white/58">Featured strategy</p>
-                <h3 className="mt-2 text-2xl font-semibold text-ink transition-colors group-hover:text-white">{featuredName}</h3>
-                {featuredLabels.length > 0 && (
-                  <p className="mt-2 text-sm text-ink/62 transition-colors group-hover:text-white/66">
-                    {featuredLabels.map((label, index) => (
-                      <span key={label}>
-                        {index > 0 && <span aria-hidden="true"> &bull; </span>}
-                        {label}
-                      </span>
-                    ))}
-                  </p>
-                )}
-              </div>
-              <span className="inline-flex w-fit items-center rounded-full border border-pine/20 px-3 py-1 text-xs font-semibold text-pine transition-colors group-hover:border-white/18 group-hover:text-white/76">
-                {featured.status}
-              </span>
-            </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {homeStrategies.map((strategy) => {
+            const strategyFamily = getFamilyMeta(getStrategyFamily(strategy));
+            const edition = getEditionMeta(getStrategyEdition(strategy));
+            const isFlagship = strategy.slug === featured.slug;
 
-            <div className="mt-5">
-              <LandingHeroSignal strategy={featured} />
-            </div>
-
-            <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <Link
-                href={getStrategyPath(featured)}
-                className="group/link inline-flex w-fit items-center gap-2 text-sm font-semibold text-pine underline-offset-4 transition-colors hover:underline group-hover:text-white"
+            return (
+              <article
+                className="group relative overflow-hidden rounded border border-line bg-[#fffaf4] p-6 shadow-xs transition duration-250 ease-out hover:-translate-y-1 hover:border-pine/35 hover:bg-white hover:shadow-sm active:translate-y-0 focus-within:border-pine focus-within:ring-2 focus-within:ring-pine/30"
+                key={strategy.slug}
               >
-                Explore methodology
-                <ArrowRight className="transition-transform duration-180 group-hover/link:translate-x-1" size={15} aria-hidden="true" />
-              </Link>
-              <div className="flex max-w-xs items-start gap-2 text-xs leading-5 text-ink/54 transition-colors group-hover:text-white/56">
-                <LockKeyhole className="mt-0.5 shrink-0" size={14} aria-hidden="true" />
-                <p>Detailed backtest metrics are available after risk acknowledgement.</p>
-              </div>
-            </div>
-          </article>
-
-          <div className="grid gap-4">
-            {secondaryStrategies.map((strategy) => {
-              const strategyName = strategy.public_name ?? strategy.name;
-              const family = getFamilyMeta(getStrategyFamily(strategy));
-              const edition = getEditionMeta(getStrategyEdition(strategy));
-              const price = getStrategyPrice(strategy.slug, "monthly");
-
-              return (
-                <Link
+                <StrategyCardLink
+                  className="absolute inset-0 z-10 rounded"
                   href={getStrategyPath(strategy)}
-                  className="group rounded border border-line bg-white p-5 shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-pine/35 hover:shadow-sm"
-                  key={strategy.slug}
+                  strategySlug={strategy.slug}
+                  strategyFamily={strategyFamily.label}
+                  ariaLabel={`Explore ${strategy.name} strategy and backtest`}
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
-                        <span className="rounded bg-pine/10 px-3 py-1 text-pine">{family.label}</span>
-                        <span className="rounded bg-gold/20 px-3 py-1 text-ink/72">{edition.label}</span>
-                      </div>
-                      <h3 className="text-xl font-semibold">{strategyName}</h3>
-                      <p className="mt-2 text-sm leading-6 text-ink/64">{strategy.subtitle}</p>
+                  <span className="sr-only">Explore {strategy.name} strategy and backtest</span>
+                </StrategyCardLink>
+                <div className="pointer-events-none relative z-20 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
+                      <span className="rounded bg-pine/10 px-3 py-1 text-pine">{strategyFamily.label}</span>
+                      <span className="rounded bg-gold/20 px-3 py-1 text-ink/72">{edition.label}</span>
+                      {isFlagship && <span className="rounded bg-clay/10 px-3 py-1 uppercase tracking-[0.12em] text-clay">Flagship</span>}
                     </div>
-                    <ArrowRight className="mt-1 shrink-0 text-pine transition duration-180 group-hover:translate-x-1" size={18} aria-hidden="true" />
+                    <h3 className="text-xl font-semibold">{strategy.name}</h3>
+                    <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
                   </div>
-                  <div className="mt-4 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
-                    {[
-                      ["Role", family.signal],
-                      ["Holdings", `${strategy.targetHoldings}`],
-                      ["Rebalance", strategy.rebalanceFrequency]
-                    ].map(([label, value]) => (
-                      <div className="rounded border border-line bg-paper px-3 py-2" key={label}>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-ink/44">{label}</p>
-                        <p className="mt-1 truncate text-xs font-semibold text-ink/74">{value}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
-                    <p className="text-sm font-semibold">{formatMoney(price.amountPaise)} / month</p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-pine">
-                      Read strategy <Check size={14} aria-hidden="true" />
+                  <ArrowRight size={18} aria-hidden="true" />
+                </div>
+                <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-1 text-xs font-medium text-ink/70">
+                    <Check size={12} aria-hidden="true" />
+                    {strategyFamily.signal}
+                  </span>
+                  <span className="rounded bg-white px-3 py-1 text-xs font-medium text-ink/70">{edition.summary}</span>
+                  {strategy.labels.filter((label) => !/conservative|low\s*drawdown/i.test(label)).slice(0, 2).map((label) => (
+                    <span className="rounded bg-sky px-3 py-1 text-xs font-medium text-ink" key={label}>
+                      {label}
                     </span>
+                  ))}
+                </div>
+                <div className="pointer-events-none relative z-20 mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {[
+                    ["Role", strategyFamily.signal],
+                    ["Risk", getRiskLevel(getStrategyFamily(strategy), edition.label)],
+                    ["Horizon", getInvestmentHorizon(getStrategyFamily(strategy))],
+                    ["Rebalance", strategy.rebalanceFrequency],
+                    ["Holdings", `${strategy.targetHoldings}`],
+                    ["Capital", getMinimumCapitalLabel(strategy.minCapital)]
+                  ].map(([label, value]) => (
+                    <div className="rounded border border-line bg-white px-3 py-2" key={label}>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-ink/44">{label}</p>
+                      <p className="mt-1 truncate text-xs font-semibold text-ink/74">{value}</p>
+                    </div>
+                  ))}
+                </div>
+                <StrategyBacktestLink
+                  className="relative z-30 mt-5 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-pine/20 bg-pine/[0.05] p-4 text-sm transition duration-180 hover:border-pine/40 hover:bg-pine/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine"
+                  href={`${getStrategyPath(strategy)}#backtest`}
+                  strategySlug={strategy.slug}
+                  strategyFamily={strategyFamily.label}
+                >
+                  <div>
+                    <p className="font-semibold text-pine">Performance available</p>
+                    <PerformanceStatus strategy={strategy} />
+                    <p className="mt-1 text-ink/60">
+                      Review growth, drawdowns, risk metrics and benchmark comparison after acknowledging the backtest limitations.
+                    </p>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
+                  <LockKeyhole size={18} className="text-pine" aria-hidden="true" />
+                </StrategyBacktestLink>
+                <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-sm font-semibold">
+                    {formatMoney(getStrategyPrice(strategy.slug, "monthly").amountPaise)} / month
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center justify-center gap-2 rounded bg-pine px-4 py-3 text-sm font-semibold text-white shadow-xs transition duration-180 group-hover:bg-ink">
+                      Explore strategy &amp; backtest
+                      <ArrowRight size={15} aria-hidden="true" />
+                    </span>
+                    <div className="pointer-events-auto relative z-30">
+                      <StrategyBasketButton slug={strategy.slug} />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <section className="bg-[#f4f0e8] py-12 sm:py-16">
+      <section className="bg-paper py-12 sm:py-16">
         <div className="container-page">
-          <div className="mb-7">
+          <div className="mb-7 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
-            <h2 className="mt-3 text-3xl font-semibold">A note from the analyst.</h2>
+            <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">A note from the analyst</h2>
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-[minmax(280px,0.95fr)_minmax(0,0.9fr)] lg:gap-14">
-            <div>
+          <div className="grid gap-6 lg:grid-cols-[minmax(280px,0.72fr)_minmax(0,1fr)] lg:gap-8">
+            <div className="card-accent-gold p-5 sm:p-6">
               <figure className="m-0">
                 <Image
                   src="/prathmesh-gupta.jpeg"
                   alt="Prathmesh Jaiprakash Gupta"
                   width={1200}
                   height={1200}
-                  className="aspect-[1/1.02] w-full max-w-60 border border-line object-cover object-center"
-                  sizes="240px"
+                  className="aspect-[1/1.02] w-full max-w-56 rounded border border-line object-cover object-center"
+                  sizes="224px"
                 />
-                <figcaption className="mt-3 text-sm leading-6 text-ink/68">
-                  Prathmesh Jaiprakash Gupta
+                <figcaption className="mt-4 text-sm leading-6 text-ink/68">
+                  <strong className="font-semibold text-ink">Prathmesh Jaiprakash Gupta</strong>
                   <br />
                   SEBI-Registered Research Analyst &middot; {raProfile.sebiRegistrationNumber}
                   <br />
@@ -347,22 +361,23 @@ export default function HomePage() {
 
               <Link
                 href="/strategies"
-                className="mt-6 inline-flex min-h-10 items-center justify-center border border-ink/36 bg-transparent px-4 text-sm font-semibold text-ink transition hover:border-pine hover:text-pine"
+                className="btn-secondary mt-6 w-fit"
               >
                 Read the baskets
               </Link>
 
               <blockquote className="mt-6 border-t border-line pt-5">
-                <p className="max-w-md font-serif text-xl leading-8 text-ink">
+                <p className="max-w-md text-base font-semibold leading-7 text-ink">
                   &ldquo;Most investors don&apos;t lose money by picking the wrong stock. They lose it by buying after a rally and selling into a fall.&rdquo;
                 </p>
-                <footer className="mt-3 text-sm leading-6 text-ink/68">
+                <footer className="mt-3 text-xs font-medium leading-5 text-ink/58">
                   Prathmesh Jaiprakash Gupta, SEBI-Registered Research Analyst
                 </footer>
               </blockquote>
             </div>
 
-            <div className="space-y-5 text-base leading-8 text-ink sm:text-lg">
+            <div className="card p-5 text-sm leading-7 text-ink/72 sm:p-6">
+              <div className="max-w-3xl space-y-4">
               <p>
                 I started Vriksha because I kept seeing the same thing. People bought good companies
                 and still lost money. They hadn&apos;t picked badly. They bought after the stock had run
@@ -387,6 +402,7 @@ export default function HomePage() {
                 Will a rule lose money in some months? Yes. Every honest strategy does. What it won&apos;t
                 do is panic, and over years that is where most money is made or lost.
               </p>
+              </div>
             </div>
           </div>
         </div>

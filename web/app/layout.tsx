@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   title: "Vriksha",
   description: "SEBI RA-backed model portfolio strategy subscriptions.",
   icons: {
-    icon: "/emblem-cropped.png",
-    shortcut: "/emblem-cropped.png",
-    apple: "/emblem-cropped.png"
+    icon: "/logo-cropped.png",
+    shortcut: "/logo-cropped.png",
+    apple: "/logo-cropped.png"
   }
 };
 

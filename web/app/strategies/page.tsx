@@ -60,7 +60,8 @@ function getInvestmentHorizon(family: StrategyFamily) {
 
 function isPublicCatalogStrategy(strategy: { name: string; public_name?: string }) {
   const displayName = strategy.public_name ?? strategy.name;
-  return !/^Bamboo\s+(Trunk|Root)\b/i.test(displayName);
+  return !/^Bamboo\s+Trunk\b/i.test(displayName)
+    && !/^Bamboo\s+Root$/i.test(displayName);
 }
 
 export default async function StrategyCatalogPage({ searchParams }: StrategyCatalogPageProps) {

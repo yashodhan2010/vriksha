@@ -17,7 +17,10 @@ import { getStrategyPath, strategies } from "@/lib/data";
 import { raProfile } from "@/lib/compliance";
 
 export default function HomePage() {
-  const featured = strategies[0];
+  const featured =
+    strategies.find((strategy) => strategy.slug === "dual-momentum")
+    ?? strategies.find((strategy) => /Bamboo Canopy/i.test(strategy.public_name ?? strategy.name))
+    ?? strategies[0];
   const featuredName = featured.public_name ?? featured.name;
   const featuredLabels = featured.labels
     .filter((label) => !/model portfolio/i.test(label))

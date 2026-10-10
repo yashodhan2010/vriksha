@@ -15,76 +15,63 @@ import { getFamilyMeta, getStrategyFamily } from "@/lib/strategy-taxonomy";
 
 const basketStorageKey = "vriksha-strategy-basket";
 const cycleStorageKey = "vriksha-billing-cycle";
-const razorpayCheckoutScript = "https://checkout.razorpay.com/v1/checkout.js";
+const cashfreeCheckoutScript = "https://sdk.cashfree.com/js/v3/cashfree.js";
 
 type CheckoutStatus = "idle" | "creating" | "created" | "payment_open" | "payment_submitted" | "error";
 
-type RazorpaySuccessResponse = {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-};
-
-type RazorpayFailureResponse = {
+type CashfreeCheckoutResult = {
   error?: {
     code?: string;
-    description?: string;
-    reason?: string;
+    message?: string;
+    type?: string;
+  };
+  redirect?: boolean;
+  paymentDetails?: {
+    paymentMessage?: string;
   };
 };
 
-type RazorpayOptions = {
-  key: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  order_id: string;
-  handler: (response: RazorpaySuccessResponse) => void;
-  notes?: Record<string, string>;
-  theme?: {
-    color?: string;
-  };
-  modal?: {
-    ondismiss?: () => void;
-  };
+type CashfreeCheckoutOptions = {
+  paymentSessionId: string;
+  redirectTarget?: "_modal" | "_self" | "_blank";
 };
 
-type RazorpayCheckout = {
-  open: () => void;
-  on: (event: "payment.failed", handler: (response: RazorpayFailureResponse) => void) => void;
+type CashfreeSdk = {
+  checkout: (options: CashfreeCheckoutOptions) => Promise<CashfreeCheckoutResult>;
 };
+
+type CashfreeFactory = (options: { mode: "sandbox" | "production" }) => CashfreeSdk;
 
 declare global {
   interface Window {
-    Razorpay?: new (options: RazorpayOptions) => RazorpayCheckout;
+    Cashfree?: CashfreeFactory;
   }
 }
 
-function loadRazorpayCheckout() {
+function loadCashfreeCheckout() {
   return new Promise<void>((resolve, reject) => {
-    if (window.Razorpay) {
+    if (window.Cashfree) {
       resolve();
       return;
     }
 
     const existingScript = document.querySelector<HTMLScriptElement>(
-      `script[src="${razorpayCheckoutScript}"]`
+      `script[src="${cashfreeCheckoutScript}"]`
     );
 
     if (existingScript) {
       existingScript.addEventListener("load", () => resolve(), { once: true });
-      existingScript.addEventListener("error", () => reject(new Error("Could not load Razorpay Checkout.")), {
+      existingScript.addEventListener("error", () => reject(new Error("Could not load Cashfree Checkout.")), {
         once: true
       });
       return;
     }
 
     const script = document.createElement("script");
-    script.src = razorpayCheckoutScript;
+    script.src = cashfreeCheckoutScript;
     script.async = true;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Could not load Razorpay Checkout."));
+    script.onerror = () => reject(new Error("Could not load Cashfree Checkout."));
     document.body.appendChild(script);
   });
 }
@@ -178,9 +165,11 @@ export function CheckoutClient() {
       checkoutId?: string;
       amountPaise?: number;
       currency?: string;
-      razorpayOrderId?: string | null;
-      razorpayKeyId?: string;
+      paymentSessionId?: string | null;
+      cashfreeOrderId?: string | null;
+      cashfreeMode?: "sandbox" | "production";
       mode?: string;
+      reason?: string;
     } | null;
 
     if (!response.ok) {
@@ -189,66 +178,58 @@ export function CheckoutClient() {
       return;
     }
 
-    if (!payload?.razorpayOrderId || !payload.razorpayKeyId) {
+    if (!payload?.paymentSessionId) {
       setStatus("created");
-      setNotice("Checkout request received. Razorpay keys are not configured yet, so payment will be confirmed manually.");
+      setNotice(
+        payload?.reason === "customer_phone_required"
+          ? "Checkout request received, but Cashfree needs a valid 10-digit mobile number before online payment. We can confirm this manually."
+          : "Checkout request received. Cashfree keys are not configured yet, so payment will be confirmed manually."
+      );
       return;
     }
 
     try {
-      await loadRazorpayCheckout();
+      await loadCashfreeCheckout();
     } catch (error) {
       setStatus("error");
-      setNotice(error instanceof Error ? error.message : "Could not load Razorpay Checkout.");
+      setNotice(error instanceof Error ? error.message : "Could not load Cashfree Checkout.");
       return;
     }
 
-    if (!window.Razorpay) {
+    if (!window.Cashfree) {
       setStatus("error");
-      setNotice("Razorpay Checkout is unavailable. Please try again.");
+      setNotice("Cashfree Checkout is unavailable. Please try again.");
       return;
     }
 
     setStatus("payment_open");
-    setNotice("Opening secure Razorpay checkout.");
+    setNotice("Opening secure Cashfree checkout.");
 
-    let paymentCompleted = false;
-    const razorpay = new window.Razorpay({
-      key: payload.razorpayKeyId,
-      amount: payload.amountPaise ?? basketDetails.totalPaise,
-      currency: payload.currency ?? basketDetails.currency,
-      name: "Vriksha Capital",
-      description: `${billingCycles.find((cycle) => cycle.id === billingCycle)?.label ?? "Strategy"} research subscription`,
-      order_id: payload.razorpayOrderId,
-      handler: () => {
-        paymentCompleted = true;
-        setStatus("payment_submitted");
-        setNotice("Payment submitted. Subscriber access will unlock after Razorpay confirms the payment.");
-        window.localStorage.removeItem(basketStorageKey);
-        setBasket([]);
-      },
-      notes: {
-        checkout_id: payload.checkoutId ?? "",
-        billing_cycle: billingCycle
-      },
-      theme: {
-        color: "#0f5d3a"
-      },
-      modal: {
-        ondismiss: () => {
-          if (paymentCompleted) return;
-          setStatus("created");
-          setNotice("Payment window closed. You can reopen checkout when ready.");
-        }
-      }
+    const cashfree = window.Cashfree({
+      mode: payload.cashfreeMode ?? "sandbox"
     });
 
-    razorpay.on("payment.failed", (failure) => {
+    const result = await cashfree.checkout({
+      paymentSessionId: payload.paymentSessionId,
+      redirectTarget: "_modal"
+    }).catch((failure: { error?: { message?: string } }) => {
       setStatus("error");
-      setNotice(failure.error?.description ?? "Payment failed. Please try again or use another payment method.");
+      setNotice(failure.error?.message ?? "Payment failed. Please try again or use another payment method.");
+      return null;
     });
 
-    razorpay.open();
+    if (!result) return;
+
+    if (result.error) {
+      setStatus("error");
+      setNotice(result.error.message ?? "Payment failed. Please try again or use another payment method.");
+      return;
+    }
+
+    setStatus("payment_submitted");
+    setNotice("Payment submitted. Subscriber access will unlock after Cashfree confirms the payment.");
+    window.localStorage.removeItem(basketStorageKey);
+    setBasket([]);
   }
 
   return (
@@ -390,7 +371,7 @@ export function CheckoutClient() {
           onClick={createCheckout}
         >
           <ShieldCheck size={16} aria-hidden="true" />
-          {status === "creating" || status === "payment_open" ? "Opening payment" : "Pay with Razorpay"}
+          {status === "creating" || status === "payment_open" ? "Opening payment" : "Pay with Cashfree"}
         </button>
         {notice && (
           <p className={`mt-3 text-sm leading-6 ${status === "error" ? "text-clay" : "text-pine"}`}>

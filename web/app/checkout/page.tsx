@@ -28,8 +28,8 @@ export default async function CheckoutPage() {
             Fee-paying research clients must complete KYC before checkout. Current status:{" "}
             <strong className="text-ink">{latestKyc?.status?.replaceAll("_", " ") ?? "not started"}</strong>.
           </p>
-          <Link href="/kyc" className="mt-5 inline-flex rounded bg-pine px-5 py-3 text-sm font-semibold text-white">
-            Complete KYC
+          <Link href="/dashboard" className="mt-5 inline-flex rounded bg-pine px-5 py-3 text-sm font-semibold text-white">
+            View dashboard status
           </Link>
         </section>
       )}
@@ -38,7 +38,7 @@ export default async function CheckoutPage() {
           <section className="card-accent-gold mb-6 p-6">
             <h2 className="text-xl font-semibold">Need help with subscription setup?</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-ink/70">
-              Online payments use Razorpay when gateway keys are configured. You can also proceed
+              Online payments use Cashfree when gateway keys are configured. You can also proceed
               through our contact desk for assisted onboarding and subscription activation.
             </p>
             <Link href="/contact" className="mt-4 inline-flex rounded bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-pine">

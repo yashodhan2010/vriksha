@@ -358,8 +358,8 @@ export async function getDashboardData(): Promise<DashboardData> {
   if (!latestKyc || !["verified", "auto_verified"].includes(latestKyc.status)) {
     actions.push({
       title: "KYC needs attention",
-      body: "Complete or update compliance verification before starting paid strategy access.",
-      href: "/kyc",
+      body: "Compliance verification is not marked verified yet. Current status is shown on this dashboard.",
+      href: "/dashboard",
       tone: "clay"
     });
   }

@@ -84,9 +84,7 @@ export function SiteHeader() {
     window.location.href = "/";
   }
 
-  const visibleNavItems = loggedIn
-    ? [...navItems.slice(0, 3), { href: "/kyc" as Route, label: "KYC" }, ...navItems.slice(3)]
-    : navItems;
+  const visibleNavItems = navItems;
 
   useEffect(() => {
     if (!open) return;
@@ -120,10 +118,10 @@ export function SiteHeader() {
           <Image
             src="/logo-cropped.png"
             alt="Vriksha"
-            width={180}
-            height={56}
+            width={1280}
+            height={1280}
             priority
-            className="h-12 w-auto"
+            className="h-14 w-auto"
           />
         </Link>
 

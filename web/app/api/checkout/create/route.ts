@@ -1,7 +1,7 @@
-import Razorpay from "razorpay";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCurrentUser } from "@/lib/access";
+import { createCashfreeClient, getAppUrl, getCashfreeCustomerPhone, getPublicCashfreeMode } from "@/lib/cashfree";
 import { getStrategy } from "@/lib/data";
 import {
   calculateBasket,
@@ -23,6 +23,26 @@ function annualize(totalPaise: number, billingCycle: BillingCycle) {
   if (billingCycle === "monthly") return totalPaise * 12;
   if (billingCycle === "quarterly") return totalPaise * 4;
   return totalPaise;
+}
+
+function getCashfreeCheckoutError(error: unknown) {
+  const axiosError = error as {
+    response?: {
+      status?: number;
+      data?: {
+        message?: string;
+        code?: string;
+        type?: string;
+      };
+    };
+    message?: string;
+  };
+
+  if (axiosError.response?.status === 401) {
+    return "Cashfree rejected the checkout credentials. Check that CASHFREE_ENV/NEXT_PUBLIC_CASHFREE_ENV match your Cashfree key type: sandbox keys need sandbox, live keys need production.";
+  }
+
+  return axiosError.response?.data?.message ?? axiosError.message ?? "Could not create Cashfree checkout.";
 }
 
 export async function POST(request: Request) {
@@ -107,52 +127,76 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Could not create checkout items." }, { status: 500 });
   }
 
-  const keyId = process.env.RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const cashfree = createCashfreeClient();
+  const customerPhone = getCashfreeCustomerPhone(verifiedKyc.mobile, user.phone);
 
-  if (!keyId || !keySecret) {
+  if (!cashfree || !customerPhone) {
     return NextResponse.json({
       ok: true,
       mode: "manual_confirmation",
       checkoutId: session.id,
       amountPaise: basket.totalPaise,
       currency: basket.currency,
-      razorpayOrderId: null
+      paymentSessionId: null,
+      cashfreeOrderId: null,
+      reason: !cashfree ? "cashfree_not_configured" : "customer_phone_required"
     });
   }
 
-  const razorpay = new Razorpay({
-    key_id: keyId,
-    key_secret: keySecret
-  });
+  const appUrl = getAppUrl();
+  const cashfreeOrderId = `checkout_${session.id}`;
+  let order;
+  try {
+    order = await cashfree.PGCreateOrder(
+      {
+        order_id: cashfreeOrderId,
+        order_amount: Number((basket.totalPaise / 100).toFixed(2)),
+        order_currency: basket.currency,
+        customer_details: {
+          customer_id: user.id,
+          customer_email: user.email ?? verifiedKyc.email,
+          customer_phone: customerPhone
+        },
+        order_meta: {
+          return_url: `${appUrl}/checkout?order_id={order_id}`,
+          notify_url: `${appUrl}/api/cashfree/webhook`
+        },
+        order_note: "Vriksha Capital research subscription",
+        order_tags: {
+          checkout_id: session.id,
+          user_id: user.id,
+          strategy_slugs: uniqueSlugs.join(","),
+          billing_cycle: parsed.data.billingCycle
+        }
+      },
+      undefined,
+      session.id
+    );
+  } catch (error) {
+    return NextResponse.json({ error: getCashfreeCheckoutError(error) }, { status: 502 });
+  }
 
-  const order = await razorpay.orders.create({
-    amount: basket.totalPaise,
-    currency: basket.currency,
-    receipt: `checkout_${session.id.slice(0, 24)}`,
-    notes: {
-      checkout_id: session.id,
-      user_id: user.id,
-      strategy_slugs: uniqueSlugs.join(","),
-      billing_cycle: parsed.data.billingCycle
-    }
-  });
+  const cashfreeOrder = order.data;
+  if (!cashfreeOrder.payment_session_id || !cashfreeOrder.order_id) {
+    return NextResponse.json({ error: "Cashfree did not return a payment session." }, { status: 502 });
+  }
 
   await supabase
     .from("checkout_sessions")
     .update({
       status: "payment_pending",
-      razorpay_order_id: order.id
+      cashfree_order_id: cashfreeOrder.order_id
     })
     .eq("id", session.id);
 
   return NextResponse.json({
     ok: true,
-    mode: "razorpay_order",
+    mode: "cashfree_order",
     checkoutId: session.id,
     amountPaise: basket.totalPaise,
     currency: basket.currency,
-    razorpayOrderId: order.id,
-    razorpayKeyId: keyId
+    cashfreeOrderId: cashfreeOrder.order_id,
+    paymentSessionId: cashfreeOrder.payment_session_id,
+    cashfreeMode: getPublicCashfreeMode()
   });
 }

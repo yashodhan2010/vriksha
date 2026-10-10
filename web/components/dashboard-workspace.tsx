@@ -194,6 +194,65 @@ export function AttentionPanel({ data }: { data: DashboardData }) {
   );
 }
 
+function formatKycStatus(status: string | null) {
+  const labels: Record<string, string> = {
+    auto_verified: "Verified",
+    verified: "Verified",
+    manual_review_required: "Compliance review required",
+    needs_resubmission: "Resubmission required",
+    queued_for_validation: "Verification in progress",
+    ocr_processing: "Verification in progress",
+    submitted: "Submitted",
+    rejected: "Rejected"
+  };
+
+  return status ? labels[status] ?? status.replaceAll("_", " ") : "Not started";
+}
+
+function getKycStatusMessage(status: string | null, verifiedAt: string | null) {
+  if (status === "verified" || status === "auto_verified") {
+    return `KYC is verified${verifiedAt ? ` as of ${formatDashboardDate(verifiedAt)}` : ""}. Paid checkout is enabled for eligible subscriptions.`;
+  }
+
+  if (status === "manual_review_required") {
+    return "KYC is with the compliance team for review. The admin queue owns the next verification action.";
+  }
+
+  if (status === "needs_resubmission" || status === "rejected") {
+    return "KYC needs admin attention before paid checkout can proceed. Contact the onboarding desk if this status looks stale.";
+  }
+
+  if (status === "submitted" || status === "queued_for_validation" || status === "ocr_processing") {
+    return "KYC details have been received and are being processed. This dashboard will update after verification.";
+  }
+
+  return "No verified KYC record is visible yet. The onboarding/admin team can update this status.";
+}
+
+export function KycStatusPanel({ data }: { data: DashboardData }) {
+  const verified = data.kycStatus === "verified" || data.kycStatus === "auto_verified";
+
+  return (
+    <section className={`rounded border p-5 ${verified ? "border-pine/20 bg-pine/10" : "border-gold/35 bg-gold/10"}`}>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex items-start gap-3">
+          <ShieldCheck className={`mt-1 h-5 w-5 ${verified ? "text-pine" : "text-clay"}`} aria-hidden="true" />
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink/46">KYC status</p>
+            <h2 className="mt-2 text-lg font-semibold">{formatKycStatus(data.kycStatus)}</h2>
+            <p className="mt-1 max-w-3xl text-sm leading-6 text-ink/68">
+              {getKycStatusMessage(data.kycStatus, data.kycVerifiedAt)}
+            </p>
+          </div>
+        </div>
+        <Link href="/dashboard/account" className="btn-secondary shrink-0">
+          Account details
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 export function SummaryRow({ data }: { data: DashboardData }) {
   const latest = data.strategies
     .filter((item) => item.latestRebalance)

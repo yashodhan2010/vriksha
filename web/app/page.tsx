@@ -332,15 +332,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-paper py-12 sm:py-16">
+      <section className="border-t border-line bg-paper py-12 sm:py-16">
         <div className="container-page">
           <div className="mb-7 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">A note from the analyst</h2>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[minmax(280px,0.72fr)_minmax(0,1fr)] lg:gap-8">
-            <div className="card-accent-gold p-5 sm:p-6">
+          <div className="card-accent-gold grid gap-6 p-5 sm:p-6 lg:grid-cols-[minmax(220px,0.38fr)_minmax(0,1fr)] lg:gap-8">
+            <div>
               <figure className="m-0">
                 <Image
                   src="/prathmesh-gupta.jpeg"
@@ -358,26 +358,9 @@ export default function HomePage() {
                   Registered 4 June 2026
                 </figcaption>
               </figure>
-
-              <Link
-                href="/strategies"
-                className="btn-secondary mt-6 w-fit"
-              >
-                Read the baskets
-              </Link>
-
-              <blockquote className="mt-6 border-t border-line pt-5">
-                <p className="max-w-md text-base font-semibold leading-7 text-ink">
-                  &ldquo;Most investors don&apos;t lose money by picking the wrong stock. They lose it by buying after a rally and selling into a fall.&rdquo;
-                </p>
-                <footer className="mt-3 text-xs font-medium leading-5 text-ink/58">
-                  Prathmesh Jaiprakash Gupta, SEBI-Registered Research Analyst
-                </footer>
-              </blockquote>
             </div>
 
-            <div className="card p-5 text-sm leading-7 text-ink/72 sm:p-6">
-              <div className="max-w-3xl space-y-4">
+            <div className="max-w-3xl space-y-4 text-sm leading-7 text-ink/72">
               <p>
                 I started Vriksha because I kept seeing the same thing. People bought good companies
                 and still lost money. They hadn&apos;t picked badly. They bought after the stock had run
@@ -386,23 +369,22 @@ export default function HomePage() {
               <p>
                 Markets have paid people well for a few things, for a long time. Stocks that have been
                 rising tend to keep rising for a while. Money spread across assets that don&apos;t fall
-                together takes less damage when one of them does. These aren&apos;t my opinions. They show
+                together takes lesser damage than a single asset does. These aren&apos;t my opinions. They show
                 up in decades of data across many countries, studied by people far more patient than me.
               </p>
               <p>
                 Knowing this has never been the hard part. Acting on it when your gut says the opposite is.
               </p>
               <p>
-                So we wrote it down. Each Vriksha basket is a rule. The rule decides what to own and
-                when to change it. You get the trades as a file and place them in your own demat in
-                about fifteen minutes. Your money never leaves your hands. You pay one flat fee, and
-                we earn nothing from what you buy.
+                So we wrote it down. Each Vriksha basket is a rules based portfolio. These rules decide what to own and
+                when to change it. You get the trades as a file and place them on your own. Your money never leaves your account.
+                You pay one subscription fee.
+              
               </p>
               <p>
                 Will a rule lose money in some months? Yes. Every honest strategy does. What it won&apos;t
                 do is panic, and over years that is where most money is made or lost.
               </p>
-              </div>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fraunces, Inter } from "next/font/google";
-import { ArrowUpRight, Linkedin, Mail, MapPin, Phone, Sprout, X } from "lucide-react";
+import { ArrowUpRight, Linkedin, Mail, MapPin, Phone, X } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { raProfile, standardSebiDisclaimer } from "@/lib/compliance";
 import "./globals.css";
@@ -67,7 +67,7 @@ function FooterExternalLink({ href, children }: { href: string; children: React.
 }
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
-  return <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-white/62">{children}</h2>;
+  return <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/62">{children}</h2>;
 }
 
 function ContactIcon({ children }: { children: React.ReactNode }) {
@@ -88,16 +88,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         {children}
         <footer className="bg-pine text-white">
-          <div className="container-page grid gap-9 py-12 sm:py-14 lg:grid-cols-[1.45fr_0.8fr_0.9fr_1fr_1.25fr] lg:gap-12">
+          <div className="container-page grid items-start gap-9 py-12 sm:py-14 lg:grid-cols-[1.45fr_0.8fr_0.9fr_1fr_1.25fr] lg:gap-12">
             <section className="max-w-sm">
-              <Link href="/" className="flex w-fit items-center gap-3 transition-opacity hover:opacity-80">
-                <span className="grid h-10 w-10 place-items-center rounded-sm bg-white/92 text-pine">
-                  <Sprout size={25} strokeWidth={2.1} aria-hidden="true" />
-                </span>
-                <span>
-                  <span className="block text-base font-semibold uppercase tracking-[0.14em] text-white sm:text-lg">
-                    Vriksha Capital
-                  </span>
+              <Link href="/" className="block w-fit transition-opacity hover:opacity-80">
+                <span className="block font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/62">
+                  Vriksha Capital
                 </span>
               </Link>
 

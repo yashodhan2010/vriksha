@@ -219,14 +219,14 @@ function getKycStatusMessage(status: string | null, verifiedAt: string | null) {
   }
 
   if (status === "needs_resubmission" || status === "rejected") {
-    return "KYC needs admin attention before paid checkout can proceed. Contact the onboarding desk if this status looks stale.";
+    return "KYC needs a fresh submission before paid checkout can proceed. Use the form below to submit corrected details and documents.";
   }
 
   if (status === "submitted" || status === "queued_for_validation" || status === "ocr_processing") {
     return "KYC details have been received and are being processed. This dashboard will update after verification.";
   }
 
-  return "No verified KYC record is visible yet. The onboarding/admin team can update this status.";
+  return "No verified KYC record is visible yet. Use the form below to submit details and documents for verification.";
 }
 
 export function KycStatusPanel({ data }: { data: DashboardData }) {

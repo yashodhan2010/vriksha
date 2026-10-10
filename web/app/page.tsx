@@ -49,7 +49,7 @@ export default function HomePage() {
     <main>
       <section className="landing-hero relative overflow-hidden bg-pine text-white">
         <GrowthMotif className="pointer-events-none absolute -right-12 -top-20 hidden h-[440px] w-[440px] text-white opacity-[0.11] sm:block lg:h-[620px] lg:w-[620px]" />
-        <div className="container-page relative grid min-h-[calc(100vh-4rem)] content-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.04fr)_minmax(390px,0.86fr)] lg:gap-12">
+        <div className="container-page relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.04fr)_minmax(390px,0.86fr)] lg:gap-12 lg:py-20">
           <div className="hero-copy max-w-3xl">
             <p className="hero-kicker text-xs font-semibold uppercase tracking-[0.2em] text-white/62">
               Research-led model portfolios
@@ -136,16 +136,6 @@ export default function HomePage() {
               </div>
             </div>
           </aside>
-        </div>
-
-        <div className="relative border-t border-white/10 bg-[#f7f4ef] text-pine">
-          <a
-            href="#live-baskets"
-            className="container-page flex items-center justify-between gap-4 py-4 text-sm font-semibold"
-          >
-            <span>Live baskets, clear rules, client-directed execution.</span>
-            <ArrowDown size={16} aria-hidden="true" />
-          </a>
         </div>
 
         <style>{`

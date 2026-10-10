@@ -5,12 +5,12 @@ import Link from "next/link";
 import { AlertTriangle, ShieldCheck, Trash2 } from "lucide-react";
 import {
   billingCycles,
-  calculateBasket,
   formatMoney,
+  getStrategyPrice,
   individualFamilyAnnualFeeCapPaise,
   type BillingCycle,
   type ClientType
-} from "@/lib/pricing";
+} from "@/lib/pricing-core";
 import { getFamilyMeta, getStrategyFamily } from "@/lib/strategy-taxonomy";
 
 const basketStorageKey = "vriksha-strategy-basket";
@@ -38,6 +38,18 @@ type CashfreeCheckoutOptions = {
 
 type CashfreeSdk = {
   checkout: (options: CashfreeCheckoutOptions) => Promise<CashfreeCheckoutResult>;
+};
+
+type CheckoutStrategySummary = {
+  slug: string;
+  name: string;
+  subtitle: string;
+  labels: string[];
+};
+
+type CheckoutBasketItem = {
+  strategy: CheckoutStrategySummary;
+  price: ReturnType<typeof getStrategyPrice>;
 };
 
 type CashfreeFactory = (options: { mode: "sandbox" | "production" }) => CashfreeSdk;
@@ -76,7 +88,36 @@ function loadCashfreeCheckout() {
   });
 }
 
-export function CheckoutClient() {
+function calculateClientBasket(
+  strategySlugs: string[],
+  billingCycle: BillingCycle,
+  catalog: CheckoutStrategySummary[]
+) {
+  const uniqueSlugs = [...new Set(strategySlugs)];
+  const items = uniqueSlugs
+    .map((slug) => {
+      const strategy = catalog.find((item) => item.slug === slug);
+      if (!strategy) return null;
+
+      return {
+        strategy,
+        price: getStrategyPrice(slug, billingCycle)
+      };
+    })
+    .filter((item): item is CheckoutBasketItem => Boolean(item));
+
+  const subtotalPaise = items.reduce((sum, item) => sum + item.price.amountPaise, 0);
+
+  return {
+    items,
+    subtotalPaise,
+    taxPaise: 0,
+    totalPaise: subtotalPaise,
+    currency: "INR"
+  };
+}
+
+export function CheckoutClient({ catalog }: { catalog: CheckoutStrategySummary[] }) {
   const [basket, setBasket] = useState<string[]>([]);
   const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly");
   const [clientType, setClientType] = useState<ClientType>("individual");
@@ -98,10 +139,10 @@ export function CheckoutClient() {
   }, []);
 
   const basketDetails = useMemo(
-    () => calculateBasket(basket, billingCycle),
-    [basket, billingCycle]
+    () => calculateClientBasket(basket, billingCycle, catalog),
+    [basket, billingCycle, catalog]
   );
-  const groupedBasket = basketDetails.items.reduce<Array<{ family: ReturnType<typeof getFamilyMeta>; items: typeof basketDetails.items }>>(
+  const groupedBasket = basketDetails.items.reduce<Array<{ family: ReturnType<typeof getFamilyMeta>; items: CheckoutBasketItem[] }>>(
     (groups, item) => {
       const family = getFamilyMeta(getStrategyFamily(item.strategy));
       const existing = groups.find((group) => group.family.id === family.id);

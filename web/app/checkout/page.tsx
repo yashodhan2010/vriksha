@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { CheckoutClient } from "@/components/checkout-client";
 import { getCurrentUser } from "@/lib/access";
+import { strategies } from "@/lib/data";
 import { getLatestKycProfileForUser, getVerifiedKycProfileForUser } from "@/lib/kyc";
 
 export default async function CheckoutPage() {
   const user = await getCurrentUser();
   const verifiedKyc = user ? await getVerifiedKycProfileForUser(user.id) : null;
   const latestKyc = user && !verifiedKyc ? await getLatestKycProfileForUser(user.id) : null;
+  const checkoutCatalog = strategies.map((strategy) => ({
+    slug: strategy.slug,
+    name: strategy.name,
+    subtitle: strategy.subtitle,
+    labels: strategy.labels
+  }));
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -45,7 +52,7 @@ export default async function CheckoutPage() {
               Contact us
             </Link>
           </section>
-          <CheckoutClient />
+          <CheckoutClient catalog={checkoutCatalog} />
         </>
       )}
     </main>

@@ -3,18 +3,24 @@ import Image from "next/image";
 import {
   ArrowDown,
   ArrowRight,
-  Linkedin,
+  Check,
   LockKeyhole,
-  ShieldCheck,
-  X
+  ShieldCheck
 } from "lucide-react";
 import { ContactMailForm } from "@/components/contact-mail-form";
 import { GrowthMotif } from "@/components/growth-motif";
-import { HowItWorksRoadmap } from "@/components/how-it-works-roadmap";
 import { LandingHeroSignal } from "@/components/landing-hero-signal";
 import { PortfolioNeedSelector } from "@/components/portfolio-need-selector";
 import { getStrategyPath, strategies } from "@/lib/data";
+import { formatMoney, getStrategyPrice } from "@/lib/pricing";
+import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
 import { raProfile } from "@/lib/compliance";
+
+function isHomeStrategy(strategy: { name: string; public_name?: string }) {
+  const displayName = strategy.public_name ?? strategy.name;
+  return !/^Bamboo\s+Trunk\b/i.test(displayName)
+    && !/^Bamboo\s+Root$/i.test(displayName);
+}
 
 export default function HomePage() {
   const featured =
@@ -25,6 +31,20 @@ export default function HomePage() {
   const featuredLabels = featured.labels
     .filter((label) => !/model portfolio/i.test(label))
     .slice(0, 3);
+  const homeStrategies = strategies
+    .filter(isHomeStrategy)
+    .sort((a, b) => {
+      if (a.slug === featured.slug) return -1;
+      if (b.slug === featured.slug) return 1;
+      return 0;
+    });
+  const secondaryStrategies = homeStrategies.filter((strategy) => strategy.slug !== featured.slug);
+  const heroSteps = [
+    ["01", "Pick a basket", "Choose a rules-based stock or ETF basket that fits the role you need."],
+    ["02", "Complete KYC and subscribe", "Finish verification, accept disclosures, and pay the flat fee."],
+    ["03", "Receive the file", "Get weights, notes, and a broker-ready order file on schedule."],
+    ["04", "Place and review", "Execute in your own demat and track rebalances from the dashboard."]
+  ];
 
   return (
     <main>
@@ -48,10 +68,10 @@ export default function HomePage() {
                 <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={16} aria-hidden="true" />
               </Link>
               <Link
-                href="#how-it-works"
+                href="#live-baskets"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-white/80 underline-offset-4 transition duration-180 hover:text-white hover:underline"
               >
-                How it works
+                View live baskets
                 <ArrowDown className="transition-transform duration-180 group-hover:translate-y-0.5" size={15} aria-hidden="true" />
               </Link>
             </div>
@@ -62,42 +82,33 @@ export default function HomePage() {
 
           <aside className="hero-card relative self-center rounded border border-white/14 bg-white/[0.07] p-4 shadow-lift backdrop-blur-sm sm:p-5">
             <div className="rounded border border-white/12 bg-pine/28 p-4 sm:p-5">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">Featured strategy</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-white">{featuredName}</h2>
-                  {featuredLabels.length > 0 && (
-                    <p className="mt-2 text-sm text-white/66">
-                      {featuredLabels.map((label, index) => (
-                        <span key={label}>
-                          {index > 0 && <span aria-hidden="true"> &bull; </span>}
-                          {label}
-                        </span>
-                      ))}
-                    </p>
-                  )}
-                </div>
-                <span className="inline-flex w-fit items-center rounded-full border border-white/14 px-3 py-1 text-xs font-semibold text-white/70">
-                  {featured.status}
-                </span>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</p>
+              <h2 className="mt-2 text-2xl font-semibold text-white">From research rule to your demat</h2>
+              <p className="mt-3 text-sm leading-6 text-white/66">
+                You keep custody. Vriksha publishes the research, weights, and rebalance file.
+              </p>
+              <div className="mt-5 grid gap-3">
+                {heroSteps.map(([step, title, text]) => (
+                  <div className="grid grid-cols-[44px_1fr] gap-3 rounded border border-white/12 bg-white/[0.06] p-3" key={step}>
+                    <span className="grid h-9 w-9 place-items-center rounded-full border border-white/18 text-xs font-semibold text-white/72">
+                      {step}
+                    </span>
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">{title}</h3>
+                      <p className="mt-1 text-xs leading-5 text-white/58">{text}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              <div className="mt-5">
-                <LandingHeroSignal strategy={featured} />
-              </div>
-
-              <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <Link
-                  href={getStrategyPath(featured)}
-                  className="group inline-flex w-fit items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline"
-                >
-                  Explore methodology
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <Link href="#live-baskets" className="group inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline">
+                  See live baskets
                   <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={15} aria-hidden="true" />
                 </Link>
-                <div className="flex max-w-xs items-start gap-2 text-xs leading-5 text-white/56">
+                <span className="inline-flex items-start gap-2 text-xs leading-5 text-white/56">
                   <LockKeyhole className="mt-0.5 shrink-0" size={14} aria-hidden="true" />
-                  <p>Detailed backtest metrics are available after risk acknowledgement.</p>
-                </div>
+                  No custody, no trade execution, no percentage fee.
+                </span>
               </div>
             </div>
           </aside>
@@ -105,10 +116,10 @@ export default function HomePage() {
 
         <div className="relative border-t border-white/10 bg-[#f7f4ef] text-pine">
           <a
-            href="#how-it-works"
+            href="#live-baskets"
             className="container-page flex items-center justify-between gap-4 py-4 text-sm font-semibold"
           >
-            <span>Three strategy families. One disciplined investment process.</span>
+            <span>Live baskets, clear rules, client-directed execution.</span>
             <ArrowDown size={16} aria-hidden="true" />
           </a>
         </div>
@@ -167,73 +178,182 @@ export default function HomePage() {
         </div>
       </section>
 
-      <HowItWorksRoadmap />
+      <section id="live-baskets" className="container-page section-tight">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm uppercase tracking-[0.18em] text-clay">Live baskets</p>
+            <h2 className="mt-2 text-3xl font-semibold">Choose the rule you want to follow</h2>
+          </div>
+          <Link href="/strategies" className="w-fit text-sm font-semibold text-pine underline-offset-4 hover:underline">
+            Open full catalog
+          </Link>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(340px,0.92fr)]">
+          <article className="rounded border border-pine/22 bg-pine p-5 text-white shadow-soft sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">Featured strategy</p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">{featuredName}</h3>
+                {featuredLabels.length > 0 && (
+                  <p className="mt-2 text-sm text-white/66">
+                    {featuredLabels.map((label, index) => (
+                      <span key={label}>
+                        {index > 0 && <span aria-hidden="true"> &bull; </span>}
+                        {label}
+                      </span>
+                    ))}
+                  </p>
+                )}
+              </div>
+              <span className="inline-flex w-fit items-center rounded-full border border-white/18 px-3 py-1 text-xs font-semibold text-white/76">
+                {featured.status}
+              </span>
+            </div>
+
+            <div className="mt-5">
+              <LandingHeroSignal strategy={featured} />
+            </div>
+
+            <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <Link
+                href={getStrategyPath(featured)}
+                className="group inline-flex w-fit items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline"
+              >
+                Explore methodology
+                <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={15} aria-hidden="true" />
+              </Link>
+              <div className="flex max-w-xs items-start gap-2 text-xs leading-5 text-white/56">
+                <LockKeyhole className="mt-0.5 shrink-0" size={14} aria-hidden="true" />
+                <p>Detailed backtest metrics are available after risk acknowledgement.</p>
+              </div>
+            </div>
+          </article>
+
+          <div className="grid gap-4">
+            {secondaryStrategies.map((strategy) => {
+              const strategyName = strategy.public_name ?? strategy.name;
+              const family = getFamilyMeta(getStrategyFamily(strategy));
+              const edition = getEditionMeta(getStrategyEdition(strategy));
+              const price = getStrategyPrice(strategy.slug, "monthly");
+
+              return (
+                <Link
+                  href={getStrategyPath(strategy)}
+                  className="group rounded border border-line bg-white p-5 shadow-xs transition duration-200 hover:-translate-y-0.5 hover:border-pine/35 hover:shadow-sm"
+                  key={strategy.slug}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
+                        <span className="rounded bg-pine/10 px-3 py-1 text-pine">{family.label}</span>
+                        <span className="rounded bg-gold/20 px-3 py-1 text-ink/72">{edition.label}</span>
+                      </div>
+                      <h3 className="text-xl font-semibold">{strategyName}</h3>
+                      <p className="mt-2 text-sm leading-6 text-ink/64">{strategy.subtitle}</p>
+                    </div>
+                    <ArrowRight className="mt-1 shrink-0 text-pine transition duration-180 group-hover:translate-x-1" size={18} aria-hidden="true" />
+                  </div>
+                  <div className="mt-4 grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">
+                    {[
+                      ["Role", family.signal],
+                      ["Holdings", `${strategy.targetHoldings}`],
+                      ["Rebalance", strategy.rebalanceFrequency]
+                    ].map(([label, value]) => (
+                      <div className="rounded border border-line bg-paper px-3 py-2" key={label}>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-ink/44">{label}</p>
+                        <p className="mt-1 truncate text-xs font-semibold text-ink/74">{value}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+                    <p className="text-sm font-semibold">{formatMoney(price.amountPaise)} / month</p>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-pine">
+                      Read strategy <Check size={14} aria-hidden="true" />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       <div id="portfolio-needs">
         <PortfolioNeedSelector />
       </div>
 
-      <section className="bg-paper py-10 sm:py-12">
+      <section className="bg-[#f4f0e8] py-12 sm:py-16">
         <div className="container-page">
-          <article className="relative mx-auto max-w-6xl overflow-hidden rounded-lg bg-[#b7dddd] px-5 py-7 text-pine shadow-sm sm:px-8 sm:py-9 lg:px-10">
-            <div className="absolute inset-y-0 right-0 hidden w-1/3 bg-white/16 [clip-path:polygon(44%_0,100%_0,100%_100%,0_100%)] sm:block" aria-hidden="true" />
-            <div className="absolute bottom-0 left-0 h-20 w-36 rounded-tr-full bg-white/10" aria-hidden="true" />
-            <div className="relative grid gap-7 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start lg:gap-9">
-              <div>
-                <p className="inline-flex rounded-full bg-[#fffaf4] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/78">
-                  SEBI-registered Research Analyst
-                </p>
-                <h2 className="mt-6 text-3xl font-medium tracking-normal text-pine sm:text-4xl lg:text-5xl">
-                  Know Your RA
-                </h2>
+          <div className="mb-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
+            <h2 className="mt-3 text-3xl font-semibold">A note from the analyst.</h2>
+          </div>
 
-                <div className="mt-5 flex items-center gap-3">
-                  <Link
-                    href="#contact"
-                    aria-label="Connect with Prathmesh on LinkedIn"
-                    className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
-                  >
-                    <Linkedin size={16} aria-hidden="true" />
-                  </Link>
-                  <Link
-                    href="#contact"
-                    aria-label="Connect with Prathmesh on X"
-                    className="grid h-8 w-8 place-items-center rounded-full bg-pine text-[#b7dddd] transition hover:bg-ink"
-                  >
-                    <X size={16} aria-hidden="true" />
-                  </Link>
-                </div>
-
-                <div className="mt-6 space-y-5 text-base leading-7 text-ink/84 sm:text-lg sm:leading-8">
-                  <p>
-                    {raProfile.brandName} Capital is led by Prathmesh Jaiprakash Gupta, a
-                    SEBI-registered Research Analyst focused on evidence-based equity research,
-                    fundamental analysis, valuation frameworks, portfolio strategy, risk management,
-                    and long-term investment research. His work is guided by a simple belief:
-                    disciplined investing begins with structured analysis, not market noise.
-                  </p>
-                  <p>
-                    Prathmesh holds an MA in Economics from the University of Michigan, Ann Arbor,
-                    one of the top public universities in the world, and a BE in Mechanical
-                    Engineering from the University of Mumbai. His academic and project work spans
-                    econometrics, quantitative research, financial modelling, data visualization,
-                    market research, stakeholder analysis, and policy research.
-                  </p>
-                </div>
-              </div>
-
-              <div className="overflow-hidden rounded-md border border-white/40 bg-white/18 p-2 shadow-sm sm:max-w-xs lg:sticky lg:top-24 lg:mt-[54px]">
+          <div className="grid gap-10 lg:grid-cols-[minmax(280px,0.95fr)_minmax(0,0.9fr)] lg:gap-14">
+            <div>
+              <figure className="m-0">
                 <Image
                   src="/prathmesh-gupta.jpeg"
                   alt="Prathmesh Jaiprakash Gupta"
                   width={1200}
                   height={1200}
-                  className="aspect-[4/5] w-full rounded object-cover object-center"
-                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 384px, calc(100vw - 80px)"
+                  className="aspect-[1/1.02] w-full max-w-60 border border-line object-cover object-center"
+                  sizes="240px"
                 />
-              </div>
+                <figcaption className="mt-3 text-sm leading-6 text-ink/68">
+                  Prathmesh Jaiprakash Gupta
+                  <br />
+                  SEBI-Registered Research Analyst &middot; {raProfile.sebiRegistrationNumber}
+                  <br />
+                  Registered 4 June 2026
+                </figcaption>
+              </figure>
+
+              <Link
+                href="/strategies"
+                className="mt-6 inline-flex min-h-10 items-center justify-center border border-ink/36 bg-transparent px-4 text-sm font-semibold text-ink transition hover:border-pine hover:text-pine"
+              >
+                Read the baskets
+              </Link>
+
+              <blockquote className="mt-6 border-t border-line pt-5">
+                <p className="max-w-md font-serif text-xl leading-8 text-ink">
+                  &ldquo;Most investors don&apos;t lose money by picking the wrong stock. They lose it by buying after a rally and selling into a fall.&rdquo;
+                </p>
+                <footer className="mt-3 text-sm leading-6 text-ink/68">
+                  Prathmesh Jaiprakash Gupta, SEBI-Registered Research Analyst
+                </footer>
+              </blockquote>
             </div>
-          </article>
+
+            <div className="space-y-5 text-base leading-8 text-ink sm:text-lg">
+              <p>
+                I started Vriksha because I kept seeing the same thing. People bought good companies
+                and still lost money. They hadn&apos;t picked badly. They bought after the stock had run
+                and sold when it fell.
+              </p>
+              <p>
+                Markets have paid people well for a few things, for a long time. Stocks that have been
+                rising tend to keep rising for a while. Money spread across assets that don&apos;t fall
+                together takes less damage when one of them does. These aren&apos;t my opinions. They show
+                up in decades of data across many countries, studied by people far more patient than me.
+              </p>
+              <p>
+                Knowing this has never been the hard part. Acting on it when your gut says the opposite is.
+              </p>
+              <p>
+                So we wrote it down. Each Vriksha basket is a rule. The rule decides what to own and
+                when to change it. You get the trades as a file and place them in your own demat in
+                about fifteen minutes. Your money never leaves your hands. You pay one flat fee, and
+                we earn nothing from what you buy.
+              </p>
+              <p>
+                Will a rule lose money in some months? Yes. Every honest strategy does. What it won&apos;t
+                do is panic, and over years that is where most money is made or lost.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -611498,7 +611498,7 @@
         "weight": 0.0285714276
       }
     ],
-    "internal_name": "Strategy Research Factory",
+    "internal_name": "Dual Momentum",
     "labels": [
       "Momentum",
       "Factor Strategy",
@@ -612214,10 +612214,10 @@
         "strategy": -1.9948788159334985
       }
     ],
-    "name": "Strategy Research Factory",
+    "name": "Bamboo Canopy",
     "performanceStatus": "live",
     "price": "Subscription required",
-    "public_name": "Strategy Research Factory",
+    "public_name": "Bamboo Canopy",
     "raName": "Prathmesh Gupta",
     "rebalanceFrequency": "Twice Monthly",
     "rebalances": [

@@ -51,11 +51,12 @@ export default async function BlogDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  notFound();
+  return notFound();
 
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) notFound();
+  const article = post!;
 
   return (
     <main>
@@ -70,13 +71,13 @@ export default async function BlogDetailPage({
           </Link>
 
           <article className="mt-7 max-w-4xl">
-            <p className="text-sm uppercase tracking-[0.18em] text-clay">{post.category}</p>
-            <h1 className="mt-2 text-3xl font-semibold sm:text-5xl">{post.title}</h1>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-ink/68">{post.excerpt}</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-clay">{article.category}</p>
+            <h1 className="mt-2 text-3xl font-semibold sm:text-5xl">{article.title}</h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-ink/68">{article.excerpt}</p>
             <div className="mt-5 flex flex-wrap gap-2 text-xs text-ink/58">
-              <span className="rounded border border-pine/20 bg-pine/[0.06] px-3 py-1.5 text-pine">{formatDate(post.date)}</span>
-              <span className="rounded border border-line bg-white px-3 py-1.5">{post.readingTime}</span>
-              {post.tags.map((tag) => (
+              <span className="rounded border border-pine/20 bg-pine/[0.06] px-3 py-1.5 text-pine">{formatDate(article.date)}</span>
+              <span className="rounded border border-line bg-white px-3 py-1.5">{article.readingTime}</span>
+              {article.tags.map((tag) => (
                 <span className="rounded border border-line bg-white px-3 py-1.5" key={tag}>
                   {tag}
                 </span>
@@ -101,13 +102,13 @@ export default async function BlogDetailPage({
           </div>
         </div>
 
-        {post.publicPath ? (
+        {article.publicPath ? (
           <div className="mt-6 overflow-hidden rounded border border-line bg-white shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-paper px-4 py-3">
               <p className="text-sm font-semibold text-ink/78">Embedded research report</p>
               <a
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-pine hover:text-ink"
-                href={post.publicPath}
+                href={article.publicPath}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -116,15 +117,15 @@ export default async function BlogDetailPage({
               </a>
             </div>
             <iframe
-              title={post.title}
-              src={post.publicPath}
+              title={article.title}
+              src={article.publicPath}
               className="h-[78vh] min-h-[560px] w-full bg-white"
               sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
               referrerPolicy="no-referrer"
             />
           </div>
         ) : (
-          <SeededArticle slug={post.slug} />
+          <SeededArticle slug={article.slug} />
         )}
 
         <div className="mt-6 rounded border border-line bg-[#fffaf4] p-4 text-sm leading-6 text-ink/66">

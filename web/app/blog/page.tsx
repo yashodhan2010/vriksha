@@ -40,7 +40,7 @@ export default async function BlogPage({
 }: {
   searchParams?: Promise<{ category?: string }>;
 }) {
-  notFound();
+  return notFound();
 
   const selectedCategory = (await searchParams)?.category;
   const filteredPosts =

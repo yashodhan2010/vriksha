@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { blogCategories, blogPosts, getFeaturedBlogPost } from "@/lib/blog";
 
@@ -39,6 +40,8 @@ export default async function BlogPage({
 }: {
   searchParams?: Promise<{ category?: string }>;
 }) {
+  notFound();
+
   const selectedCategory = (await searchParams)?.category;
   const filteredPosts =
     selectedCategory && selectedCategory !== "All Notes"

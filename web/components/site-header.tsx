@@ -12,7 +12,6 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 const navItems: Array<{ href: Route; label: string }> = [
   { href: "/", label: "Home" },
   { href: "/strategies", label: "Strategies" },
-  { href: "/blog", label: "Blog" },
   { href: "/compliance", label: "Compliance" },
   { href: "/#contact", label: "Contact" }
 ];

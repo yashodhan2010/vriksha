@@ -33,7 +33,6 @@ const usefulLinks = [
   { href: "/", label: "Home" },
   { href: "/#analyst", label: "Our Origin" },
   { href: "/strategies", label: "Our Research Models" },
-  { href: "/blog", label: "Where Alpha Hides" },
   { href: "/#contact", label: "Contact Us" }
 ];
 

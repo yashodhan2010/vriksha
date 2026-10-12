@@ -611498,7 +611498,7 @@
         "weight": 0.0285714276
       }
     ],
-    "internal_name": "Dual Momentum",
+    "internal_name": "Strategy Research Factory",
     "labels": [
       "Momentum",
       "Factor Strategy",
@@ -612214,43 +612214,13 @@
         "strategy": -1.9948788159334985
       }
     ],
-    "name": "Bamboo Canopy",
+    "name": "Strategy Research Factory",
     "performanceStatus": "live",
     "price": "Subscription required",
-    "public_name": "Bamboo Canopy",
+    "public_name": "Strategy Research Factory",
     "raName": "Prathmesh Gupta",
     "rebalanceFrequency": "Twice Monthly",
     "rebalances": [
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "ATHERENERG"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "CHENNPETRO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "CRAFTSMAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "IDEA"
-          }
-        ],
-        "date": "2026-10-09",
-        "summary": "4 portfolio changes."
-      },
       {
         "changes": [
           {
@@ -612276,6 +612246,12 @@
             "newWeight": 0.0285714286,
             "oldWeight": 0.0,
             "symbol": "APARINDS"
+          },
+          {
+            "action": "Removed",
+            "newWeight": 0.0,
+            "oldWeight": 0.0285714286,
+            "symbol": "ATHERENERG"
           },
           {
             "action": "Removed",
@@ -612317,25 +612293,7 @@
             "action": "Removed",
             "newWeight": 0.0,
             "oldWeight": 0.0285714286,
-            "symbol": "CHENNPETRO"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "CRAFTSMAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
             "symbol": "HSCL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "IDEA"
           },
           {
             "action": "Added",
@@ -612398,278 +612356,8 @@
             "symbol": "TVSMOTOR"
           }
         ],
-        "date": "2026-09-24",
-        "summary": "24 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "ASTERDM"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "BAJAJ-AUTO"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "BALRAMCHIN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "CAPLIPOINT"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "CPPLUS"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "CRAFTSMAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "EMCURE"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "HSCL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "MINDACORP"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "NETWEB"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "RBLBANK"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "SOLARINDS"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "STARHEALTH"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "SYRMA"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "TVSMOTOR"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "ZYDUSLIFE"
-          }
-        ],
-        "date": "2026-09-21",
-        "summary": "16 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "ABB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "AIAENG"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "APOLLOHOSP"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "DIVISLAB"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "NETWEB"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "NEULANDLAB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "POWERINDIA"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "RRKABEL"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "SOLARINDS"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "TITAN"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "VTL"
-          }
-        ],
-        "date": "2026-09-11",
-        "summary": "12 portfolio changes."
-      },
-      {
-        "changes": [
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "AJANTPHARM"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "APOLLOHOSP"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "BELRISE"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "CCL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "CUMMINSIND"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "EMCURE"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "FLUOROCHEM"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "HSCL"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "IPCALAB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "NETWEB"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "RBLBANK"
-          },
-          {
-            "action": "Removed",
-            "newWeight": 0.0,
-            "oldWeight": 0.0285714286,
-            "symbol": "SCHNEIDER"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "SONACOMS"
-          },
-          {
-            "action": "Added",
-            "newWeight": 0.0285714286,
-            "oldWeight": 0.0,
-            "symbol": "ZYDUSLIFE"
-          }
-        ],
-        "date": "2026-08-21",
-        "summary": "14 portfolio changes."
+        "date": "2026-10-09",
+        "summary": "22 portfolio changes."
       }
     ],
     "sebiRegistration": "INH000027788",

@@ -4,7 +4,10 @@ import { Fraunces, Inter } from "next/font/google";
 import { ArrowUpRight, Linkedin, Mail, MapPin, Phone, X } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { raProfile, standardSebiDisclaimer } from "@/lib/compliance";
+import { auditStrategyPath, isAuditModeActive } from "@/lib/audit-mode";
 import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -77,13 +80,24 @@ function ContactIcon({ children }: { children: React.ReactNode }) {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const auditMode = isAuditModeActive();
+  const visibleUsefulLinks = auditMode
+    ? [
+        { href: "/", label: "Home" },
+        { href: auditStrategyPath, label: "Bamboo Canopy" }
+      ]
+    : usefulLinks;
+  const visibleImportantLinks = auditMode
+    ? [{ href: "/compliance", label: "Compliance" }]
+    : importantLinks;
+
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable}`}>
       <body className="font-sans antialiased">
         <noscript>
           <style>{".reveal{opacity:1!important;transform:none!important;}"}</style>
         </noscript>
-        <SiteHeader />
+        <SiteHeader auditMode={auditMode} />
         {children}
         <footer className="bg-pine text-white">
           <div className="container-page grid items-start gap-9 py-12 sm:py-14 lg:grid-cols-[1.45fr_0.8fr_0.9fr_1fr_1.25fr] lg:gap-12">
@@ -132,7 +146,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <section>
               <FooterHeading>Useful Link</FooterHeading>
               <nav className="mt-7 grid gap-3.5">
-                {usefulLinks.map((link) => (
+                {visibleUsefulLinks.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
                   </FooterLink>
@@ -143,7 +157,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <section>
               <FooterHeading>Important Info</FooterHeading>
               <nav className="mt-7 grid gap-3.5">
-                {importantLinks.map((link) => (
+                {visibleImportantLinks.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
                   </FooterLink>
@@ -151,7 +165,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </nav>
             </section>
 
-            <section>
+            {!auditMode && <section>
               <FooterHeading>Regulatory Disclosures</FooterHeading>
               <nav className="mt-7 grid gap-3.5">
                 <FooterLink href="/compliance">Mandatory Disclosures</FooterLink>
@@ -161,7 +175,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <FooterExternalLink href="/registration-certificate.pdf">Registration Certificate</FooterExternalLink>
                 <FooterExternalLink href="/gst-certificate.pdf">GST Certificate</FooterExternalLink>
               </nav>
-            </section>
+            </section>}
 
             <section>
               <FooterHeading>Get In Touch</FooterHeading>

@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Menu, ShoppingBasket, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { auditStrategyPath } from "@/lib/audit-mode";
 
 const navItems: Array<{ href: Route; label: string }> = [
   { href: "/", label: "Home" },
@@ -20,7 +21,7 @@ function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function SiteHeader() {
+export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -83,7 +84,13 @@ export function SiteHeader() {
     window.location.href = "/";
   }
 
-  const visibleNavItems = navItems;
+  const visibleNavItems = auditMode
+    ? [
+        { href: "/" as Route, label: "Home" },
+        { href: auditStrategyPath as Route, label: "Bamboo Canopy" },
+        { href: "/compliance" as Route, label: "Compliance" }
+      ]
+    : navItems;
 
   useEffect(() => {
     if (!open) return;
@@ -151,7 +158,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {loggedIn ? (
+          {!auditMode && loggedIn ? (
             <>
               <Link
                 href="/dashboard"
@@ -179,15 +186,15 @@ export function SiteHeader() {
                 Sign out
               </button>
             </>
-          ) : (
+          ) : !auditMode ? (
             <Link
               href="/login"
               className="rounded bg-ink px-4 py-2 text-sm font-medium text-white transition duration-180 hover:bg-pine active:bg-pine/90"
             >
               Client login
             </Link>
-          )}
-          {!loggedIn && (
+          ) : null}
+          {!auditMode && !loggedIn && (
             <Link
               href="/checkout"
               className="relative grid h-10 w-10 place-items-center rounded border border-line text-ink/72 transition duration-180 hover:border-pine/40 hover:text-ink"

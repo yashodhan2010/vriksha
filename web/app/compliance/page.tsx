@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { Download } from "lucide-react";
 import { disclosureDocuments } from "@/lib/disclosure-documents";
+import { AuditReportContent, ComplaintsContent, InvestorCharterContent } from "@/components/compliance-supplementary-disclosures";
 import {
-  complaintsDisclosure,
   generalDisclosures,
   grievanceSteps,
   raProfile,
@@ -66,8 +65,6 @@ const escalationMatrixRows = [
 ];
 
 export default function CompliancePage() {
-  const latestComplaint = complaintsDisclosure[0];
-
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <p className="text-sm uppercase tracking-[0.18em] text-clay">Mandatory Disclosures</p>
@@ -245,18 +242,9 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      <section className="mt-6 grid gap-6 lg:grid-cols-3">
-        {[
-          { title: "Investor Charter", href: "/investor-charter", text: "Investor rights, services, obligations, and grievance routes." },
-          { title: "Complaints Disclosure", href: "/complaints", text: `${latestComplaint.month}: ${latestComplaint.pending} pending complaint(s).` },
-          { title: "Audit Report", href: "/audit-report", text: "Annual RA audit report access and publication status." }
-        ].map((item) => (
-          <Link className="card-interactive p-6" href={item.href} key={item.href}>
-            <h2 className="text-lg font-semibold">{item.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-ink/68">{item.text}</p>
-          </Link>
-        ))}
-      </section>
+      <InvestorCharterContent />
+      <ComplaintsContent />
+      <AuditReportContent />
     </main>
   );
 }

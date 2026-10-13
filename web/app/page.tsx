@@ -18,6 +18,9 @@ import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
 import type { StrategyFamily } from "@/lib/strategy-taxonomy";
 import { raProfile } from "@/lib/compliance";
+import { isAuditModeActive } from "@/lib/audit-mode";
+
+export const dynamic = "force-dynamic";
 
 function isHomeStrategy(strategy: { name: string; public_name?: string }) {
   const displayName = strategy.public_name ?? strategy.name;
@@ -84,12 +87,14 @@ const homeFaqs = [
 ];
 
 export default function HomePage() {
+  const auditMode = isAuditModeActive();
   const featured =
     strategies.find((strategy) => strategy.slug === "dual-momentum")
     ?? strategies.find((strategy) => /Bamboo Canopy/i.test(strategy.public_name ?? strategy.name))
     ?? strategies[0];
   const homeStrategies = strategies
     .filter(isHomeStrategy)
+    .filter((strategy) => !auditMode || strategy.slug === featured.slug)
     .sort((a, b) => {
       if (a.slug === featured.slug) return -1;
       if (b.slug === featured.slug) return 1;

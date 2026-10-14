@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+export const metadata = { title: "Article" };
 import Link from "next/link";
 import { ChevronLeft, ExternalLink, ShieldCheck } from "lucide-react";
 import { blogPosts, getBlogPost } from "@/lib/blog";

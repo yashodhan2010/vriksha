@@ -1,4 +1,5 @@
 import { DashboardEventTracker, DashboardTrackedLink } from "@/components/dashboard-analytics";
+export const metadata = { title: "Research Library" };
 import {
   DashboardBackLink,
   DashboardLoginRequired,

@@ -23,7 +23,10 @@ const serif = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Vriksha",
+  title: {
+    default: "Vriksha Capital",
+    template: "%s · Vriksha Capital"
+  },
   description: "SEBI RA-backed model portfolio strategy subscriptions.",
   icons: {
     icon: "/logo-cropped.png",
@@ -145,7 +148,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
             <section>
               <FooterHeading>Useful Link</FooterHeading>
-              <nav className="mt-7 grid gap-3.5">
+              <nav className="mt-7 grid gap-3.5" aria-label="Explore Vriksha">
                 {visibleUsefulLinks.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
@@ -156,7 +159,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
             <section>
               <FooterHeading>Important Info</FooterHeading>
-              <nav className="mt-7 grid gap-3.5">
+              <nav className="mt-7 grid gap-3.5" aria-label="Legal and compliance">
                 {visibleImportantLinks.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
@@ -167,7 +170,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
             {!auditMode && <section>
               <FooterHeading>Regulatory Disclosures</FooterHeading>
-              <nav className="mt-7 grid gap-3.5">
+              <nav className="mt-7 grid gap-3.5" aria-label="Regulatory disclosures">
                 <FooterLink href="/compliance">Mandatory Disclosures</FooterLink>
                 <FooterLink href="/complaints">Grievance Redressal</FooterLink>
                 <FooterLink href="/investor-charter">Investor Charter</FooterLink>

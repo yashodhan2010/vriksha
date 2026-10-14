@@ -1,4 +1,5 @@
 import { withPerformancePreview } from "@/lib/performance-preview";
+export const metadata = { title: "Strategy details" };
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {

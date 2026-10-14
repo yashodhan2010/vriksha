@@ -1,4 +1,5 @@
 import Link from "next/link";
+export const metadata = { title: "KYC review" };
 import { AdminKycReviewActions } from "@/components/admin-kyc-review-actions";
 import { isAdmin } from "@/lib/access";
 import { cn } from "@/lib/cn";

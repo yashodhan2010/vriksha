@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+export const metadata = { title: "KYC" };
 import { getCurrentUser } from "@/lib/access";
 
 export default async function KycPage() {

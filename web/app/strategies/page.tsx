@@ -1,4 +1,5 @@
 import { withPerformancePreview } from "@/lib/performance-preview";
+export const metadata = { title: "Research Models" };
 import { PerformanceStatus } from "@/components/performance-status";
 import Link from "next/link";
 import { ArrowRight, Check, LockKeyhole } from "lucide-react";

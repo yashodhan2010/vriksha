@@ -1,4 +1,5 @@
 import Link from "next/link";
+export const metadata = { title: "Insights" };
 import { notFound } from "next/navigation";
 import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
 import { blogCategories, blogPosts, getFeaturedBlogPost } from "@/lib/blog";

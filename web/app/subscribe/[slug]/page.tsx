@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+export const metadata = { title: "Subscribe" };
 import Link from "next/link";
 import { StrategyBasketButton } from "@/components/strategy-basket-button";
 import { getStrategy, getStrategyPath, getSubscribePath } from "@/lib/data";

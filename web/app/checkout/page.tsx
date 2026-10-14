@@ -1,4 +1,5 @@
 import Link from "next/link";
+export const metadata = { title: "Checkout" };
 import { CheckoutClient } from "@/components/checkout-client";
 import { getCurrentUser } from "@/lib/access";
 import { strategies } from "@/lib/data";

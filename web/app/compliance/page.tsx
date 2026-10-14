@@ -1,4 +1,5 @@
 import { Download } from "lucide-react";
+export const metadata = { title: "Compliance" };
 import { disclosureDocuments } from "@/lib/disclosure-documents";
 import { AuditReportContent, ComplaintsContent, InvestorCharterContent } from "@/components/compliance-supplementary-disclosures";
 import {

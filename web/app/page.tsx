@@ -21,6 +21,7 @@ import { raProfile } from "@/lib/compliance";
 import { isAuditModeActive } from "@/lib/audit-mode";
 
 export const dynamic = "force-dynamic";
+export const metadata = { title: "Research-led Model Portfolios" };
 
 function isHomeStrategy(strategy: { name: string; public_name?: string }) {
   const displayName = strategy.public_name ?? strategy.name;

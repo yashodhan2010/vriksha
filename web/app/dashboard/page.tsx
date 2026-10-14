@@ -1,4 +1,5 @@
 import { DashboardEventTracker } from "@/components/dashboard-analytics";
+export const metadata = { title: "Dashboard" };
 import {
   AttentionPanel,
   DashboardLoginRequired,

@@ -1,4 +1,5 @@
 import { isAdmin } from "@/lib/access";
+export const metadata = { title: "Administration" };
 
 const tasks = [
   "Review KYC exceptions",

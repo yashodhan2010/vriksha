@@ -131,7 +131,7 @@ export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 text-sm text-ink/72 md:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center gap-1 text-sm text-ink/72 md:flex">
           {visibleNavItems.map((item) => {
             const active = isActive(pathname, item.href);
             return (
@@ -228,7 +228,7 @@ export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
         )}
       >
         <div className="overflow-hidden">
-          <nav id="mobile-nav" className="container-page flex flex-col gap-1 border-t border-line py-3">
+          <nav id="mobile-nav" aria-label="Mobile navigation" hidden={!open} className="container-page flex flex-col gap-1 border-t border-line py-3">
             {visibleNavItems.map((item) => {
               const active = isActive(pathname, item.href);
               return (

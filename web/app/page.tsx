@@ -141,9 +141,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <aside className="hero-card relative self-center rounded border border-white/14 bg-white/[0.07] p-4 shadow-lift backdrop-blur-sm sm:p-5">
+          <div className="hero-card relative self-center rounded border border-white/14 bg-white/[0.07] p-4 shadow-lift backdrop-blur-sm sm:p-5">
             <div className="rounded border border-white/12 bg-pine/28 p-4 sm:p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</p>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</h2>
               <div className="hero-flow relative mt-4 overflow-hidden px-1 py-1">
                 <div className="space-y-3">
                   {heroSteps.map(([step, title, text], index) => (
@@ -166,7 +166,7 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-          </aside>
+          </div>
         </div>
 
         <style>{`
@@ -239,7 +239,7 @@ export default function HomePage() {
       <section id="live-baskets" className="container-page section-tight">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-clay">Live baskets</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-clay-700">Live baskets</p>
             <h2 className="mt-2 text-3xl font-semibold">Choose the rule you want to follow</h2>
           </div>
           <Link href="/strategies" className="w-fit text-sm font-semibold text-pine underline-offset-4 hover:underline">
@@ -272,7 +272,7 @@ export default function HomePage() {
                     <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
                       <span className="rounded bg-pine/10 px-3 py-1 text-pine">{strategyFamily.label}</span>
                       <span className="rounded bg-gold/20 px-3 py-1 text-ink/72">{edition.label}</span>
-                      {isFlagship && <span className="rounded bg-clay/10 px-3 py-1 uppercase tracking-[0.12em] text-clay">Flagship</span>}
+                      {isFlagship && <span className="rounded bg-clay/10 px-3 py-1 uppercase tracking-[0.12em] text-clay-700">Flagship</span>}
                     </div>
                     <h3 className="text-xl font-semibold">{strategy.name}</h3>
                     <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
@@ -315,7 +315,7 @@ export default function HomePage() {
                   <div>
                     <p className="font-semibold text-pine">Performance available</p>
                     <PerformanceStatus strategy={strategy} />
-                    <p className="mt-1 text-ink/60">
+                    <p className="mt-1 text-ink/75">
                       Review growth, drawdowns, risk metrics and benchmark comparison after acknowledging the backtest limitations.
                     </p>
                   </div>
@@ -344,7 +344,7 @@ export default function HomePage() {
       <section id="analyst" className="border-y border-line bg-white py-12 sm:py-16">
         <div className="container-page">
           <div className="mb-7 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">The analyst</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay-700">The analyst</p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">A note from the analyst</h2>
           </div>
 
@@ -407,7 +407,7 @@ export default function HomePage() {
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">FAQs</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay-700">FAQs</p>
               <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Questions people ask</h2>
               <p className="mt-4 max-w-md text-sm leading-6 text-ink/68">
                 Short answers on structure, custody, work involved, payment and exit.
@@ -435,7 +435,7 @@ export default function HomePage() {
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(420px,1fr)] lg:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">Contact</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay-700">Contact</p>
               <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Research Desk</h2>
               <p className="mt-4 max-w-xl text-sm leading-6 text-ink/68">
                 Use this form for subscriber support, institutional inquiries, compliance requests,

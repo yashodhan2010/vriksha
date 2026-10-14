@@ -11,6 +11,7 @@ const config: Config = {
         moss: "#476252",
         pine: "#1f3a33",
         clay: "#a55f45",
+        "clay-700": "#934f38",
         gold: "#d9b36a",
         sky: "#dbe8ef"
       },

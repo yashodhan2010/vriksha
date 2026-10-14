@@ -67,7 +67,7 @@ const escalationMatrixRows = [
 export default function CompliancePage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <p className="text-sm uppercase tracking-[0.18em] text-clay">Mandatory Disclosures</p>
+      <p className="text-sm uppercase tracking-[0.18em] text-clay-700">Mandatory Disclosures</p>
       <h1 className="mt-2 text-3xl font-semibold">Research Analyst Compliance</h1>
       <p className="mt-4 max-w-3xl text-sm leading-6 text-ink/68">
         This page centralizes Research Analyst details, investor protection disclosures, grievance
@@ -145,7 +145,7 @@ export default function CompliancePage() {
             <li key={step}>{step}</li>
           ))}
         </ol>
-        <div className="mt-4 overflow-x-auto">
+        <div className="mt-4 overflow-x-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine" tabIndex={0} role="region" aria-label="Grievance escalation matrix">
           <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="text-ink/54">
               <tr>

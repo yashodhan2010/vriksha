@@ -253,7 +253,7 @@ export function HowItWorksRoadmap() {
     <section id="how-it-works" className="container-page section-tight overflow-hidden">
       <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <p className="text-sm uppercase tracking-[0.18em] text-clay">How it works</p>
+          <p className="text-sm uppercase tracking-[0.18em] text-clay-700">How it works</p>
           <h2 className="mt-2 text-3xl font-semibold">From portfolio need to rebalance</h2>
           <p className="mt-4 text-sm leading-6 text-ink/68">
             A guided path keeps the experience focused: first choose the role, then compare matching research products.
@@ -325,7 +325,7 @@ export function HowItWorksRoadmap() {
                       {item.step}
                     </span>
                     <div>
-                      <p className={cn("text-xs font-semibold uppercase tracking-[0.18em]", active ? "text-clay" : "text-clay/62")}>
+                      <p className={cn("text-xs font-semibold uppercase tracking-[0.18em]", active ? "text-clay-700" : "text-ink/75")}>
                         {item.step}
                       </p>
                     </div>

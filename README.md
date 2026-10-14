@@ -23,7 +23,7 @@ recent rebalance history behind a paywall.
 
 ## Explicitly Out Of Scope
 
-- Broker order placement
+- Broker order placement (until a broker integration receives separate compliance approval)
 - Zerodha/Kite login automation
 - Trading on behalf of subscribers
 - Client portfolio reconciliation

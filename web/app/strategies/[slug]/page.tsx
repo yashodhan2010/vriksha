@@ -1,5 +1,5 @@
+import type { Metadata } from "next";
 import { withPerformancePreview } from "@/lib/performance-preview";
-export const metadata = { title: "Strategy details" };
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -26,6 +26,19 @@ import { standardMarketRiskWarning, standardSebiDisclaimer } from "@/lib/complia
 import { formatMoney, getStrategyPrice } from "@/lib/pricing";
 import { getEditionMeta, getFamilyMeta, getStrategyEdition, getStrategyFamily } from "@/lib/strategy-taxonomy";
 import type { PortfolioHolding, Rebalance, Strategy } from "@/lib/types";
+
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const strategy = getStrategy(slug);
+
+  return {
+    title: strategy?.public_name ?? strategy?.name ?? "Strategy details"
+  };
+}
 
 function getMinimumCapitalLabel(value: string) {
   const match = value.match(/(?:INR|Rs\.?|₹)?\s*([0-9,]+)(?:\s*lakh|\s*L)?/i);

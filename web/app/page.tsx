@@ -259,7 +259,7 @@ export default function HomePage() {
                 className="group relative overflow-hidden rounded border border-line bg-[#fffaf4] p-6 shadow-xs transition duration-250 ease-out hover:-translate-y-1 hover:border-pine/35 hover:bg-white hover:shadow-sm active:translate-y-0 focus-within:border-pine focus-within:ring-2 focus-within:ring-pine/30"
                 key={strategy.slug}
               >
-                {!auditMode && <StrategyCardLink
+                <StrategyCardLink
                   className="absolute inset-0 z-10 rounded"
                   href={getStrategyPath(strategy)}
                   strategySlug={strategy.slug}
@@ -267,7 +267,7 @@ export default function HomePage() {
                   ariaLabel={`Explore ${strategy.name} strategy and backtest`}
                 >
                   <span className="sr-only">Explore {strategy.name} strategy and backtest</span>
-                </StrategyCardLink>}
+                </StrategyCardLink>
                 <div className="pointer-events-none relative z-20 flex items-start justify-between gap-4">
                   <div>
                     <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
@@ -278,7 +278,7 @@ export default function HomePage() {
                     <h3 className="text-xl font-semibold">{strategy.name}</h3>
                     <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
                   </div>
-                  {!auditMode && <ArrowRight size={18} aria-hidden="true" />}
+                  <ArrowRight size={18} aria-hidden="true" />
                 </div>
                 <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-1 text-xs font-medium text-ink/70">

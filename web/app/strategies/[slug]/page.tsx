@@ -481,7 +481,7 @@ export default async function StrategyDetailPage({
               <DetailCard label="Minimum capital" value={minimumCapital} />
               <DetailCard label="Recommended capital" value="₹5,00,000" />
             </div>
-            <StrategyBacktestLink
+            {!auditMode && <StrategyBacktestLink
               className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded bg-pine px-4 py-3 text-sm font-semibold text-white hover:bg-ink"
               href="#backtest"
               strategySlug={strategy.slug}
@@ -489,7 +489,7 @@ export default async function StrategyDetailPage({
             >
               <BarChart3 size={16} aria-hidden="true" />
               Review backtest
-            </StrategyBacktestLink>
+            </StrategyBacktestLink>}
             {!auditMode && <div className="mt-3">
               <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
             </div>}

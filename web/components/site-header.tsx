@@ -245,7 +245,7 @@ export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
                 </Link>
               );
             })}
-            <Link
+            {!auditMode && <Link
               href="/checkout"
               className={cn(
                 "rounded px-3 py-2.5 text-sm transition-colors duration-180",
@@ -253,8 +253,8 @@ export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
               )}
             >
               Basket{basketCount > 0 ? ` (${basketCount})` : ""}
-            </Link>
-            {loggedIn && (
+            </Link>}
+            {!auditMode && loggedIn && (
               <button
                 type="button"
                 className="rounded px-3 py-2.5 text-left text-sm text-ink/72 transition-colors duration-180 hover:bg-paper hover:text-ink"

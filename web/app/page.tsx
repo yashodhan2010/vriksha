@@ -125,10 +125,10 @@ export default function HomePage() {
               Research-backed model portfolios built around clear rules, defined risks and disciplined rebalancing.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/strategies" className="group btn bg-white text-pine hover:bg-[#fffaf4]">
+              {!auditMode && <Link href="/strategies" className="group btn bg-white text-pine hover:bg-[#fffaf4]">
                 Explore strategies
                 <ArrowRight className="transition-transform duration-180 group-hover:translate-x-1" size={16} aria-hidden="true" />
-              </Link>
+              </Link>}
               <Link
                 href="#live-baskets"
                 className="group inline-flex items-center gap-2 text-sm font-semibold text-white/80 underline-offset-4 transition duration-180 hover:text-white hover:underline"
@@ -243,9 +243,9 @@ export default function HomePage() {
             <p className="text-sm uppercase tracking-[0.18em] text-clay-700">Live baskets</p>
             <h2 className="mt-2 text-3xl font-semibold">Choose the rule you want to follow</h2>
           </div>
-          <Link href="/strategies" className="w-fit text-sm font-semibold text-pine underline-offset-4 hover:underline">
+          {!auditMode && <Link href="/strategies" className="w-fit text-sm font-semibold text-pine underline-offset-4 hover:underline">
             Open full catalog
-          </Link>
+          </Link>}
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -259,7 +259,7 @@ export default function HomePage() {
                 className="group relative overflow-hidden rounded border border-line bg-[#fffaf4] p-6 shadow-xs transition duration-250 ease-out hover:-translate-y-1 hover:border-pine/35 hover:bg-white hover:shadow-sm active:translate-y-0 focus-within:border-pine focus-within:ring-2 focus-within:ring-pine/30"
                 key={strategy.slug}
               >
-                <StrategyCardLink
+                {!auditMode && <StrategyCardLink
                   className="absolute inset-0 z-10 rounded"
                   href={getStrategyPath(strategy)}
                   strategySlug={strategy.slug}
@@ -267,7 +267,7 @@ export default function HomePage() {
                   ariaLabel={`Explore ${strategy.name} strategy and backtest`}
                 >
                   <span className="sr-only">Explore {strategy.name} strategy and backtest</span>
-                </StrategyCardLink>
+                </StrategyCardLink>}
                 <div className="pointer-events-none relative z-20 flex items-start justify-between gap-4">
                   <div>
                     <div className="mb-3 flex flex-wrap gap-2 text-xs font-semibold">
@@ -278,7 +278,7 @@ export default function HomePage() {
                     <h3 className="text-xl font-semibold">{strategy.name}</h3>
                     <p className="mt-2 text-sm leading-6 text-ink/68">{strategy.subtitle}</p>
                   </div>
-                  <ArrowRight size={18} aria-hidden="true" />
+                  {!auditMode && <ArrowRight size={18} aria-hidden="true" />}
                 </div>
                 <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded bg-white px-3 py-1 text-xs font-medium text-ink/70">
@@ -307,7 +307,7 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
-                <StrategyBacktestLink
+                {!auditMode && <StrategyBacktestLink
                   className="relative z-30 mt-5 grid grid-cols-[1fr_auto] items-center gap-3 rounded border border-pine/20 bg-pine/[0.05] p-4 text-sm transition duration-180 hover:border-pine/40 hover:bg-pine/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine"
                   href={`${getStrategyPath(strategy)}#backtest`}
                   strategySlug={strategy.slug}
@@ -321,8 +321,8 @@ export default function HomePage() {
                     </p>
                   </div>
                   <LockKeyhole size={18} className="text-pine" aria-hidden="true" />
-                </StrategyBacktestLink>
-                <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap items-center justify-between gap-3">
+                </StrategyBacktestLink>}
+                {!auditMode && <div className="pointer-events-none relative z-20 mt-5 flex flex-wrap items-center justify-between gap-3">
                   <p className="text-sm font-semibold">
                     {formatMoney(getStrategyPrice(strategy.slug, "monthly").amountPaise)} / month
                   </p>
@@ -335,7 +335,7 @@ export default function HomePage() {
                       <StrategyBasketButton slug={strategy.slug} />
                     </div>
                   </div>
-                </div>
+                </div>}
               </article>
             );
           })}

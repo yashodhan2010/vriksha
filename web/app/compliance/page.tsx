@@ -1,6 +1,7 @@
 import { Download } from "lucide-react";
 export const metadata = { title: "Compliance" };
 import { disclosureDocuments } from "@/lib/disclosure-documents";
+import { isAuditModeActive } from "@/lib/audit-mode";
 import { AuditReportContent, ComplaintsContent, InvestorCharterContent } from "@/components/compliance-supplementary-disclosures";
 import {
   generalDisclosures,
@@ -66,6 +67,8 @@ const escalationMatrixRows = [
 ];
 
 export default function CompliancePage() {
+  const auditMode = isAuditModeActive();
+
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <p className="text-sm uppercase tracking-[0.18em] text-clay-700">Mandatory Disclosures</p>
@@ -81,7 +84,7 @@ export default function CompliancePage() {
         <p className="mt-3 text-[13px] font-semibold leading-6 text-ink">{standardMarketRiskWarning}</p>
       </section>
 
-      <section className="mt-6 card-accent-pine p-6">
+      {!auditMode && <section className="mt-6 card-accent-pine p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-xl font-semibold">Mandatory Disclosure Library</h2>
@@ -108,7 +111,7 @@ export default function CompliancePage() {
             </article>
           ))}
         </div>
-      </section>
+      </section>}
 
       <section className="mt-6 grid gap-6 lg:grid-cols-2">
         <div className="card-accent-pine p-6">
@@ -243,8 +246,8 @@ export default function CompliancePage() {
         </div>
       </section>
 
-      <InvestorCharterContent />
-      <ComplaintsContent />
+      <InvestorCharterContent showDownloads={!auditMode} />
+      <ComplaintsContent showDownloads={!auditMode} />
       <AuditReportContent />
     </main>
   );

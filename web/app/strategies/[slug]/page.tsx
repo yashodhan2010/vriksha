@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { withPerformancePreview } from "@/lib/performance-preview";
+import { isAuditModeActive } from "@/lib/audit-mode";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -221,6 +222,7 @@ export default async function StrategyDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const auditMode = isAuditModeActive();
   const strategy = withPerformancePreview(getStrategy(slug));
   if (!strategy) notFound();
 
@@ -248,14 +250,14 @@ export default async function StrategyDetailPage({
   return (
     <main className="bg-paper pb-28 md:pb-0">
       <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 lg:px-8">
-        <Link
+        {!auditMode && <Link
           href="/strategies"
           className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-sm font-semibold text-ink/70 hover:border-pine/40 hover:text-pine"
           aria-label="Back to all strategies"
         >
           <ArrowLeft size={16} aria-hidden="true" />
           All strategies
-        </Link>
+        </Link>}
       </div>
 
       <StrategySectionNav items={navItems} />
@@ -398,9 +400,9 @@ export default async function StrategyDetailPage({
                   />
                   <RecentRebalances strategy={strategy} />
                 </>
-              ) : (
+              ) : !auditMode ? (
                 <Paywall slug={strategy.slug} />
-              )}
+              ) : null}
             </div>
           </section>
 
@@ -437,7 +439,7 @@ export default async function StrategyDetailPage({
               <DetailCard label="Minimum capital" value={minimumCapital} />
               <DetailCard label="Recommended capital" value="₹5,00,000" />
             </div>
-            <div className="mt-5 flex flex-wrap gap-3">
+            {!auditMode && <div className="mt-5 flex flex-wrap gap-3">
               <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
               <Link
                 href={getSubscribePath(strategy)}
@@ -446,7 +448,7 @@ export default async function StrategyDetailPage({
                 Subscription details
                 <ExternalLink size={15} aria-hidden="true" />
               </Link>
-            </div>
+            </div>}
             <p className="mt-4 text-xs leading-5 text-ink/54">
               Basket execution remains client-directed through the broker. No POA and no auto-execution.
             </p>
@@ -488,14 +490,14 @@ export default async function StrategyDetailPage({
               <BarChart3 size={16} aria-hidden="true" />
               Review backtest
             </StrategyBacktestLink>
-            <div className="mt-3">
+            {!auditMode && <div className="mt-3">
               <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
-            </div>
+            </div>}
           </div>
         </aside>
       </div>
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
+      {!auditMode && <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
         <div className="pointer-events-auto mx-auto grid max-w-md grid-cols-2 gap-2 rounded-xl border border-line/80 bg-paper/95 p-2 shadow-[0_8px_24px_rgba(24,33,31,0.12)] backdrop-blur">
           <StrategyBacktestLink
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded bg-pine px-3 py-2 text-xs font-semibold text-white"
@@ -508,7 +510,7 @@ export default async function StrategyDetailPage({
           </StrategyBacktestLink>
           <StrategyBasketButton slug={strategy.slug} label="Add to basket" />
         </div>
-      </div>
+      </div>}
     </main>
   );
 }

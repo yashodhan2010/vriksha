@@ -51,13 +51,13 @@ export function StrategySectionNav({ items }: { items: SectionItem[] }) {
 
   return (
     <nav className="sticky top-16 z-20 border-b border-line bg-paper/95 backdrop-blur" aria-label="Strategy sections">
-      <div className="mx-auto flex max-w-[1440px] gap-2 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1440px] flex-wrap gap-2 px-4 py-2 sm:px-6 lg:px-8">
         {items.map((item) => {
           const active = activeId === item.id;
           return (
             <button
               className={cn(
-                "inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded px-3 py-2 text-sm font-semibold text-ink/64 transition duration-180 hover:bg-white hover:text-ink focus-visible:bg-white",
+                "inline-flex min-h-10 items-center gap-1.5 rounded px-3 py-2 text-sm font-semibold text-ink/75 transition duration-180 hover:bg-white hover:text-ink focus-visible:bg-white",
                 active && "bg-pine text-white hover:bg-pine hover:text-white"
               )}
               type="button"

@@ -15,7 +15,7 @@ import {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <p className="flex flex-col gap-1 border-b border-line py-3 text-sm sm:flex-row sm:justify-between">
-      <span className="text-ink/58">{label}</span>
+      <span className="text-ink/75">{label}</span>
       <strong className="font-medium text-ink">{value}</strong>
     </p>
   );
@@ -70,7 +70,7 @@ export default function CompliancePage() {
   const auditMode = isAuditModeActive();
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <main id="main-content" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <p className="text-sm uppercase tracking-[0.18em] text-clay-700">Mandatory Disclosures</p>
       <h1 className="mt-2 text-3xl font-semibold">Research Analyst Compliance</h1>
       <p className="mt-4 max-w-3xl text-sm leading-6 text-ink/68">
@@ -81,7 +81,7 @@ export default function CompliancePage() {
 
       <section className="mt-8 card-accent-pine p-6">
         <h2 className="text-xl font-semibold">Standard Warning</h2>
-        <p className="mt-3 text-[13px] font-semibold leading-6 text-ink">{standardMarketRiskWarning}</p>
+        <p className="mt-3 text-sm font-semibold leading-6 text-ink">{standardMarketRiskWarning}</p>
       </section>
 
       {!auditMode && <section className="mt-6 card-accent-pine p-6">
@@ -151,20 +151,21 @@ export default function CompliancePage() {
         </ol>
         <div className="mt-4 overflow-x-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pine" tabIndex={0} role="region" aria-label="Grievance escalation matrix">
           <table className="w-full min-w-[1080px] text-left text-sm">
-            <thead className="text-ink/54">
+            <caption className="sr-only">Grievance escalation matrix</caption>
+            <thead className="text-ink/75">
               <tr>
-                <th className="py-2 pr-4">Details of designation</th>
-                <th className="pr-4">Contact Person Name</th>
-                <th className="pr-4">Address where the physical address location</th>
-                <th className="pr-4">Contact No.</th>
-                <th className="pr-4">Email-ID</th>
-                <th>Working hours when complainant can call</th>
+                <th scope="col" className="py-2 pr-4">Details of designation</th>
+                <th scope="col" className="pr-4">Contact Person Name</th>
+                <th scope="col" className="pr-4">Address where the physical address location</th>
+                <th scope="col" className="pr-4">Contact No.</th>
+                <th scope="col" className="pr-4">Email-ID</th>
+                <th scope="col">Working hours when complainant can call</th>
               </tr>
             </thead>
             <tbody>
               {escalationMatrixRows.map((row) => (
                 <tr className="border-t border-line align-top" key={row.designation}>
-                  <td className="py-3 pr-4 font-semibold text-ink">{row.designation}</td>
+                  <th scope="row" className="py-3 pr-4 text-left font-semibold text-ink">{row.designation}</th>
                   <td className="py-3 pr-4">{row.contactPerson}</td>
                   <td className="py-3 pr-4">{row.address}</td>
                   <td className="py-3 pr-4">{row.contactNo}</td>

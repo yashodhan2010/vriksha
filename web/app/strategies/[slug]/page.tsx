@@ -65,7 +65,7 @@ function getInvestmentHorizon(strategy: Strategy) {
 function DetailCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded border border-line bg-white p-4">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/46">{label}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/75">{label}</p>
       <p className="mt-2 text-sm font-semibold text-ink">{value}</p>
     </div>
   );
@@ -94,7 +94,7 @@ function SplitRisk({ risk }: { risk: string }) {
   return (
     <article className="rounded border border-line bg-white p-5">
       <h3 className="text-sm font-semibold">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-ink/62">{body}</p>
+      <p className="mt-2 text-sm leading-6 text-ink/75">{body}</p>
     </article>
   );
 }
@@ -106,10 +106,10 @@ function TopHoldingsGlimpse({ holdings }: { holdings: PortfolioHolding[] }) {
     <div className="rounded border border-line bg-white p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/46">Model portfolio glimpse</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/75">Model portfolio glimpse</p>
           <h3 className="mt-1 text-lg font-semibold">Top 5 holdings</h3>
         </div>
-        <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/58">
+        <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/75">
           Preview
         </span>
       </div>
@@ -120,11 +120,11 @@ function TopHoldingsGlimpse({ holdings }: { holdings: PortfolioHolding[] }) {
             key={holding.symbol}
           >
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold leading-tight">{holding.symbol}</p>
-              <p className="mt-1 truncate text-sm text-ink/72">{holding.company}</p>
+              <p className="break-words text-sm font-semibold leading-tight">{holding.symbol}</p>
+              <p className="mt-1 break-words text-sm text-ink/75">{holding.company}</p>
             </div>
-            <span className="inline-flex max-w-full rounded-full bg-paper px-2.5 py-1 text-xs font-medium text-ink/64">
-              <span className="truncate">{holding.sector}</span>
+            <span className="inline-flex max-w-full rounded-full bg-paper px-2.5 py-1 text-xs font-medium text-ink/75">
+              <span className="break-words">{holding.sector}</span>
             </span>
             <div className="text-sm font-semibold tabular-nums text-ink sm:text-right">
               {(holding.weight * 100).toFixed(1)}%
@@ -133,7 +133,7 @@ function TopHoldingsGlimpse({ holdings }: { holdings: PortfolioHolding[] }) {
         ))}
       </div>
       {holdings.length > topHoldings.length && (
-        <p className="mt-4 border-t border-line pt-3 text-xs leading-5 text-ink/58">
+        <p className="mt-4 border-t border-line pt-3 text-xs leading-5 text-ink/75">
           Full target weights, notes, CSV export, and rebalance trail remain subscriber-only.
         </p>
       )}
@@ -206,7 +206,7 @@ function RecentRebalances({ strategy }: { strategy: Strategy }) {
                   </span>
                 </div>
                 <p className="mt-2 text-sm font-medium text-ink">{getRebalanceTitle(rebalance)}</p>
-                <p className="mt-1 text-sm leading-6 text-ink/58">{rebalance.summary}</p>
+                <p className="mt-1 text-sm leading-6 text-ink/75">{rebalance.summary}</p>
               </div>
             </div>
           </article>
@@ -248,7 +248,7 @@ export default async function StrategyDetailPage({
   ];
 
   return (
-    <main className="bg-paper pb-28 md:pb-0">
+    <main id="main-content" className="bg-paper pb-28 md:pb-0">
       <div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 lg:px-8">
         {!auditMode && <Link
           href="/strategies"
@@ -270,7 +270,7 @@ export default async function StrategyDetailPage({
                 <span className="rounded-full border border-pine/20 bg-pine/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-pine">
                   {family.label} / {edition.label}
                 </span>
-                <span className="rounded-full border border-line bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/58">
+                <span className="rounded-full border border-line bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/75">
                   Benchmark: {strategy.benchmark}
                 </span>
               </div>
@@ -295,13 +295,13 @@ export default async function StrategyDetailPage({
                     </span>
                   </div>
                   <p className="mt-4 max-w-3xl text-base leading-7 text-ink/70">{strategy.subtitle}</p>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-ink/62">
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-ink/75">
                     {methodologySummary}
                   </p>
                 </div>
                 <div className="rounded border border-line bg-white p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">Quick fit</p>
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                  <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
                     <DetailCard label="Risk" value={getRiskLevel(strategy)} />
                     <DetailCard label="Rebalance" value={strategy.rebalanceFrequency} />
                     <DetailCard label="Capital" value={minimumCapital} />
@@ -449,7 +449,7 @@ export default async function StrategyDetailPage({
                 <ExternalLink size={15} aria-hidden="true" />
               </Link>
             </div>}
-            <p className="mt-4 text-xs leading-5 text-ink/54">
+            <p className="mt-4 text-xs leading-5 text-ink/75">
               Basket execution remains client-directed through the broker. No POA and no auto-execution.
             </p>
           </section>

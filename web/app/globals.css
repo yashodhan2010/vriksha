@@ -53,9 +53,14 @@ a {
   }
 
   :focus-visible {
-    outline: 2px solid theme("colors.pine");
-    outline-offset: 2px;
+    outline: 3px solid theme("colors.pine");
+    outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  .bg-pine :focus-visible,
+  .landing-hero :focus-visible {
+    outline-color: #ffffff;
   }
 }
 

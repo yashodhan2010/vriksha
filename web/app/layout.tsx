@@ -51,7 +51,7 @@ const importantLinks = [
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="w-fit text-sm font-medium text-white/76 transition hover:text-[#b7dddd]">
+    <Link href={href} className="w-fit text-sm font-medium text-white/90 transition hover:text-[#b7dddd]">
       {children}
     </Link>
   );
@@ -63,7 +63,7 @@ function FooterExternalLink({ href, children }: { href: string; children: React.
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="w-fit text-sm font-medium text-white/76 transition hover:text-[#b7dddd]"
+      className="w-fit text-sm font-medium text-white/90 transition hover:text-[#b7dddd]"
     >
       {children}
     </a>
@@ -71,7 +71,7 @@ function FooterExternalLink({ href, children }: { href: string; children: React.
 }
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/62">{children}</h2>;
+  return <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/90">{children}</h2>;
 }
 
 function ContactIcon({ children }: { children: React.ReactNode }) {
@@ -100,18 +100,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <noscript>
           <style>{".reveal{opacity:1!important;transform:none!important;}"}</style>
         </noscript>
+        <a href="#main-content" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:not-sr-only focus:rounded focus:bg-white focus:px-4 focus:py-3 focus:font-semibold focus:text-pine focus:shadow-lg">
+          Skip to main content
+        </a>
         <SiteHeader auditMode={auditMode} />
         {children}
         <footer className="bg-pine text-white">
           <div className="container-page grid items-start gap-9 py-12 sm:py-14 lg:grid-cols-[1.45fr_0.8fr_0.9fr_1fr_1.25fr] lg:gap-12">
             <section className="max-w-sm">
               <Link href="/" className="block w-fit transition-opacity hover:opacity-80">
-                <span className="block font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/62">
+                <span className="block font-sans text-xs font-semibold uppercase tracking-[0.14em] text-white/90">
                   Vriksha Capital
                 </span>
               </Link>
 
-              <div className="mt-7 space-y-4 text-sm font-normal leading-6 text-white/74">
+              <div className="mt-7 space-y-4 text-sm font-normal leading-6 text-white/90">
                 <p>
                   SEBI Registered Research Analyst having Registration No. -{" "}
                   {raProfile.sebiRegistrationNumber}
@@ -139,7 +142,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
               <Link
                 href="/#contact"
-                className="mt-8 inline-flex h-12 min-w-64 items-center justify-between rounded-full border border-white/45 bg-pine px-6 text-sm font-semibold text-white/88 shadow-[inset_-56px_0_0_rgba(0,0,0,0.07)] transition hover:border-[#b7dddd] hover:text-[#b7dddd]"
+                className="mt-8 inline-flex min-h-12 min-w-64 items-center justify-between rounded-full border border-white/70 bg-pine px-6 py-3 text-sm font-semibold text-white shadow-[inset_-56px_0_0_rgba(0,0,0,0.07)] transition hover:border-[#b7dddd] hover:text-[#b7dddd]"
               >
                 <span>Book an appointment</span>
                 <ArrowUpRight size={19} aria-hidden="true" />
@@ -182,7 +185,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
             <section>
               <FooterHeading>Get In Touch</FooterHeading>
-              <div className="mt-7 grid gap-5 text-sm font-medium leading-6 text-white/78">
+              <div className="mt-7 grid gap-5 text-sm font-medium leading-6 text-white/90">
                 <a href={`tel:${raProfile.registeredOffice.telephone.replace(/\s/g, "")}`} className="flex items-center gap-4 hover:text-[#b7dddd]">
                   <ContactIcon>
                     <Phone size={21} strokeWidth={2.2} aria-hidden="true" />
@@ -215,7 +218,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
 
           <div className="border-t border-white/10">
-            <div className="container-page py-4 text-xs font-semibold text-white/55">
+            <div className="container-page py-4 text-xs font-semibold text-white/85">
               <p>
                 &copy; {new Date().getFullYear()} {raProfile.brandName} Research &middot; SEBI RA Registration No.{" "}
                 {raProfile.sebiRegistrationNumber}

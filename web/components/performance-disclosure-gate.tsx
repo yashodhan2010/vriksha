@@ -130,7 +130,7 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
               </span>
             </div>
           </div>
-          <div className="grid gap-2 text-xs font-medium text-ink/64">
+          <div className="grid gap-2 text-xs font-medium text-ink/75">
             <span className="rounded border border-line bg-white px-3 py-2">Backtest period and assumptions</span>
             <span className="rounded border border-line bg-white px-3 py-2">Monthly backtest returns heatmap</span>
             <span className="rounded border border-line bg-white px-3 py-2">Drawdown and limitation context</span>

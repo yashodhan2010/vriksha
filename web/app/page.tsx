@@ -109,19 +109,19 @@ export default function HomePage() {
   ];
 
   return (
-    <main>
+    <main id="main-content">
       <section className="landing-hero relative overflow-hidden bg-pine text-white">
         <GrowthMotif className="pointer-events-none absolute -right-12 -top-20 hidden h-[440px] w-[440px] text-white opacity-[0.11] sm:block lg:h-[620px] lg:w-[620px]" />
         <div className="container-page relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.04fr)_minmax(390px,0.86fr)] lg:gap-12 lg:py-20">
           <div className="hero-copy max-w-3xl">
-            <p className="hero-kicker text-xs font-semibold uppercase tracking-[0.2em] text-white/62">
+            <p className="hero-kicker text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
               Research-led model portfolios
             </p>
             <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-[1.02] tracking-tight sm:text-5xl lg:text-[4.6rem]">
               Invest with a system.
               <span className="block">Not a hunch.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-white/76 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-8 text-white/90 sm:text-lg">
               Research-backed model portfolios built around clear rules, defined risks and disciplined rebalancing.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -131,20 +131,20 @@ export default function HomePage() {
               </Link>}
               <Link
                 href="#live-baskets"
-                className="group inline-flex items-center gap-2 text-sm font-semibold text-white/80 underline-offset-4 transition duration-180 hover:text-white hover:underline"
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 transition duration-180 hover:text-white hover:underline"
               >
                 View live baskets
                 <ArrowDown className="transition-transform duration-180 group-hover:translate-y-0.5" size={15} aria-hidden="true" />
               </Link>
             </div>
-            <p className="mt-7 text-sm font-medium text-white/58">
+            <p className="mt-7 text-sm font-medium text-white/85">
               Indian equities &bull; Multi-asset strategies &bull; Transparent methodology
             </p>
           </div>
 
           <div className="hero-card relative self-center rounded border border-white/14 bg-white/[0.07] p-4 shadow-lift backdrop-blur-sm sm:p-5">
             <div className="rounded border border-white/12 bg-pine/28 p-4 sm:p-5">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/58">How it works</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/85">How it works</h2>
               <div className="hero-flow relative mt-4 overflow-hidden px-1 py-1">
                 <div className="space-y-3">
                   {heroSteps.map(([step, title, text], index) => (
@@ -292,7 +292,7 @@ export default function HomePage() {
                     </span>
                   ))}
                 </div>
-                <div className="pointer-events-none relative z-20 mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                <div className="pointer-events-none relative z-20 mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {[
                     ["Role", strategyFamily.signal],
                     ["Risk", getRiskLevel(getStrategyFamily(strategy), edition.label)],
@@ -302,8 +302,8 @@ export default function HomePage() {
                     ["Capital", getMinimumCapitalLabel(strategy.minCapital)]
                   ].map(([label, value]) => (
                     <div className="rounded border border-line bg-white px-3 py-2" key={label}>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-ink/44">{label}</p>
-                      <p className="mt-1 truncate text-xs font-semibold text-ink/74">{value}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-ink/75">{label}</p>
+                      <p className="mt-1 break-words text-xs font-semibold text-ink/75">{value}</p>
                     </div>
                   ))}
                 </div>
@@ -442,7 +442,7 @@ export default function HomePage() {
                 Use this form for subscriber support, institutional inquiries, compliance requests,
                 and strategy onboarding.
               </p>
-              <p className="mt-5 max-w-xl text-xs leading-5 text-ink/54">
+              <p className="mt-5 max-w-xl text-xs leading-5 text-ink/75">
                 Please do not share passwords, OTPs, account numbers, or broker login details.
               </p>
             </div>

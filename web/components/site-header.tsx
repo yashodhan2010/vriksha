@@ -119,7 +119,7 @@ export function SiteHeader({ auditMode = false }: { auditMode?: boolean }) {
         scrolled ? "border-line shadow-sm bg-paper/96" : "border-line/60 shadow-none"
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between">
+      <div className="container-page flex min-h-16 items-center justify-between py-1">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Image
             src="/logo-cropped.png"

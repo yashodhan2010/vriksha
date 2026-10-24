@@ -60,7 +60,7 @@ export function ContactMailForm() {
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-name">
         Name <span className="text-clay" aria-hidden="true">*</span>
         <input
-          className="rounded border border-line bg-white px-3 py-2 font-normal"
+          className="rounded border border-[#948e82] bg-white px-3 py-2 font-normal"
           id="contact-name"
           value={name}
           onChange={(event) => setName(event.target.value)}
@@ -71,7 +71,7 @@ export function ContactMailForm() {
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-email">
         Email <span className="text-clay" aria-hidden="true">*</span>
         <input
-          className="rounded border border-line bg-white px-3 py-2 font-normal"
+          className="rounded border border-[#948e82] bg-white px-3 py-2 font-normal"
           id="contact-email"
           type="email"
           value={email}
@@ -83,7 +83,7 @@ export function ContactMailForm() {
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-phone">
         Phone <span className="text-clay" aria-hidden="true">*</span>
         <input
-          className="rounded border border-line bg-white px-3 py-2 font-normal"
+          className="rounded border border-[#948e82] bg-white px-3 py-2 font-normal"
           id="contact-phone"
           type="tel"
           value={phone}
@@ -98,7 +98,7 @@ export function ContactMailForm() {
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-subject">
         Subject
         <input
-          className="rounded border border-line bg-white px-3 py-2 font-normal"
+          className="rounded border border-[#948e82] bg-white px-3 py-2 font-normal"
           id="contact-subject"
           value={subject}
           onChange={(event) => setSubject(event.target.value)}
@@ -107,7 +107,7 @@ export function ContactMailForm() {
       <label className="grid gap-2 text-sm font-medium text-ink" htmlFor="contact-message">
         Message <span className="text-clay" aria-hidden="true">*</span>
         <textarea
-          className="min-h-32 rounded border border-line bg-white px-3 py-2 font-normal"
+          className="min-h-32 rounded border border-[#948e82] bg-white px-3 py-2 font-normal"
           id="contact-message"
           value={message}
           onChange={(event) => setMessage(event.target.value)}
@@ -127,7 +127,7 @@ export function ContactMailForm() {
           {notice}
         </p>
       )}
-      <p className="text-xs leading-5 text-ink/58">
+      <p className="text-xs leading-5 text-ink/75">
         Messages are sent to {enquiryEmail} and stored for follow-up.
       </p>
     </form>

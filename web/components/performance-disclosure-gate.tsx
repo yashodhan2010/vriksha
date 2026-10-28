@@ -124,9 +124,9 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
             <div className="absolute bottom-7 left-4 right-4 h-10 rounded-t-[70%] border-t-[3px] border-pine/70" />
             <div className="absolute bottom-4 left-4 right-4 h-8 rounded-t-[70%] border-t-[3px] border-clay/55" />
             <div className="absolute inset-0 grid place-items-center bg-white/30">
-              <span className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-white">
+              <span className="inline-flex max-w-full items-center justify-center gap-2 rounded-full bg-ink px-3 py-1.5 text-center text-xs font-semibold text-white">
                 <LockKeyhole size={13} aria-hidden="true" />
-                Strategy vs benchmark growth
+                <span className="min-w-0 break-words">Strategy vs benchmark growth</span>
               </span>
             </div>
           </div>
@@ -376,6 +376,7 @@ export function PerformanceDisclosureGate({
               <div className={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
                 <input
                   className="min-h-11 min-w-0 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
+                  aria-label="Email address"
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}

@@ -57,8 +57,8 @@ export function StrategySectionNav({ items }: { items: SectionItem[] }) {
           return (
             <button
               className={cn(
-                "inline-flex min-h-10 items-center gap-1.5 rounded px-3 py-2 text-sm font-semibold text-ink/75 transition duration-180 hover:bg-white hover:text-ink focus-visible:bg-white",
-                active && "bg-pine text-white hover:bg-pine hover:text-white"
+                "inline-flex min-h-10 items-center gap-1.5 rounded px-3 py-2 text-sm font-semibold text-ink/75 transition duration-180 hover:bg-white hover:text-ink",
+                active && "bg-pine text-white hover:bg-pine hover:text-white focus-visible:bg-pine focus-visible:text-white focus-visible:outline-white"
               )}
               type="button"
               key={item.id}

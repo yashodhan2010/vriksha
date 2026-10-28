@@ -16,21 +16,21 @@ function LockedPerformancePreview({ compact }: { compact: boolean }) {
     <div className="pointer-events-none select-none space-y-5 opacity-80" aria-hidden="true">
       <div className={`grid gap-3 ${compact ? "grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-4"}`}>
         {["CAGR", "1Y return", "5Y return", "Max return"].map((label) => (
-          <div className="rounded border border-line bg-white/85 p-4" key={label}>
+          <div className="min-w-0 rounded border border-line bg-white/85 p-4" key={label}>
             <div className="flex items-center justify-between gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/48">{label}</span>
               <LockKeyhole size={12} className="text-pine" />
             </div>
-            <div className="mt-4 h-7 w-24 rounded bg-pine/18" />
+            <div className="mt-4 h-7 w-24 max-w-full rounded bg-pine/18" />
             <div className="mt-3 h-2 w-full rounded-full bg-line/80" />
           </div>
         ))}
       </div>
       <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
-        <div className="rounded border border-line bg-white/85 p-4">
-          <div className="mb-5 flex items-center justify-between">
-            <div className="h-4 w-36 rounded-full bg-ink/14" />
-            <div className="h-3 w-20 rounded-full bg-gold/35" />
+        <div className="min-w-0 rounded border border-line bg-white/85 p-4">
+          <div className="mb-5 flex items-center justify-between gap-3">
+            <div className="h-4 w-36 max-w-full rounded-full bg-ink/14" />
+            <div className="h-3 w-20 max-w-full rounded-full bg-gold/35" />
           </div>
           <div className="relative h-52 overflow-hidden rounded bg-paper">
             <div className="absolute inset-x-4 bottom-8 top-8">
@@ -42,14 +42,14 @@ function LockedPerformancePreview({ compact }: { compact: boolean }) {
             </div>
           </div>
         </div>
-        <div className="rounded border border-line bg-white/85 p-4">
-          <div className="mb-5 flex items-center justify-between">
-            <div className="h-4 w-40 rounded-full bg-ink/14" />
-            <div className="h-3 w-24 rounded-full bg-pine/20" />
+        <div className="min-w-0 rounded border border-line bg-white/85 p-4">
+          <div className="mb-5 flex items-center justify-between gap-3">
+            <div className="h-4 w-40 max-w-full rounded-full bg-ink/14" />
+            <div className="h-3 w-24 max-w-full rounded-full bg-pine/20" />
           </div>
-          <div className="flex h-52 items-end gap-3 rounded bg-paper px-4 pb-5 pt-8">
+          <div className="flex h-52 items-end gap-2 rounded bg-paper px-4 pb-5 pt-8 sm:gap-3">
             {barHeights.map((height, index) => (
-              <div className="flex h-full flex-1 items-end gap-1.5" key={`${height}-${index}`}>
+              <div className="flex h-full min-w-0 flex-1 items-end gap-1 sm:gap-1.5" key={`${height}-${index}`}>
                 <span className="block w-full rounded-t bg-pine/40" style={{ height }} />
                 <span
                   className="block w-full rounded-t bg-clay/30"
@@ -74,8 +74,8 @@ function LockedGateShell({
   compact: boolean;
 }) {
   return (
-    <section className={`${className} overflow-hidden rounded border border-pine/25 bg-pine/[0.04] shadow-sm ${compact ? "p-3" : "p-4 sm:p-5"}`}>
-      <div className={`rounded border border-line bg-white/95 shadow-sm ${compact ? "p-4" : "p-5"}`}>
+    <section className={`${className} min-w-0 rounded border border-pine/25 bg-pine/[0.04] shadow-sm ${compact ? "p-3" : "p-3 sm:p-5"}`}>
+      <div className={`min-w-0 rounded border border-line bg-white/95 shadow-sm ${compact ? "p-4" : "p-3 sm:p-5"}`}>
         {children}
       </div>
       {!compact && (
@@ -90,10 +90,10 @@ function LockedGateShell({
 
 function LockedMetricTile({ label }: { label: string }) {
   return (
-    <div className="rounded border border-pine/20 bg-white p-3 shadow-xs">
+    <div className="min-w-0 rounded border border-pine/20 bg-white p-3 shadow-xs">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/52">{label}</span>
-        <span className="grid h-6 w-6 place-items-center rounded bg-pine text-white">
+        <span className="min-w-0 break-words text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/52">{label}</span>
+        <span className="grid h-6 w-6 shrink-0 place-items-center rounded bg-pine text-white">
           <LockKeyhole size={13} aria-hidden="true" />
         </span>
       </div>
@@ -113,7 +113,7 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
         <p className="mt-1 text-sm font-semibold">Returns, CAGR, benchmark comparison and risk context are locked.</p>
       </div>
       <div className="p-3">
-        <div className={`grid gap-2 ${compact ? "grid-cols-2" : "sm:grid-cols-4"}`}>
+        <div className={`grid gap-2 ${compact ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"}`}>
           {["CAGR", "Max drawdown", "Volatility", "Sharpe / Sortino"].map((label) => (
             <LockedMetricTile label={label} key={label} />
           ))}
@@ -125,7 +125,7 @@ function LockedValueSummary({ compact }: { compact: boolean }) {
             <div className="absolute bottom-4 left-4 right-4 h-8 rounded-t-[70%] border-t-[3px] border-clay/55" />
             <div className="absolute inset-0 grid place-items-center bg-white/30">
               <span className="inline-flex max-w-full items-center justify-center gap-2 rounded-full bg-ink px-3 py-1.5 text-center text-xs font-semibold text-white">
-                <LockKeyhole size={13} aria-hidden="true" />
+                <LockKeyhole className="shrink-0" size={13} aria-hidden="true" />
                 <span className="min-w-0 break-words">Strategy vs benchmark growth</span>
               </span>
             </div>
@@ -340,10 +340,10 @@ export function PerformanceDisclosureGate({
   if (!ready) {
     return (
       <div className={`${className} card p-5`} aria-hidden="true">
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col items-start gap-4 sm:flex-row">
           <div className="skeleton h-11 w-11 shrink-0" />
-          <div className="flex-1 space-y-3 py-1">
-            <div className="skeleton h-5 w-56" />
+          <div className="w-full min-w-0 flex-1 space-y-3 py-1">
+            <div className="skeleton h-5 w-56 max-w-full" />
             <div className="skeleton h-4 w-full max-w-md" />
             <div className="skeleton h-11 w-full" />
           </div>
@@ -359,7 +359,7 @@ export function PerformanceDisclosureGate({
   if (!loggedIn) {
     return (
       <LockedGateShell className={className} compact={compact}>
-        <div className={`flex items-start gap-4 ${compact ? "flex-col" : ""}`}>
+        <div className={`flex flex-col items-start gap-4 ${compact ? "" : "sm:flex-row"}`}>
           <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white">
             <LockKeyhole size={18} aria-hidden="true" />
           </span>
@@ -372,8 +372,8 @@ export function PerformanceDisclosureGate({
               Historical results are hypothetical and subject to the assumptions and limitations described below.
             </p>
             <LockedValueSummary compact={compact} />
-            <form className="mt-4 grid gap-3" onSubmit={handleOtpSubmit}>
-              <div className={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
+            <form className="mt-4 grid grid-cols-1 gap-3" onSubmit={handleOtpSubmit}>
+              <div className={`flex min-w-0 flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
                 <input
                   className="min-h-11 min-w-0 flex-1 rounded border border-line bg-white px-3 py-2 text-sm"
                   aria-label="Email address"
@@ -399,7 +399,7 @@ export function PerformanceDisclosureGate({
               </div>
               {(status === "sent" || status === "verifying" || otp) && (
                 <input
-                  className="min-h-11 rounded border border-line bg-white px-3 py-2 text-center text-lg font-semibold tracking-[0.24em]"
+                  className="min-h-11 min-w-0 w-full rounded border border-line bg-white px-3 py-2 text-center text-lg font-semibold tracking-[0.24em]"
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -440,7 +440,7 @@ export function PerformanceDisclosureGate({
 
   return (
     <LockedGateShell className={className} compact={compact}>
-      <div className={`flex items-start gap-4 ${compact ? "flex-col" : ""}`}>
+      <div className={`flex flex-col items-start gap-4 ${compact ? "" : "sm:flex-row"}`}>
         <span className="group relative grid h-11 w-11 shrink-0 place-items-center rounded bg-ink text-white transition duration-250 hover:bg-pine">
           <LockKeyhole
             className="absolute transition duration-250 group-hover:scale-75 group-hover:opacity-0"
@@ -453,7 +453,7 @@ export function PerformanceDisclosureGate({
             aria-hidden="true"
           />
         </span>
-        <div className="min-w-0">
+        <div className="w-full min-w-0">
           <h2 className={compact ? "text-base font-semibold" : "text-xl font-semibold"}>
             How has this strategy behaved historically?
           </h2>

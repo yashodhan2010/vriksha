@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Fraunces, Inter } from "next/font/google";
 import { ArrowUpRight, Linkedin, Mail, MapPin, Phone, X } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { raProfile, standardSebiDisclaimer } from "@/lib/compliance";
@@ -8,19 +7,6 @@ import { auditStrategyPath, isAuditModeActive } from "@/lib/audit-mode";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap"
-});
-
-const serif = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-  weight: ["500", "600"]
-});
 
 export const metadata: Metadata = {
   title: {
@@ -95,7 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     : importantLinks;
 
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased">
         <noscript>
           <style>{".reveal{opacity:1!important;transform:none!important;}"}</style>

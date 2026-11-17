@@ -262,6 +262,13 @@ def rebalances(package_dir: Path) -> list[dict[str, Any]]:
                 "newWeight": float(row.get("new_weight") or 0),
             }
         )
+
+    # Update packages may contain only the newly-published rebalance. The
+    # approved holdings history provides the earlier published snapshots, so
+    # derive the intervening portfolio changes without recalculating the model.
+    for date, changes in holdings_history_rebalances(package_dir).items():
+        grouped.setdefault(date, changes)
+
     output = []
     for date, changes in sorted(grouped.items(), reverse=True):
         output.append(
@@ -272,6 +279,47 @@ def rebalances(package_dir: Path) -> list[dict[str, Any]]:
             }
         )
     return output[:5]
+
+
+def holdings_history_rebalances(package_dir: Path) -> dict[str, list[dict[str, Any]]]:
+    snapshots: dict[str, dict[str, float]] = defaultdict(dict)
+    for row in read_csv(package_dir / "holdings_history.csv"):
+        date = row.get("date", "")
+        symbol = row.get("symbol", "")
+        if not date or not symbol:
+            continue
+        snapshots[date][symbol] = float(row.get("weight") or 0)
+
+    dates = sorted(snapshots)
+    changes_by_date: dict[str, list[dict[str, Any]]] = {}
+    for previous_date, current_date in zip(dates, dates[1:]):
+        previous = snapshots[previous_date]
+        current = snapshots[current_date]
+        changes: list[dict[str, Any]] = []
+        for symbol in sorted(set(previous) | set(current)):
+            old_weight = previous.get(symbol, 0)
+            new_weight = current.get(symbol, 0)
+            if abs(new_weight - old_weight) < 0.0000001:
+                continue
+            if old_weight == 0:
+                action = "Added"
+            elif new_weight == 0:
+                action = "Removed"
+            elif new_weight > old_weight:
+                action = "Increased"
+            else:
+                action = "Reduced"
+            changes.append(
+                {
+                    "symbol": symbol,
+                    "action": action,
+                    "oldWeight": old_weight,
+                    "newWeight": new_weight,
+                }
+            )
+        if changes:
+            changes_by_date[current_date] = changes
+    return changes_by_date
 
 
 def apply_update_package(package_dir: Path, existing: list[dict[str, Any]]) -> list[dict[str, Any]]:
